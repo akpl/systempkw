@@ -1,21 +1,31 @@
 package pkw.models;
 
 public class User {
-    private String _login;
-    private String _password;
-    private String _name;
-    private String _surname;
+    private String login;
+    private String password;
+    private String name;
+    private String surname;
 
-    public User(String _login, String _password, String _name, String _surname) {
-        this._login = _login;
-        this._password = _password;
-        this._name = _name;
-        this._surname = _surname;
+    public User(String login, String password, String name, String surname) {
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
     }
 
-    public boolean checkPassword(String password)
-    {
-        //TODO: hash
-        return _password.equals(password);
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
     }
 }
