@@ -1,5 +1,20 @@
+--remove old tables
+drop table UZYTKOWNICY cascade constraints;
+drop table POZIOMY_DOSTEPU cascade constraints;
+drop table OKREGI cascade constraints;
+drop table WYBORY cascade constraints;
+drop table TYPY_WYBOROW cascade constraints;
+drop table KOMISJE cascade constraints;
+drop table KOMITETY cascade constraints;
+drop table KANDYDACI_POSEL cascade constraints;
+drop table KANDYDACI_PREZYDENT cascade constraints;
+drop table PYTANIA_REFERENDALNE cascade constraints;
+drop table WYNIKI_PYTANIA_REFERENDALNE cascade constraints;
+drop table WYNIKI_PREZYDENT cascade constraints;
+drop table WYNIKI_POSEL cascade constraints;
+
 CREATE TABLE Uzytkownicy (
-  id              number(10) NOT NULL, 
+  id              NUMBER GENERATED ALWAYS AS IDENTITY,
   login           varchar2(100) NOT NULL UNIQUE, 
   haslo           char(40) NOT NULL, 
   imie            varchar2(50) NOT NULL, 
@@ -7,28 +22,28 @@ CREATE TABLE Uzytkownicy (
   Poziom_Dostepu_id number(10) NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Poziomy_Dostepu (
-  id    number(10) NOT NULL, 
-  nazwa number(10) NOT NULL, 
+  id    NUMBER GENERATED ALWAYS AS IDENTITY,
+  nazwa varchar2(50) NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Okregi (
-  nr          number(10) NOT NULL, 
+  nr          NUMBER GENERATED ALWAYS AS IDENTITY,
   nazwa       varchar2(100) NOT NULL UNIQUE, 
   wojewodztwo varchar2(50) NOT NULL, 
   miasto      varchar2(50) NOT NULL, 
   PRIMARY KEY (nr));
 CREATE TABLE Wybory (
-  id              number(10) NOT NULL,
+  id              NUMBER GENERATED ALWAYS AS IDENTITY,
   data_utworzenia date       NOT NULL,
   data_glosowania date       NOT NULL,
   Typ_Wyborow_id  number(10) NOT NULL,
   id_Tworcy       number(10) NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Typy_Wyborow (
-  id    number(10) NOT NULL, 
+  id    NUMBER GENERATED ALWAYS AS IDENTITY,
   nazwa varchar2(100) NOT NULL UNIQUE, 
   PRIMARY KEY (id));
 CREATE TABLE Komisje (
-  nr                  number(10)    NOT NULL,
+  nr                  NUMBER GENERATED ALWAYS AS IDENTITY,
   nazwa               varchar2(100) NOT NULL UNIQUE,
   adres               varchar2(100) NOT NULL,
   liczba_Wyborcow     number(10),
@@ -36,12 +51,12 @@ CREATE TABLE Komisje (
   id_Przewodniczacego number(10)    NOT NULL,
   PRIMARY KEY (nr));
 CREATE TABLE Komitety (
-  nr        number(10)    NOT NULL,
+  nr        NUMBER GENERATED ALWAYS AS IDENTITY,
   nazwa     varchar2(100) NOT NULL UNIQUE,
   Wybory_id number(10)    NOT NULL,
   PRIMARY KEY (nr));
 CREATE TABLE Kandydaci_Posel (
-  id                   number(10)    NOT NULL,
+  id                   NUMBER GENERATED ALWAYS AS IDENTITY,
   imie                 varchar2(50)  NOT NULL,
   nazwisko             varchar2(50)  NOT NULL,
   plec                 char(1)       NOT NULL,
@@ -52,7 +67,7 @@ CREATE TABLE Kandydaci_Posel (
   Komitet_nr           number(10)    NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Kandydaci_Prezydent (
-  id                   number(10)    NOT NULL,
+  id                   NUMBER GENERATED ALWAYS AS IDENTITY,
   imie                 varchar2(50)  NOT NULL,
   nazwisko             varchar2(50)  NOT NULL,
   plec                 char(1)       NOT NULL,
@@ -63,7 +78,7 @@ CREATE TABLE Kandydaci_Prezydent (
   Wybory_id            number(10)    NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Pytania_Referendalne (
-  id        number(10)    NOT NULL,
+  id        NUMBER GENERATED ALWAYS AS IDENTITY,
   pytanie   varchar2(300) NOT NULL,
   Wybory_id number(10)    NOT NULL,
   PRIMARY KEY (id));
@@ -95,9 +110,22 @@ ALTER TABLE Kandydaci_Posel ADD CONSTRAINT fk_kandydaci_posel_komitety FOREIGN K
 ALTER TABLE Pytania_Referendalne ADD CONSTRAINT fk_pytania_referendalne_wybory FOREIGN KEY (Wybory_id) REFERENCES Wybory (id);
 ALTER TABLE Kandydaci_Prezydent ADD CONSTRAINT fk_kandydaci_prezydent_wybory FOREIGN KEY (Wybory_id) REFERENCES Wybory (id);
 ALTER TABLE Komitety ADD CONSTRAINT fk_komitety_wybory FOREIGN KEY (Wybory_id) REFERENCES Wybory (id);
-ALTER TABLE Wyniki_Pytania_Referendalne ADD CONSTRAINT fk_wyniki_pytania_referendalne_pytania_referendalne FOREIGN KEY (Pytanie_Referendalne_id) REFERENCES Pytania_Referendalne (id);
-ALTER TABLE Wyniki_Prezydent ADD CONSTRAINT fk_wyniki_prezydent_kandydaci_prezydent FOREIGN KEY (Kandydat_Prezydent_id) REFERENCES Kandydaci_Prezydent (id);
-ALTER TABLE Wyniki_Posel ADD CONSTRAINT fk_wyniki_posel_kandydaci_posel FOREIGN KEY (Kandydat_Posel_id) REFERENCES Kandydaci_Posel (id);
-ALTER TABLE Wyniki_Pytania_Referendalne ADD CONSTRAINT fk_wyniki_pytania_referendalne_komisje FOREIGN KEY (Komisja_nr) REFERENCES Komisje (nr);
+ALTER TABLE Wyniki_Pytania_Referendalne ADD CONSTRAINT fk_wyniki_pytania_pytania FOREIGN KEY (Pytanie_Referendalne_id) REFERENCES Pytania_Referendalne (id);
+ALTER TABLE Wyniki_Prezydent ADD CONSTRAINT fk_wyniki_prezydent_prezydent FOREIGN KEY (Kandydat_Prezydent_id) REFERENCES Kandydaci_Prezydent (id);
+ALTER TABLE Wyniki_Posel ADD CONSTRAINT fk_wyniki_posel_posel FOREIGN KEY (Kandydat_Posel_id) REFERENCES Kandydaci_Posel (id);
+ALTER TABLE Wyniki_Pytania_Referendalne ADD CONSTRAINT fk_wyniki_pytania_komisje FOREIGN KEY (Komisja_nr) REFERENCES Komisje (nr);
 ALTER TABLE Wyniki_Prezydent ADD CONSTRAINT fk_wyniki_prezydent_komisje FOREIGN KEY (Komisja_nr) REFERENCES Komisje (nr);
 ALTER TABLE Wyniki_Posel ADD CONSTRAINT fk_wyniki_posel_komisje FOREIGN KEY (Komisja_nr) REFERENCES Komisje (nr);
+
+--add data
+INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('ADMINISTRATOR');
+INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_OKW');
+INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_PKW');
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('admin', 'admin', 'Jan', 'Kowalski', 1);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw', 'okw', 'Klemens', 'Dudek', 2);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('pkw', 'pkw', 'Arkadiusz', 'Gorski', 3);
+INSERT INTO Typy_Wyborow (nazwa) VALUES ('PARLAMENTARNE');
+INSERT INTO Typy_Wyborow (nazwa) VALUES ('PREZYDENCKIE');
+INSERT INTO Typy_Wyborow (nazwa) VALUES ('REFERENDUM');
+
+COMMIT;
