@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
@@ -7,6 +7,7 @@
     <title></title>
 </head>
 <body>
-<a href="@{/login}">Logowanie</a>
+<a th:href="@{/login}">Logowanie</a><br>
+<a th:href="@{/election}">Wybory</a>
 </body>
 </html>

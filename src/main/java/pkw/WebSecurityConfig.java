@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth
             .jdbcAuthentication()
             .dataSource(dataSource)
-            .usersByUsernameQuery("select login as username, haslo as password, 1 as enabled from uzytkownicy where login=?")
-            .authoritiesByUsernameQuery("select login as username, poziom as role from poziomy_dostepu where login=?");
+            .usersByUsernameQuery("select login as username, haslo as password, 1 as enabled from uzytkownicy2 where login=?")
+            .authoritiesByUsernameQuery("select login as username, poziom as role from poziomy_dostepu2 where login=?");
     }
 }
