@@ -3,6 +3,7 @@ package pkw.models;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Election {
@@ -16,11 +17,11 @@ public class Election {
     private int id;
     private Date creationDate;
 
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date votingDate;
 
-    @NotBlank
+    @NotNull
     private ElectionType electionType;
     private int creatorId;
 
