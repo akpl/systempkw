@@ -4,31 +4,37 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Election {
-    public enum ElectionType
-    {
-        Parlamentarne,
-        Prezydenckie,
-        Referendum
+    public String getElectionTypeName() {
+        return electionTypeName;
+    }
+
+    public void setElectionTypeName(String electionTypeName) {
+        this.electionTypeName = electionTypeName;
     }
 
     private int id;
     private Date creationDate;
+    private String electionTypeName;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date votingDate;
 
     @NotNull
-    private ElectionType electionType;
+    private int electionType;
     private int creatorId;
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
     public Date getCreationDate() {
         return creationDate;
     }
@@ -53,11 +59,19 @@ public class Election {
         this.creatorId = creatorId;
     }
 
-    public ElectionType getElectionType() {
+    public int getElectionType() {
         return electionType;
     }
 
-    public void setElectionType(ElectionType electionType) {
+    public void setElectionType(int electionType) {
         this.electionType = electionType;
+    }
+
+    public String getFormattedVotingDate() {
+        return new SimpleDateFormat("dd.MM.yyyy").format(getVotingDate());
+    }
+
+    public String getFormattedCreationDate() {
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(getCreationDate());
     }
 }
