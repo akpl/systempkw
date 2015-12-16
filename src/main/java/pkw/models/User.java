@@ -1,10 +1,16 @@
 package pkw.models;
 
+import javax.validation.constraints.NotNull;
+
 public class User {
     private int id;
+    @NotNull
     private String login;
+    @NotNull
     private String password;
+    @NotNull
     private String name;
+    @NotNull
     private String surname;
     private String role;
     private int roleId;
