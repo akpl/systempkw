@@ -28,9 +28,16 @@ public class ElectionController {
         return electionDAO.selectAll();
     }
 
-    @RequestMapping(value = "/election")
-     public String index() {
-        return "election";
+    @RequestMapping(value = "/election/browse")
+    public String electionBrowse(Model model) {
+        model.addAttribute("view", "election/browse");
+        return "main";
+    }
+
+    @RequestMapping(value = "/election/add")
+    public String electionAdd(Model model) {
+        model.addAttribute("view", "election/add");
+        return "main";
     }
 
     @InitBinder
@@ -42,12 +49,14 @@ public class ElectionController {
 
     @RequestMapping(value = "/election/add", method = RequestMethod.POST)
     public String add(@Valid Election election, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "election/add");
         if (bindingResult.hasErrors()) {
-            return "election";
+            return "main";
         } else {
+            model.addAttribute("success", true);
             election.setCreatorId(1);
             electionDAO.insert(election);
-            return "election";
+            return "main";
         }
     }
 }

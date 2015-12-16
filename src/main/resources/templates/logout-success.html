@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <title>Wylogowałeś się</title>
+    <style type="text/css">
+        html, body {
+            background-color: #eee;
+        }
+        body {
+            padding-top: 40px;
+        }
+        .container {
+            width: 800px;
+        }
+        .container > .content {
+            background-color: #fff;
+            padding: 20px;
+            margin: 0 -20px;
+            border-radius: 10px 10px 10px 10px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.15);
+        }
+
+        .login-form {
+            margin: 45px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <div class="row">
+            <div class="login-form">
+                <h2>Wylogowałeś się z systemu.</h2>
+                <p><a th:href="@{/}">Powrót na do strony logowania.</a></p>
+            </div>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

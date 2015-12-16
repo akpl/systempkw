@@ -1,19 +1,16 @@
 package pkw.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MainController {
 
     @RequestMapping("/")
-    public String index() {
-        return "layout";
+    public String index(Model model) {
+        model.addAttribute("view", "home");
+        return "main";
     }
 
-
-    @RequestMapping("/test")
-    public String test() {
-        return "test test test";
-    }
 }
