@@ -121,10 +121,9 @@ ALTER TABLE Wyniki_Posel ADD CONSTRAINT fk_wyniki_posel_komisje FOREIGN KEY (Kom
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('ADMINISTRATOR');
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_OKW');
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_PKW');
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('admin', 'admin', 'Jan', 'Kowalski', 1);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('admin2', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'Jan', 'Kowalski', 1);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw', 'okw', 'Klemens', 'Dudek', 2);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('pkw', 'pkw', 'Arkadiusz', 'Gorski', 3);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'Jan', 'Kowalski', 1);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Klemens', 'Dudek', 2);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('pkw', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 3);
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('PARLAMENTARNE');
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('PREZYDENCKIE');
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('REFERENDUM');
