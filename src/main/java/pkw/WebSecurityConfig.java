@@ -3,6 +3,7 @@ package pkw;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -37,8 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .jdbcAuthentication()
-            .dataSource(dataSource)
-            .usersByUsernameQuery("select login as username, haslo as password, 1 as enabled from uzytkownicy2 where login=?")
-            .authoritiesByUsernameQuery("select login as username, poziom as role from poziomy_dostepu2 where login=?");
+            .dataSource(dataSource).passwordEncoder(new ShaPasswordEncoder(256))
+            .usersByUsernameQuery("select login as username, haslo as password, 1 as enabled from uzytkownicy where login=?")
+            .authoritiesByUsernameQuery("select uzytkownicy.login as username, poziomy_dostepu.nazwa as role from uzytkownicy left join poziomy_dostepu on uzytkownicy.poziom_dostepu_id = poziomy_dostepu.id where login=?");
     }
 }

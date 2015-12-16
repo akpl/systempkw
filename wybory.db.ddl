@@ -16,7 +16,7 @@ drop table WYNIKI_POSEL cascade constraints;
 CREATE TABLE Uzytkownicy (
   id              NUMBER GENERATED ALWAYS AS IDENTITY,
   login           varchar2(100) NOT NULL UNIQUE, 
-  haslo           char(40) NOT NULL, 
+  haslo           char(64) NOT NULL,
   imie            varchar2(50) NOT NULL, 
   nazwisko        varchar2(50) NOT NULL, 
   Poziom_Dostepu_id number(10) NOT NULL,
@@ -122,6 +122,7 @@ INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('ADMINISTRATOR');
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_OKW');
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_PKW');
 INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('admin', 'admin', 'Jan', 'Kowalski', 1);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('admin2', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'Jan', 'Kowalski', 1);
 INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw', 'okw', 'Klemens', 'Dudek', 2);
 INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('pkw', 'pkw', 'Arkadiusz', 'Gorski', 3);
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('PARLAMENTARNE');
