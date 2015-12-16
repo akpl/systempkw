@@ -13,7 +13,7 @@ import java.util.Map;
 @Repository
 public class ElectionDAO {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public JdbcTemplate jdbcTemplate;
 
     public void insert(Election election) {
         Object[] params = new Object[] { election.getVotingDate(), election.getElectionType(), election.getCreatorId() };
