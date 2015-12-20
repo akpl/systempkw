@@ -50,7 +50,7 @@
         <!-- /.navbar-header -->
 
         <ul class="nav navbar-top-links navbar-right">
-            <span style="color: #777; font-size: 12px;">Zalogowany jako: <b><span sec:authentication="name">User</span></b>. Poziom uprawnień: <b><span sec:authorize="hasAuthority('ADMINISTRATOR')">Administrator</span><span sec:authorize="hasAuthority('CZLONEK_OKW')">Czlonek OKW</span><span sec:authorize="hasAuthority('[CZLONEK_PKW]')">Czlonek PKW</span></b>.</span>
+            <span style="color: #777; font-size: 12px;">Zalogowany jako: <b><span sec:authentication="name">User</span></b>. Poziom uprawnień: <b><span sec:authorize="hasAuthority('ADMINISTRATOR')">Administrator</span><span sec:authorize="hasAuthority('CZLONEK_OKW')">Czlonek OKW</span><span sec:authorize="hasAuthority('CZLONEK_PKW')">Czlonek PKW</span></b>.</span>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -69,7 +69,7 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li th:class="${view} == 'home' ? active">
-                        <a th:href="@{/}" th:class="${view} == 'home' ? active"><i class="fa fa-dashboard fa-fw"></i> Strona główna</a>
+                        <a th:href="@{/}" th:class="${view} == 'home' ? active"><i class="fa fa-home fa-fw"></i> Strona główna</a>
                     </li>
                     <li th:class="${#strings.contains(view, 'election')} ? active">
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Wybory<span class="fa arrow"></span></a>
@@ -79,6 +79,18 @@
                             </li>
                             <li>
                                 <a th:href="@{/election/add}" th:class="${view} == 'election/add' ? active">Zaplanuj</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li th:class="${#strings.contains(view, 'user')} ? active">
+                        <a href="#"><i class="fa fa-users fa-fw"></i> Użytkownicy<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a th:href="@{/user/browse}" th:class="${view} == 'user/browse' ? active">Przeglądaj</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/user/add}" th:class="${view} == 'user/add' ? active">Dodaj</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
