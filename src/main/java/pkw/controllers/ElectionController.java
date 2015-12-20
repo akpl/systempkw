@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pkw.models.Election;
 import pkw.models.ElectionDAO;
+import pkw.models.ElectionRepository;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.text.SimpleDateFormat;
@@ -23,9 +25,12 @@ public class ElectionController {
     @Autowired
     private ElectionDAO electionDAO;
 
+    @Autowired
+    private ElectionRepository electionRepository;
+
     @ModelAttribute("elections")
-    public List<Election> elections() {
-        return electionDAO.selectAll();
+    public Iterable<Election> elections() {
+        return electionRepository.findAll();
     }
 
     @RequestMapping(value = "/election/browse")
@@ -55,7 +60,8 @@ public class ElectionController {
         } else {
             model.addAttribute("success", true);
             election.setCreatorId(1);
-            electionDAO.insert(election);
+            election.setCreationDate(new Date());
+            electionRepository.save(election);
             return "main";
         }
     }

@@ -1,13 +1,38 @@
 package pkw.models;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Entity
+@Table(name = "wybory")
 public class Election {
+    @Id
+    @GeneratedValue(generator="ElectionId")
+    @SequenceGenerator(name="ElectionId",sequenceName="ISEQ$$_92789")
+    private int id;
+
+    @Column(name = "data_utworzenia")
+    private Date creationDate;
+
+    @Transient
+    private String electionTypeName;
+
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "data_glosowania")
+    private Date votingDate;
+
+    @NotNull
+    @Column(name = "typ_wyborow_id")
+    private int electionType;
+
+    @Column(name = "id_tworcy")
+    private int creatorId;
+
     public String getElectionTypeName() {
         return electionTypeName;
     }
@@ -15,18 +40,6 @@ public class Election {
     public void setElectionTypeName(String electionTypeName) {
         this.electionTypeName = electionTypeName;
     }
-
-    private int id;
-    private Date creationDate;
-    private String electionTypeName;
-
-    @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date votingDate;
-
-    @NotNull
-    private int electionType;
-    private int creatorId;
 
     public int getId() {
         return id;
