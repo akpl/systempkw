@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-10">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div th:if="${success == true}" class="alert alert-success">
@@ -17,24 +17,24 @@
                 </div>
                 <form th:action="@{/user/add}" method="post">
                     <div class="form-group">
-                        <label for="name">Imię</label>
-                        <input type="text" class="form-control" id="name" name="name" />
+                        <label for="imie">Imię</label>
+                        <input type="text" class="form-control" id="imie" name="imie" />
                     </div>
                     <div class="form-group">
-                        <label for="surname">Nazwisko</label>
-                        <input type="text" class="form-control" id="surname" name="surname" />
+                        <label for="nazwisko">Nazwisko</label>
+                        <input type="text" class="form-control" id="nazwisko" name="nazwisko" />
                     </div>
                     <div class="form-group">
                         <label for="login">Login</label>
                         <input type="text" class="form-control" id="login" name="login" />
                     </div>
                     <div class="form-group">
-                        <label for="password">Hasło</label>
-                        <input type="password" class="form-control" id="password" name="password" />
+                        <label for="haslo">Hasło</label>
+                        <input type="password" class="form-control" id="haslo" name="haslo" />
                     </div>
                     <div class="form-group">
-                        <label for="roleId">Uprawnienia</label>
-                        <select class="form-control" id="roleId" name="roleId">
+                        <label for="poziomDostepuId">Uprawnienia</label>
+                        <select class="form-control" id="poziomDostepuId" name="poziomDostepuId">
                             <option value="1">Administrator</option>
                             <option value="2">Członek OKW</option>
                             <option value="3">Członek PKW</option>

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pkw.models.Election;
-import pkw.models.ElectionDAO;
 import pkw.models.ElectionRepository;
 
 import javax.validation.Valid;
@@ -22,9 +21,6 @@ import java.util.Date;
 
 @Controller
 public class ElectionController {
-    @Autowired
-    private ElectionDAO electionDAO;
-
     @Autowired
     private ElectionRepository electionRepository;
 
