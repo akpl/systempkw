@@ -13,8 +13,19 @@ drop table WYNIKI_PYTANIA_REFERENDALNE cascade constraints;
 drop table WYNIKI_PREZYDENT cascade constraints;
 drop table WYNIKI_POSEL cascade constraints;
 
+CREATE SEQUENCE uzytkownicy_seq;
+CREATE SEQUENCE poziomy_dostepu_seq;
+CREATE SEQUENCE okregi_seq;
+CREATE SEQUENCE wybory_seq;
+CREATE SEQUENCE typy_wyborow_seq;
+CREATE SEQUENCE komisje_seq;
+CREATE SEQUENCE komitety_seq;
+CREATE SEQUENCE kandydaci_posel_seq;
+CREATE SEQUENCE kandydaci_prezydent_seq;
+CREATE SEQUENCE pytania_referendalne_seq;
+
 CREATE TABLE Uzytkownicy (
-  id              NUMBER GENERATED ALWAYS AS IDENTITY,
+  id              NUMBER DEFAULT uzytkownicy_seq.nextval,
   login           varchar2(100) NOT NULL UNIQUE, 
   haslo           char(64) NOT NULL,
   imie            varchar2(50) NOT NULL, 
@@ -22,28 +33,28 @@ CREATE TABLE Uzytkownicy (
   Poziom_Dostepu_id number(10) NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Poziomy_Dostepu (
-  id    NUMBER GENERATED ALWAYS AS IDENTITY,
+  id    NUMBER DEFAULT poziomy_dostepu_seq.nextval,
   nazwa varchar2(50) NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Okregi (
-  nr          NUMBER GENERATED ALWAYS AS IDENTITY,
+  nr          NUMBER DEFAULT okregi_seq.nextval,
   nazwa       varchar2(100) NOT NULL UNIQUE, 
   wojewodztwo varchar2(50) NOT NULL, 
   miasto      varchar2(50) NOT NULL, 
   PRIMARY KEY (nr));
 CREATE TABLE Wybory (
-  id              NUMBER GENERATED ALWAYS AS IDENTITY,
+  id              NUMBER DEFAULT wybory_seq.nextval,
   data_utworzenia date       NOT NULL,
   data_glosowania date       NOT NULL,
   Typ_Wyborow_id  number(10) NOT NULL,
   id_Tworcy       number(10) NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Typy_Wyborow (
-  id    NUMBER GENERATED ALWAYS AS IDENTITY,
+  id    NUMBER DEFAULT typy_wyborow_seq.nextval,
   nazwa varchar2(100) NOT NULL UNIQUE, 
   PRIMARY KEY (id));
 CREATE TABLE Komisje (
-  nr                  NUMBER GENERATED ALWAYS AS IDENTITY,
+  nr                  NUMBER DEFAULT komisje_seq.nextval,
   nazwa               varchar2(100) NOT NULL UNIQUE,
   adres               varchar2(100) NOT NULL,
   liczba_Wyborcow     number(10),
@@ -51,12 +62,12 @@ CREATE TABLE Komisje (
   id_Przewodniczacego number(10)    NOT NULL,
   PRIMARY KEY (nr));
 CREATE TABLE Komitety (
-  nr        NUMBER GENERATED ALWAYS AS IDENTITY,
+  nr        NUMBER DEFAULT komitety_seq.nextval,
   nazwa     varchar2(100) NOT NULL UNIQUE,
   Wybory_id number(10)    NOT NULL,
   PRIMARY KEY (nr));
 CREATE TABLE Kandydaci_Posel (
-  id                   NUMBER GENERATED ALWAYS AS IDENTITY,
+  id                   NUMBER DEFAULT kandydaci_posel_seq.nextval,
   imie                 varchar2(50)  NOT NULL,
   nazwisko             varchar2(50)  NOT NULL,
   plec                 char(1)       NOT NULL,
@@ -67,7 +78,7 @@ CREATE TABLE Kandydaci_Posel (
   Komitet_nr           number(10)    NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Kandydaci_Prezydent (
-  id                   NUMBER GENERATED ALWAYS AS IDENTITY,
+  id                   NUMBER DEFAULT kandydaci_prezydent_seq.nextval,
   imie                 varchar2(50)  NOT NULL,
   nazwisko             varchar2(50)  NOT NULL,
   plec                 char(1)       NOT NULL,
@@ -78,7 +89,7 @@ CREATE TABLE Kandydaci_Prezydent (
   Wybory_id            number(10)    NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Pytania_Referendalne (
-  id        NUMBER GENERATED ALWAYS AS IDENTITY,
+  id        NUMBER DEFAULT pytania_referendalne_seq.nextval,
   pytanie   varchar2(300) NOT NULL,
   Wybory_id number(10)    NOT NULL,
   PRIMARY KEY (id));
