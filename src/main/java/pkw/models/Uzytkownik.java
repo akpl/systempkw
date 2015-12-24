@@ -1,9 +1,12 @@
 package pkw.models;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by Elimas on 2015-12-23.
@@ -18,6 +21,7 @@ public class Uzytkownik {
     private String nazwisko;
     private int poziomDostepuId;
     private PoziomDostepu poziomDostepu;
+    private List<Wybory> wybory;
 
     @Id
     @GeneratedValue(generator="UzytkownicyId")
@@ -31,8 +35,8 @@ public class Uzytkownik {
         this.id = id;
     }
 
-    @NotNull
-    @Column(name = "LOGIN")
+    @NotBlank
+    @Column(name = "LOGIN", unique = true)
     public String getLogin() {
         return login;
     }
@@ -41,7 +45,7 @@ public class Uzytkownik {
         this.login = login;
     }
 
-    @NotNull
+    @NotBlank
     @Column(name = "HASLO")
     public String getHaslo() {
         return haslo;
@@ -51,7 +55,7 @@ public class Uzytkownik {
         this.haslo = haslo;
     }
 
-    @NotNull
+    @NotBlank
     @Column(name = "IMIE")
     public String getImie() {
         return imie;
@@ -61,7 +65,7 @@ public class Uzytkownik {
         this.imie = imie;
     }
 
-    @NotNull
+    @NotBlank
     @Column(name = "NAZWISKO")
     public String getNazwisko() {
         return nazwisko;
@@ -117,5 +121,14 @@ public class Uzytkownik {
 
     public void setPoziomDostepu(PoziomDostepu poziomDostepu) {
         this.poziomDostepu = poziomDostepu;
+    }
+
+    @OneToMany(mappedBy = "tworca")
+    public List<Wybory> getWybory() {
+        return wybory;
+    }
+
+    public void setWybory(List<Wybory> wybory) {
+        this.wybory = wybory;
     }
 }

@@ -6,17 +6,18 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Created by Elimas on 2015-12-23.
+ * Created by Elimas on 2015-12-24.
  */
 @Entity
-@Table(name = "POZIOMY_DOSTEPU")
-public class PoziomDostepu {
+@Table(name = "TYPY_WYBOROW")
+public class TypWyborow {
     private int id;
     private String nazwa;
-    private Uzytkownik uzytkownik;
-    private List<Uzytkownik> uzytkownicy;
+    private List<pkw.models.Wybory> wybory;
 
     @Id
+    @GeneratedValue(generator="TypWyborowId")
+    @SequenceGenerator(name="TypWyborowId",sequenceName="typ_wyborow_seq")
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -41,7 +42,7 @@ public class PoziomDostepu {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PoziomDostepu that = (PoziomDostepu) o;
+        TypWyborow that = (TypWyborow) o;
 
         if (id != that.id) return false;
         if (nazwa != null ? !nazwa.equals(that.nazwa) : that.nazwa != null) return false;
@@ -56,12 +57,12 @@ public class PoziomDostepu {
         return result;
     }
 
-    @OneToMany(mappedBy = "poziomDostepu")
-    public List<Uzytkownik> getUzytkownicy() {
-        return uzytkownicy;
+    @OneToMany(mappedBy = "typWyborow")
+    public List<pkw.models.Wybory> getWybory() {
+        return wybory;
     }
 
-    public void setUzytkownicy(List<Uzytkownik> uzytkownicy) {
-        this.uzytkownicy = uzytkownicy;
+    public void setWybory(List<pkw.models.Wybory> wybory) {
+        this.wybory = wybory;
     }
 }

@@ -20,8 +20,8 @@ public class UserController {
     @Autowired
     private PoziomDostepuRepository poziomDostepuRepository;
 
-    @ModelAttribute("users")
-    public Iterable<Uzytkownik> users() {
+    @ModelAttribute("uzytkownicyList")
+    public Iterable<Uzytkownik> uzytkownicyList() {
         return uzytkownikRepository.findAll();
     }
 
@@ -36,30 +36,35 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/browse")
-    public String userBrowse(Model model) {
+    public String browse(Model model) {
         model.addAttribute("view", "user/browse");
         return "main";
     }
 
-    @RequestMapping(value = "/user/add")
-    public String userAdd(Model model) {
+    @RequestMapping(value = "/user/add", method = RequestMethod.GET)
+    public String add(Uzytkownik uzytkownik, Model model) {
         model.addAttribute("view", "user/add");
         return "main";
     }
 
     @RequestMapping(value = "/user/add", method = RequestMethod.POST)
-    public String add(@Valid Uzytkownik user, BindingResult bindingResult, Model model) {
+    public String add(@Valid Uzytkownik uzytkownik, BindingResult bindingResult, Model model) {
         model.addAttribute("view", "user/add");
+        if (!bindingResult.hasErrors()) {
+            if (uzytkownikRepository.findByLogin(uzytkownik.getLogin()).size() > 0) {
+                bindingResult.rejectValue("login", "error.login.exists", "Uzytkownik o takim loginie juz istnieje");
+            }
+        }
         if (bindingResult.hasErrors()) {
             return "main";
         } else {
             model.addAttribute("success", true);
             ShaPasswordEncoder sha = new ShaPasswordEncoder(256);
-            String encodedPassword = sha.encodePassword(user.getHaslo(), null);
-            user.setHaslo(encodedPassword);
-            PoziomDostepu poziomDostepu = poziomDostepuRepository.findOne(user.getPoziomDostepuId());
-            user.setPoziomDostepu(poziomDostepu);
-            uzytkownikRepository.save(user);
+            String encodedPassword = sha.encodePassword(uzytkownik.getHaslo(), null);
+            uzytkownik.setHaslo(encodedPassword);
+            PoziomDostepu poziomDostepu = poziomDostepuRepository.findOne(uzytkownik.getPoziomDostepuId());
+            uzytkownik.setPoziomDostepu(poziomDostepu);
+            uzytkownikRepository.save(uzytkownik);
             return "main";
         }
     }

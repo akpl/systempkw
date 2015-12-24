@@ -123,18 +123,8 @@
     <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:8.0.28" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-logging-juli:8.0.28" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-websocket:8.0.28" level="project" />
-    <orderEntry type="module-library">
-      <library name="Gradle: orm">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/orm.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="Gradle: org.springframework:spring-core:4.2.3.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-jpa:1.9.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.hibernate:hibernate-core:4.3.11.Final" level="project" />
-    <orderEntry type="library" name="Gradle: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" level="project" />
+    <orderEntry type="library" name="Gradle: joda-time:joda-time:2.9.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.jadira.usertype:usertype.jodatime:2.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.jadira.usertype:usertype.spi:2.0.1" level="project" />
   </component>
 </module>
