@@ -15,10 +15,7 @@
                 Dodaj użytkownika
             </div>
             <div class="panel-body">
-                <div th:if="${success == true}" class="alert alert-success">
-                    Dodano użytkownika
-                </div>
-                <form th:if="${success != true}" th:action="@{/user/add}" th:object="${uzytkownik}" method="post">
+                <form th:action="@{/user/add}" th:object="${uzytkownik}" method="post">
                     <div class="form-group" th:classappend="${#fields.hasErrors('login')} ? 'has-error'">
                         <label for="login">Login</label>
                         <input type="text" class="form-control" th:field="*{login}" />

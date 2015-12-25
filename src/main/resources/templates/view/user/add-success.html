@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Użytkownicy</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Dodaj użytkownika
+            </div>
+            <div class="panel-body">
+                <div class="alert alert-success">
+                    Dodano użytkownika
+                </div>
+                <a th:href="@{/user/browse}" class="btn btn-default">Przeglądaj użytkowników</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -12,11 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import pkw.models.*;
 
 import javax.validation.Valid;
@@ -67,14 +64,37 @@ public class ElectionController {
         if (bindingResult.hasErrors()) {
             return "main";
         } else {
-            model.addAttribute("success", true);
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Uzytkownik loggedUser = uzytkownikRepository.findByLogin(user.getUsername()).get(0);
             wybory.setTworca(loggedUser);
             wybory.setDataUtworzenia(new LocalDate());
             wybory.setTypWyborow(typWyborowRepository.findOne(wybory.getTypWyborowId()));
             wyboryRepository.save(wybory);
+            model.addAttribute("view", "election/add-success");
             return "main";
         }
+    }
+
+    @RequestMapping(value = "/election/delete")
+    public String delete(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "election/delete");
+        model.addAttribute("exists", false);
+        if (wyboryRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            Wybory wyboryDoUsuniecia = wyboryRepository.findOne(id);
+            model.addAttribute("wybory", wyboryDoUsuniecia);
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/election/delete-confirm")
+    public String deleteConfirm(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "election/delete-confirm");
+        model.addAttribute("success", false);
+        if (wyboryRepository.exists(id)) {
+            wyboryRepository.delete(id);
+            model.addAttribute("success", true);
+        }
+        return "main";
     }
 }

@@ -2,12 +2,15 @@ package pkw.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import pkw.models.*;
 
 import javax.validation.Valid;
@@ -58,14 +61,54 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "main";
         } else {
-            model.addAttribute("success", true);
             ShaPasswordEncoder sha = new ShaPasswordEncoder(256);
             String encodedPassword = sha.encodePassword(uzytkownik.getHaslo(), null);
             uzytkownik.setHaslo(encodedPassword);
             PoziomDostepu poziomDostepu = poziomDostepuRepository.findOne(uzytkownik.getPoziomDostepuId());
             uzytkownik.setPoziomDostepu(poziomDostepu);
             uzytkownikRepository.save(uzytkownik);
+            model.addAttribute("view", "user/add-success");
             return "main";
         }
+    }
+
+    @RequestMapping(value = "/user/delete")
+    public String delete(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "user/delete");
+        model.addAttribute("exists", false);
+        model.addAttribute("currentUser", false);
+        if (uzytkownikRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            Uzytkownik uzytkownikDoUsuniecia = uzytkownikRepository.findOne(id);
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Uzytkownik loggedUser = uzytkownikRepository.findByLogin(user.getUsername()).get(0);
+            if (loggedUser.getId() == uzytkownikDoUsuniecia.getId()) {
+                model.addAttribute("currentUser", true);
+            }
+            else {
+                model.addAttribute("uzytkownik", uzytkownikDoUsuniecia);
+            }
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/user/delete-confirm")
+    public String deleteConfirm(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "user/delete-confirm");
+        model.addAttribute("success", false);
+        model.addAttribute("currentUser", false);
+        if (uzytkownikRepository.exists(id)) {
+            Uzytkownik uzytkownikDoUsuniecia = uzytkownikRepository.findOne(id);
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Uzytkownik loggedUser = uzytkownikRepository.findByLogin(user.getUsername()).get(0);
+            if (loggedUser.getId() == uzytkownikDoUsuniecia.getId()) {
+                model.addAttribute("currentUser", true);
+            }
+            else {
+                uzytkownikRepository.delete(id);
+                model.addAttribute("success", true);
+            }
+        }
+        return "main";
     }
 }

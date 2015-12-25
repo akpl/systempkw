@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wybory</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Potwierdź usunięcie wyborów/referendum
+            </div>
+            <div th:if="${exists}" class="panel-body">
+                <p>Czy na pewno chcesz usunąć wybory <b th:text="${'#' + wybory.id + ' ' + wybory.dataGlosowania}"></b>?</p>
+                <a th:href="@{/election/browse}" class="btn btn-default">Powrót</a>
+                <a th:href="@{/election/delete-confirm(id=${wybory.id})}" class="btn btn-danger">Potwierdź</a>
+            </div>
+            <div th:if="${!exists}" class="panel-body">
+                <div class="alert alert-danger">
+                    Wybrane wybory nie istnieją.
+                </div>
+                <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj wybory</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

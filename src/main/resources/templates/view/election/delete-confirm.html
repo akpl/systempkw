@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wybory</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Usuwanie wyborów
+            </div>
+            <div class="panel-body">
+                <div th:if="${success}" class="alert alert-success">
+                    Usunięto wybory.
+                </div>
+                <div th:if="${!success}" class="alert alert-danger">
+                    Wystąpił problem podczas usuwania wyborów. Prawdopodobnie wybrane wybory nie istnieją.
+                </div>
+                <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj wybory</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
