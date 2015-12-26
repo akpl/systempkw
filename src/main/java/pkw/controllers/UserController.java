@@ -67,9 +67,58 @@ public class UserController {
             PoziomDostepu poziomDostepu = poziomDostepuRepository.findOne(uzytkownik.getPoziomDostepuId());
             uzytkownik.setPoziomDostepu(poziomDostepu);
             uzytkownikRepository.save(uzytkownik);
-            model.addAttribute("view", "user/add-success");
+            model.addAttribute("view", "user/saved");
             return "main";
         }
+    }
+
+    @RequestMapping(value = "/user/edit")
+    public String edit(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "user/edit");
+        model.addAttribute("edit", true);
+        model.addAttribute("exists", false);
+        model.addAttribute("currentUser", false);
+        if (uzytkownikRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            Uzytkownik uzytkownikDoEdycji = uzytkownikRepository.findOne(id);
+            uzytkownikDoEdycji.setPoziomDostepuId(uzytkownikDoEdycji.getPoziomDostepu().getId());
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Uzytkownik loggedUser = uzytkownikRepository.findByLogin(user.getUsername()).get(0);
+            if (loggedUser.getId() == uzytkownikDoEdycji.getId()) {
+                model.addAttribute("currentUser", true);
+            }
+            else {
+                model.addAttribute("uzytkownik", uzytkownikDoEdycji);
+            }
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/user/edit", method = RequestMethod.POST)
+    public String edit(@RequestParam(value = "id") int id, @Valid Uzytkownik uzytkownik, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "user/edit");
+        model.addAttribute("edit", true);
+        model.addAttribute("exists", false);
+        model.addAttribute("currentUser", false);
+        if (uzytkownikRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            Uzytkownik uzytkownikDoEdycji = uzytkownikRepository.findOne(id);
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Uzytkownik loggedUser = uzytkownikRepository.findByLogin(user.getUsername()).get(0);
+            if (loggedUser.getId() == uzytkownikDoEdycji.getId()) {
+                model.addAttribute("currentUser", true);
+            }
+            else {
+                if (!bindingResult.hasErrors()) {
+                    uzytkownik.setId(id);
+                    PoziomDostepu poziomDostepu = poziomDostepuRepository.findOne(uzytkownik.getPoziomDostepuId());
+                    uzytkownik.setPoziomDostepu(poziomDostepu);
+                    uzytkownikRepository.save(uzytkownik);
+                    model.addAttribute("view", "user/saved");
+                }
+            }
+        }
+        return "main";
     }
 
     @RequestMapping(value = "/user/delete")

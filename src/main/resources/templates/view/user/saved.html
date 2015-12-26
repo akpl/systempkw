@@ -11,12 +11,15 @@
 <div class="row">
     <div class="col-lg-6">
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div th:if="${edit != null and !edit}" class="panel-heading">
                 Dodaj użytkownika
+            </div>
+            <div th:if="${edit != null and edit}" class="panel-heading">
+                Edytuj użytkownika
             </div>
             <div class="panel-body">
                 <div class="alert alert-success">
-                    Dodano użytkownika
+                    Użytkownik został zapisany.
                 </div>
                 <a th:href="@{/user/browse}" class="btn btn-default">Przeglądaj użytkowników</a>
             </div>

@@ -4,14 +4,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 /**
@@ -39,9 +37,8 @@ public class Wybory {
 
     @Transient
     @NotNull
-    @Min(1)
-    @Max(3)
-    private int typWyborowId;
+    @Range(min = 1, max = 3)
+    private int typWyborowId = 1;
 
     @ManyToOne
     @JoinColumn(name = "TYP_WYBOROW_ID", referencedColumnName = "ID", nullable = false)
@@ -113,6 +110,7 @@ public class Wybory {
 
     public void setTypWyborow(pkw.models.TypWyborow typWyborow) {
         this.typWyborow = typWyborow;
+        this.typWyborowId = typWyborow.getId();
     }
 
     public Uzytkownik getTworca() {

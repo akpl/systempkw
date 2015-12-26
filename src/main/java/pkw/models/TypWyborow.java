@@ -13,7 +13,7 @@ import java.util.List;
 public class TypWyborow {
     private int id;
     private String nazwa;
-    private List<pkw.models.Wybory> wybory;
+    //private List<pkw.models.Wybory> wybory;
 
     @Id
     @GeneratedValue(generator="TypWyborowId")
@@ -57,12 +57,12 @@ public class TypWyborow {
         return result;
     }
 
-    @OneToMany(mappedBy = "typWyborow")
+    /*@OneToMany(mappedBy = "typWyborow")
     public List<pkw.models.Wybory> getWybory() {
         return wybory;
     }
 
     public void setWybory(List<pkw.models.Wybory> wybory) {
         this.wybory = wybory;
-    }
+    }*/
 }

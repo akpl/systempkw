@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Użytkownicy</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Edytuj użytkownika
+            </div>
+            <div th:if="${exists and currentUser}" class="panel-body">
+                <div class="alert alert-danger">
+                    Nie możesz edytować aktualnie zalogowanego użytkownika.
+                </div>
+                <a th:href="@{/user/browse}" class="btn btn-default">Przeglądaj użytkowników</a>
+            </div>
+            <div th:if="${!exists}" class="panel-body">
+                <div class="alert alert-danger">
+                    Błąd podany użytkownik nie istnieje.
+                </div>
+                <a th:href="@{/user/browse}" class="btn btn-default">Przeglądaj użytkowników</a>
+            </div>
+            <div th:if="${exists and !currentUser}" class="panel-body">
+                <form th:include="view/user/form :: form" th:action="@{/user/edit(id=${uzytkownik.id})}" th:object="${uzytkownik}" method="post">
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

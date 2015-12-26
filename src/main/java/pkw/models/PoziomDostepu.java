@@ -14,7 +14,7 @@ public class PoziomDostepu {
     private int id;
     private String nazwa;
     private Uzytkownik uzytkownik;
-    private List<Uzytkownik> uzytkownicy;
+    //private List<Uzytkownik> uzytkownicy;
 
     @Id
     @Column(name = "ID")
@@ -56,12 +56,12 @@ public class PoziomDostepu {
         return result;
     }
 
-    @OneToMany(mappedBy = "poziomDostepu")
+    /*@OneToMany(mappedBy = "poziomDostepu")
     public List<Uzytkownik> getUzytkownicy() {
         return uzytkownicy;
     }
 
     public void setUzytkownicy(List<Uzytkownik> uzytkownicy) {
         this.uzytkownicy = uzytkownicy;
-    }
+    }*/
 }

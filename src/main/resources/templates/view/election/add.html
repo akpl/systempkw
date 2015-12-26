@@ -15,25 +15,8 @@
                 Zaplanuj nowe wybory lub referendum
             </div>
             <div class="panel-body">
-                <div th:if="${success == true}" class="alert alert-success">
-                    Zaplanowane wybory zostały zapisane.
-                </div>
-                <form th:if="${success != true}" th:action="@{/election/add}" th:object="${wybory}" method="post">
-                    <div class="form-group">
-                        <label for="typWyborowId">Typ</label>
-                        <select class="form-control" id="typWyborowId" name="typWyborowId">
-                            <option value="1">Parlamentarne</option>
-                            <option value="2">Prezydenckie</option>
-                            <option value="3">Referendum</option>
-                        </select>
-                        <span th:if="${#fields.hasErrors('typWyborowId')}" th:errors="*{typWyborowId}" id="typWyborowId-error" class="help-block">typWyborowId Error</span>
-                    </div>
-                    <div class="form-group" th:classappend="${#fields.hasErrors('dataGlosowania')} ? 'has-error'">
-                        <label for="dataGlosowania">Data głosowania</label>
-                        <input type="date" class="form-control" th:field="*{dataGlosowania}" placeholder="yyyy-MM-dd" />
-                        <span th:if="${#fields.hasErrors('dataGlosowania')}" th:errors="*{dataGlosowania}" id="dataGlosowania-error" class="help-block">dataGlosowania Error</span>
-                    </div>
-                    <button type="submit" class="btn btn-success">Dodaj</button>
+                <form th:include="view/election/form :: form" th:action="@{/election/add}" th:object="${wybory}" method="post">
+
                 </form>
             </div>
         </div>

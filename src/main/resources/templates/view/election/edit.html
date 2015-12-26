@@ -9,16 +9,21 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-10">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Zaplanuj nowe wybory lub referendum
+                Edytuj wybory lub referendum
             </div>
-            <div class="panel-body">
-                <div class="alert alert-success">
-                    Zaplanowane wybory zostały zapisane.
+            <div th:if="${!exists}" class="panel-body">
+                <div class="alert alert-danger">
+                    Błąd wybory nie istnieją.
                 </div>
                 <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj wybory</a>
+            </div>
+            <div th:if="${exists}" class="panel-body">
+                <form th:include="view/election/form :: form" th:action="@{/election/edit(id=${wybory.id})}" th:object="${wybory}" method="post">
+
+                </form>
             </div>
         </div>
     </div>

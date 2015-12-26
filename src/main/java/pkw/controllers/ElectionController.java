@@ -70,9 +70,44 @@ public class ElectionController {
             wybory.setDataUtworzenia(new LocalDate());
             wybory.setTypWyborow(typWyborowRepository.findOne(wybory.getTypWyborowId()));
             wyboryRepository.save(wybory);
-            model.addAttribute("view", "election/add-success");
+            model.addAttribute("view", "election/saved");
             return "main";
         }
+    }
+
+    @RequestMapping(value = "/election/edit")
+    public String edit(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "election/edit");
+        model.addAttribute("edit", true);
+        model.addAttribute("exists", false);
+        if (wyboryRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            Wybory wyboryDoEdycji = wyboryRepository.findOne(id);
+            wyboryDoEdycji.setTypWyborowId(wyboryDoEdycji.getTypWyborow().getId());
+            model.addAttribute("wybory", wyboryDoEdycji);
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/election/edit", method = RequestMethod.POST)
+    public String edit(@RequestParam(value = "id") int id, @Valid Wybory wybory, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "election/edit");
+        model.addAttribute("edit", true);
+        model.addAttribute("exists", false);
+        if (wyboryRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            Wybory wyboryDoEdycji = wyboryRepository.findOne(id);
+            if (!bindingResult.hasErrors()) {
+                wybory.setId(id);
+                wybory.setTworca(wyboryDoEdycji.getTworca());
+                wybory.setDataUtworzenia(wyboryDoEdycji.getDataUtworzenia());
+                TypWyborow typWyborow = typWyborowRepository.findOne(wybory.getTypWyborowId());
+                wybory.setTypWyborow(typWyborow);
+                wyboryRepository.save(wybory);
+                model.addAttribute("view", "election/saved");
+            }
+        }
+        return "main";
     }
 
     @RequestMapping(value = "/election/delete")

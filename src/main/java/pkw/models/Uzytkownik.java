@@ -19,9 +19,9 @@ public class Uzytkownik {
     private String haslo;
     private String imie;
     private String nazwisko;
-    private int poziomDostepuId;
+    private int poziomDostepuId = 1;
     private PoziomDostepu poziomDostepu;
-    private List<Wybory> wybory;
+    //private List<Wybory> wybory;
 
     @Id
     @GeneratedValue(generator="UzytkownicyId")
@@ -121,14 +121,15 @@ public class Uzytkownik {
 
     public void setPoziomDostepu(PoziomDostepu poziomDostepu) {
         this.poziomDostepu = poziomDostepu;
+        this.poziomDostepuId = poziomDostepu.getId();
     }
 
-    @OneToMany(mappedBy = "tworca")
+    /*@OneToMany(mappedBy = "tworca")
     public List<Wybory> getWybory() {
         return wybory;
     }
 
     public void setWybory(List<Wybory> wybory) {
         this.wybory = wybory;
-    }
+    }*/
 }
