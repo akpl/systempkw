@@ -12,6 +12,16 @@ drop table PYTANIA_REFERENDALNE cascade constraints;
 drop table WYNIKI_PYTANIA_REFERENDALNE cascade constraints;
 drop table WYNIKI_PREZYDENT cascade constraints;
 drop table WYNIKI_POSEL cascade constraints;
+DROP SEQUENCE uzytkownicy_seq;
+DROP SEQUENCE poziomy_dostepu_seq;
+DROP SEQUENCE okregi_seq;
+DROP SEQUENCE wybory_seq;
+DROP SEQUENCE typy_wyborow_seq;
+DROP SEQUENCE komisje_seq;
+DROP SEQUENCE komitety_seq;
+DROP SEQUENCE kandydaci_posel_seq;
+DROP SEQUENCE kandydaci_prezydent_seq;
+DROP SEQUENCE pytania_referendalne_seq;
 
 CREATE SEQUENCE uzytkownicy_seq;
 CREATE SEQUENCE poziomy_dostepu_seq;
@@ -112,15 +122,16 @@ CREATE TABLE Wyniki_Posel (
   Komisja_nr        number(10) NOT NULL,
   PRIMARY KEY (Kandydat_Posel_id,
                Komisja_nr));
+
 ALTER TABLE Uzytkownicy ADD CONSTRAINT fk_uzytkownicy_poziomy_dostepu FOREIGN KEY (Poziom_Dostepu_id) REFERENCES Poziomy_Dostepu (id);
 ALTER TABLE Wybory ADD CONSTRAINT fk_wybory_typy_wyborow FOREIGN KEY (Typ_Wyborow_id) REFERENCES Typy_Wyborow (id);
 ALTER TABLE Wybory ADD CONSTRAINT fk_wybory_uzytkownicy FOREIGN KEY (id_Tworcy) REFERENCES Uzytkownicy (id);
 ALTER TABLE Komisje ADD CONSTRAINT fk_komisje_okregi FOREIGN KEY (Okreg_Wyborczy_nr) REFERENCES Okregi (nr);
 ALTER TABLE Komisje ADD CONSTRAINT fk_komisje_uzytkownicy FOREIGN KEY (id_Przewodniczacego) REFERENCES Uzytkownicy (id);
-ALTER TABLE Kandydaci_Posel ADD CONSTRAINT fk_kandydaci_posel_komitety FOREIGN KEY (Komitet_nr) REFERENCES Komitety (nr);
-ALTER TABLE Pytania_Referendalne ADD CONSTRAINT fk_pytania_referendalne_wybory FOREIGN KEY (Wybory_id) REFERENCES Wybory (id);
-ALTER TABLE Kandydaci_Prezydent ADD CONSTRAINT fk_kandydaci_prezydent_wybory FOREIGN KEY (Wybory_id) REFERENCES Wybory (id);
-ALTER TABLE Komitety ADD CONSTRAINT fk_komitety_wybory FOREIGN KEY (Wybory_id) REFERENCES Wybory (id);
+ALTER TABLE Kandydaci_Posel ADD CONSTRAINT fk_kandydaci_posel_komitety FOREIGN KEY (Komitet_nr) REFERENCES Komitety (nr) ON DELETE CASCADE;
+ALTER TABLE Pytania_Referendalne ADD CONSTRAINT fk_pytania_referendalne_wybory FOREIGN KEY (Wybory_id) REFERENCES Wybory (id) ON DELETE CASCADE;
+ALTER TABLE Kandydaci_Prezydent ADD CONSTRAINT fk_kandydaci_prezydent_wybory FOREIGN KEY (Wybory_id) REFERENCES Wybory (id) ON DELETE CASCADE;
+ALTER TABLE Komitety ADD CONSTRAINT fk_komitety_wybory FOREIGN KEY (Wybory_id) REFERENCES Wybory (id) ON DELETE CASCADE;
 ALTER TABLE Wyniki_Pytania_Referendalne ADD CONSTRAINT fk_wyniki_pytania_pytania FOREIGN KEY (Pytanie_Referendalne_id) REFERENCES Pytania_Referendalne (id);
 ALTER TABLE Wyniki_Prezydent ADD CONSTRAINT fk_wyniki_prezydent_prezydent FOREIGN KEY (Kandydat_Prezydent_id) REFERENCES Kandydaci_Prezydent (id);
 ALTER TABLE Wyniki_Posel ADD CONSTRAINT fk_wyniki_posel_posel FOREIGN KEY (Kandydat_Posel_id) REFERENCES Kandydaci_Posel (id);
@@ -138,5 +149,33 @@ INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('PARLAMENTARNE');
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('PREZYDENCKIE');
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('REFERENDUM');
+--add sample data
+INSERT INTO Wybory (data_utworzenia, data_glosowania, Typ_Wyborow_id, id_Tworcy) VALUES ('2015-12-28', '2016-04-01', 1, 1);
+INSERT INTO Wybory (data_utworzenia, data_glosowania, Typ_Wyborow_id, id_Tworcy) VALUES ('2015-12-28', '2016-05-01', 2, 1);
+INSERT INTO Wybory (data_utworzenia, data_glosowania, Typ_Wyborow_id, id_Tworcy) VALUES ('2015-12-28', '2016-06-01', 3, 1);
+INSERT INTO Komitety (nazwa, Wybory_id) VALUES ('Komitet Wyborczy Prawo i Sprawiedliwość', 1);
+INSERT INTO Komitety (nazwa, Wybory_id) VALUES ('Komitet Wyborczy Platforma Obywatelska RP', 1);
+INSERT INTO Komitety (nazwa, Wybory_id) VALUES ('Komitet Wyborczy Partia Razem', 1);
+INSERT INTO Komitety (nazwa, Wybory_id) VALUES ('Komitet Wyborczy KORWiN', 1);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Adam', 'Lipiński', 'M', 'ekonomista', 'Warszawa', 1, 'Prawo i Sprawiedliwość', 1);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Elżbieta', 'Witek', 'K', 'nauczyciel', 'Jawor', 2, 'Prawo i Sprawiedliwość', 1);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Marzena', 'Machałek', 'K', 'parlamentarzysta', 'Jelenia Góra', 3, 'Prawo i Sprawiedliwość', 1);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Stanisław', 'Huskowski', 'M', 'parlamentarzysta', 'Wrocław', 1, 'Platforma Obywatelska Rzeczypospolitej Polskiej', 2);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Ewa', 'Drozd', 'K', 'nauczyciel', 'Głogów', 2, 'Platforma Obywatelska Rzeczypospolitej Polskiej', 2);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Piotr', 'Miedziński', 'M', 'pracownik administracji samorządowej', 'Jelenia Góra', 3, 'Platforma Obywatelska Rzeczypospolitej Polskiej', 2);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Szymon', 'Surmacz', 'M', 'specjalista polityki społecznej', 'Wolimierz', 1, 'Partia Razem', 3);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Agnieszka', 'Marcinkowska', 'K', 'technik usług kosmetycznych', 'Legnica', 2, 'Partia Razem', 3);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Damian', 'Cacek', 'M', 'górnik eksploatacji podziemnej', 'Lubin', 3, 'Partia Razem', 3);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Klaudia', 'Witczak', 'K', 'asystent parlamentarny', 'Bolesławiec', 1, 'KORWiN: Koalicja Odnowy Rzeczypospolitej Wolność i Nadzieja', 4);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Maciej', 'Gwoździewicz', 'M', 'nauczyciel akademicki - nauki techniczne', 'Jawor', 2, null, 4);
+INSERT INTO Kandydaci_Posel (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Komitet_nr) VALUES ('Bogusław', 'Strzelecki', 'M', 'przedsiębiorca', 'Pobiedna', 3, null, 4);
+INSERT INTO Kandydaci_Prezydent (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Wybory_id) VALUES ('Bronisław', 'Komorowski', 'M', 'nauczyciel, polityk', 'Warszawa', 1, 'Platforma Obywatelska', 2);
+INSERT INTO Kandydaci_Prezydent (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Wybory_id) VALUES ('Andrzej', 'Duda', 'M', 'nauczyciel akademicki', 'Kraków', 2, 'Prawo i Sprawiedliwość', 2);
+INSERT INTO Kandydaci_Prezydent (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Wybory_id) VALUES ('Adam', 'Jarubas', 'M', 'nauczyciel historii', 'Miedziana Góra', 3, 'Polskie Stronnictwo Ludowe', 2);
+INSERT INTO Kandydaci_Prezydent (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Wybory_id) VALUES ('Janusz', 'Palikot', 'M', 'przedsiębiorca, polityk', 'Lublin', 4, 'Twój Ruch', 2);
+INSERT INTO Kandydaci_Prezydent (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Wybory_id) VALUES ('Janusz', 'Korwin-Mikke', 'M', 'polityk', 'Józefów', 5, 'Koalicja Odnowy Rzeczypospolitej Wolność i Nadzieja', 2);
+INSERT INTO Pytania_Referendalne (pytanie, Wybory_id) VALUES ('Czy jest Pani/Pan za wprowadzeniem jednomandatowych okręgów wyborczych w wyborach do Sejmu Rzeczypospolitej Polskiej?', 3);
+INSERT INTO Pytania_Referendalne (pytanie, Wybory_id) VALUES ('Czy jest Pani/Pan za utrzymaniem dotychczasowego sposobu finansowania partii politycznych z budżetu państwa?', 3);
+INSERT INTO Pytania_Referendalne (pytanie, Wybory_id) VALUES ('Czy jest Pani/Pan za wprowadzeniem zasady ogólnej rozstrzygania wątpliwości co do wykładni przepisów prawa podatkowego na korzyść podatnika?', 3);
 
 COMMIT;

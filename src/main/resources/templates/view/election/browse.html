@@ -15,6 +15,7 @@
                 Przeglądaj listę zaplanowanych wyborów
             </div>
             <div class="panel-body">
+                <p>Aby edytować listę kandydatów na prezydenta/komitetów/pytań referendalnych naciśnij na przycisk <i class="fa fa-list"></i> obok wybranych wyborów.</p>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -34,7 +35,7 @@
                             <td th:text="${wybory.dataGlosowania}"></td>
                             <td th:text="${wybory.dataUtworzenia}"></td>
                             <td th:text="${wybory.tworca.login}"></td>
-                            <td><a th:href="@{/election/edit(id=${wybory.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/delete(id=${wybory.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                            <td><a th:href="@{/election/szczegoly(idWybory=${wybory.id})}" class="btn btn-outline btn-primary" title="Lista kandydatów/pytań do referendum"><i class="fa fa-list"></i></a>  <a th:href="@{/election/edit(id=${wybory.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/delete(id=${wybory.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
                         </tr>
                         </tbody>
                     </table>

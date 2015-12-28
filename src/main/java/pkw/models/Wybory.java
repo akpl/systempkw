@@ -1,7 +1,7 @@
 package pkw.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
@@ -9,8 +9,12 @@ import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Elimas on 2015-12-24.
@@ -48,6 +52,10 @@ public class Wybory {
     @JoinColumn(name = "ID_TWORCY", referencedColumnName = "ID", nullable = false)
     private Uzytkownik tworca;
 
+    @org.hibernate.annotations.OrderBy(clause = "ID ASC")
+    @OneToMany(mappedBy = "wybory")
+    private List<PytanieReferendalne> pytaniaReferendalne;
+
     public int getId() {
         return id;
     }
@@ -80,6 +88,31 @@ public class Wybory {
         this.typWyborowId = typWyborowId;
     }
 
+    public pkw.models.TypWyborow getTypWyborow() {
+        return typWyborow;
+    }
+
+    public void setTypWyborow(pkw.models.TypWyborow typWyborow) {
+        this.typWyborow = typWyborow;
+        this.typWyborowId = typWyborow.getId();
+    }
+
+    public Uzytkownik getTworca() {
+        return tworca;
+    }
+
+    public void setTworca(Uzytkownik tworca) {
+        this.tworca = tworca;
+    }
+
+    public List<PytanieReferendalne> getPytaniaReferendalne() {
+        return pytaniaReferendalne;
+    }
+
+    public void setPytaniaReferendalne(List<PytanieReferendalne> pytaniaReferendalne) {
+        this.pytaniaReferendalne = pytaniaReferendalne;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -102,22 +135,5 @@ public class Wybory {
         result = 31 * result + (dataUtworzenia != null ? dataUtworzenia.hashCode() : 0);
         result = 31 * result + (dataGlosowania != null ? dataGlosowania.hashCode() : 0);
         return result;
-    }
-
-    public pkw.models.TypWyborow getTypWyborow() {
-        return typWyborow;
-    }
-
-    public void setTypWyborow(pkw.models.TypWyborow typWyborow) {
-        this.typWyborow = typWyborow;
-        this.typWyborowId = typWyborow.getId();
-    }
-
-    public Uzytkownik getTworca() {
-        return tworca;
-    }
-
-    public void setTworca(Uzytkownik tworca) {
-        this.tworca = tworca;
     }
 }

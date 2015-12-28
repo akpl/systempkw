@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wybory</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Zaplanuj nowe wybory lub referendum
+            </div>
+            <div th:if="${!exists}" class="panel-body">
+                <div class="alert alert-danger">
+                    Wybrane wybory nie istnieją.
+                </div>
+                <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj wybory</a>
+            </div>
+            <div th:if="${exists and wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" class="panel-body">
+                NOT_IMPLEMENTED
+            </div>
+            <div th:if="${exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
+                NOT_IMPLEMENTED
+            </div>
+            <div th:if="${exists and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel-body">
+                <form th:include="view/election/szczegoly/form-pytania-referendum :: form" th:action="@{/election/szczegoly/dodaj(idWybory=${idWybory})}" th:object="${pytanieReferendalne}" method="post">
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

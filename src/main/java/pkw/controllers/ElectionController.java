@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.servlet.ModelAndView;
 import pkw.models.*;
 
 import javax.validation.Valid;
@@ -35,9 +36,12 @@ public class ElectionController {
     @Autowired
     private TypWyborowRepository typWyborowRepository;
 
+    @Autowired
+    private PytanieReferendalneRepository pytanieReferendalneRepository;
+
     @ModelAttribute("wyboryList")
     public Iterable<Wybory> wyboryList() {
-        return wyboryRepository.findAll();
+        return wyboryRepository.findByOrderByIdAsc();
     }
 
     @RequestMapping(value = "/election/browse")
@@ -75,11 +79,12 @@ public class ElectionController {
         }
     }
 
-    @RequestMapping(value = "/election/edit")
+    @RequestMapping(value = "/election/edit", method = RequestMethod.GET)
     public String edit(@RequestParam(value = "id") int id, Model model) {
         model.addAttribute("view", "election/edit");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
+        model.addAttribute("id", id);
         if (wyboryRepository.exists(id)) {
             model.addAttribute("exists", true);
             Wybory wyboryDoEdycji = wyboryRepository.findOne(id);
@@ -94,6 +99,7 @@ public class ElectionController {
         model.addAttribute("view", "election/edit");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
+        model.addAttribute("id", id);
         if (wyboryRepository.exists(id)) {
             model.addAttribute("exists", true);
             Wybory wyboryDoEdycji = wyboryRepository.findOne(id);
@@ -129,6 +135,114 @@ public class ElectionController {
         if (wyboryRepository.exists(id)) {
             wyboryRepository.delete(id);
             model.addAttribute("success", true);
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/election/szczegoly")
+    public String szczegoly(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "success", required = false, defaultValue = "false") boolean success, Model model) {
+        model.addAttribute("view", "election/szczegoly/index");
+        model.addAttribute("exists", false);
+        model.addAttribute("success", success);
+        if (wyboryRepository.exists(idWybory)) {
+            model.addAttribute("exists", true);
+            model.addAttribute("wybory", wyboryRepository.findOne(idWybory));
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/election/szczegoly/dodaj", method = RequestMethod.GET)
+    public String szczegolyDodaj(@RequestParam(value = "idWybory") int idWybory, PytanieReferendalne pytanieReferendalne, Model model) {
+        model.addAttribute("view", "election/szczegoly/dodaj");
+        model.addAttribute("exists", false);
+        model.addAttribute("idWybory", idWybory);
+        if (wyboryRepository.exists(idWybory)) {
+            model.addAttribute("exists", true);
+            model.addAttribute("wybory", wyboryRepository.findOne(idWybory));
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/election/szczegoly/dodaj", method = RequestMethod.POST)
+    public String szczegolyDodaj(@RequestParam(value = "idWybory") int idWybory, @Valid PytanieReferendalne pytanieReferendalne, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "election/szczegoly/dodaj");
+        model.addAttribute("exists", false);
+        model.addAttribute("idWybory", idWybory);
+        if (wyboryRepository.exists(idWybory)) {
+            model.addAttribute("exists", true);
+            model.addAttribute("wybory", wyboryRepository.findOne(idWybory));
+            if (!bindingResult.hasErrors()) {
+                pytanieReferendalne.setWybory(wyboryRepository.findOne(idWybory));
+                pytanieReferendalneRepository.save(pytanieReferendalne);
+                //model.addAttribute("view", "election/szczegoly/index");
+                //model.addAttribute("success", true);
+                model.addAttribute("view", null);
+                model.addAttribute("exists", null);
+                model.addAttribute("wybory", null);
+                model.addAttribute("success", true);
+                return "redirect:/election/szczegoly";
+            }
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/election/szczegoly/edycja", method = RequestMethod.GET)
+    public String szczegolyEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idPytanieReferendalne") int idPytanieReferendalne, Model model) {
+        model.addAttribute("view", "election/szczegoly/edycja");
+        model.addAttribute("edit", true);
+        model.addAttribute("exists", false);
+        model.addAttribute("idWybory", idWybory);
+        model.addAttribute("idPytanieReferendalne", idPytanieReferendalne);
+        if (wyboryRepository.exists(idWybory) && pytanieReferendalneRepository.exists(idPytanieReferendalne)) {
+            model.addAttribute("exists", true);
+            model.addAttribute("wybory", wyboryRepository.findOne(idWybory));
+            model.addAttribute("pytanieReferendalne", pytanieReferendalneRepository.findOne(idPytanieReferendalne));
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/election/szczegoly/edycja", method = RequestMethod.POST)
+    public String szczegolyEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idPytanieReferendalne") int idPytanieReferendalne, @Valid PytanieReferendalne pytanieReferendalne, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "election/szczegoly/edycja");
+        model.addAttribute("edit", true);
+        model.addAttribute("exists", false);
+        model.addAttribute("idWybory", idWybory);
+        model.addAttribute("idPytanieReferendalne", idPytanieReferendalne);
+        if (wyboryRepository.exists(idWybory) && pytanieReferendalneRepository.exists(idPytanieReferendalne)) {
+            model.addAttribute("exists", true);
+            model.addAttribute("wybory", wyboryRepository.findOne(idWybory));
+            if (!bindingResult.hasErrors()) {
+                PytanieReferendalne pytanieReferendalneDoEdycji = pytanieReferendalneRepository.findOne(idPytanieReferendalne);
+                pytanieReferendalne.setId(pytanieReferendalneDoEdycji.getId());
+                pytanieReferendalne.setWybory(wyboryRepository.findOne(idWybory));
+                pytanieReferendalneRepository.save(pytanieReferendalne);
+                model.addAttribute("view", null);
+                model.addAttribute("edit", null);
+                model.addAttribute("exists", null);
+                model.addAttribute("wybory", null);
+                model.addAttribute("idWybory", null);
+                model.addAttribute("idPytanieReferendalne", null);
+                model.addAttribute("idWybory", idWybory);
+                model.addAttribute("success", true);
+                return "redirect:/election/szczegoly";
+            }
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/election/szczegoly/usun")
+    public String szczegolyUsun(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idPytanieReferendalne") int idPytanieReferendalne, Model model) {
+        model.addAttribute("view", "election/szczegoly/index");
+        model.addAttribute("exists", false);
+        model.addAttribute("success", false);
+        if (pytanieReferendalneRepository.exists(idPytanieReferendalne)) {
+            model.addAttribute("exists", true);
+            pytanieReferendalneRepository.delete(idPytanieReferendalne);
+            model.addAttribute("idWybory", idWybory);
+            model.addAttribute("success", true);
+            model.addAttribute("wybory", wyboryRepository.findOne(idWybory));
+        } else {
+            model.addAttribute("error", "Wybrane wybory nie istnieją.");
         }
         return "main";
     }

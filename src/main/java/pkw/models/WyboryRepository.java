@@ -7,4 +7,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface WyboryRepository extends CrudRepository<Wybory, Integer> {
+    List<Wybory> findByOrderByIdAsc();
 }

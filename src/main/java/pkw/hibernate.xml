@@ -10,6 +10,10 @@
     <mapping class="pkw.models.Uzytkownik"/>
     <mapping class="pkw.models.TypWyborow"/>
     <mapping class="pkw.models.Wybory"/>
+    <mapping class="pkw.models.KandydatPosel"/>
+    <mapping class="pkw.models.KandydatPrezydent"/>
+    <mapping class="pkw.models.Komitet"/>
+    <mapping class="pkw.models.PytanieReferendalne"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->
   </session-factory>

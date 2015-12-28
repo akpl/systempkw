@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wybory</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Szczegóły wyborów
+            </div>
+            <div th:if="${!exists}" class="panel-body">
+                <div class="alert alert-danger">
+                    Wybrane wybory nie istnieją.
+                </div>
+                <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj wybory</a>
+            </div>
+            <div th:if="${exists and wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" class="panel-body">
+                NOT_IMPLEMENTED
+            </div>
+            <div th:if="${exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
+                NOT_IMPLEMENTED
+            </div>
+            <div th:if="${exists and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel-body">
+                <div th:if="${success != null and success}" class="alert alert-success">
+                    Zmiany zostały zapisane.
+                </div>
+                <div th:if="${error != null}" th:text="${error}" class="alert alert-danger">
+                    Błąd.
+                </div>
+                <h4>Edycja referendum <b>#<span th:text="${wybory.id}"></span> <span th:text="${wybory.dataGlosowania}"></span></b></h4>
+                <p>Lista pytań w referendum:</p>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Pytanie</th>
+                            <th>Operacje</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="pytanie,status : ${wybory.pytaniaReferendalne}">
+                            <td th:text="${status.count}"></td>
+                            <td th:text="${pytanie.pytanie}"></td>
+                            <td><a th:href="@{/election/szczegoly/edycja(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/szczegoly/usun(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a th:href="@{/election/szczegoly/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj pytanie</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

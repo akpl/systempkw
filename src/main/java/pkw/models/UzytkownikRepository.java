@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface UzytkownikRepository extends CrudRepository<Uzytkownik, Integer> {
+    List<Uzytkownik> findByOrderByIdAsc();
     List<Uzytkownik> findByLogin(String login);
 }

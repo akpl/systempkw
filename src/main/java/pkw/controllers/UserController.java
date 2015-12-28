@@ -25,7 +25,7 @@ public class UserController {
 
     @ModelAttribute("uzytkownicyList")
     public Iterable<Uzytkownik> uzytkownicyList() {
-        return uzytkownikRepository.findAll();
+        return uzytkownikRepository.findByOrderByIdAsc();
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -72,7 +72,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/user/edit")
+    @RequestMapping(value = "/user/edit", method = RequestMethod.GET)
     public String edit(@RequestParam(value = "id") int id, Model model) {
         model.addAttribute("view", "user/edit");
         model.addAttribute("edit", true);
