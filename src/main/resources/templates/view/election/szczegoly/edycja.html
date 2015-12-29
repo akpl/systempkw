@@ -24,10 +24,12 @@
                 NOT_IMPLEMENTED
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
-                NOT_IMPLEMENTED
+                <form th:include="view/election/szczegoly/form-kandydat-prezydent :: form" th:action="@{/election/szczegoly/prezydenckie/edycja(idWybory=${idWybory}, idKandydatPrezydent=${idKandydatPrezydent})}" th:object="${kandydatPrezydent}" method="post">
+
+                </form>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel-body">
-                <form th:include="view/election/szczegoly/form-pytania-referendum :: form" th:action="@{/election/szczegoly/edycja(idWybory=${idWybory}, idPytanieReferendalne=${idPytanieReferendalne})}" th:object="${pytanieReferendalne}" method="post">
+                <form th:include="view/election/szczegoly/form-pytania-referendum :: form" th:action="@{/election/szczegoly/referendum/edycja(idWybory=${idWybory}, idPytanieReferendalne=${idPytanieReferendalne})}" th:object="${pytanieReferendalne}" method="post">
 
                 </form>
             </div>

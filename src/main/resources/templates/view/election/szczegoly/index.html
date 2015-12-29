@@ -24,7 +24,43 @@
                 NOT_IMPLEMENTED
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
-                NOT_IMPLEMENTED
+                <div th:if="${success != null and success}" class="alert alert-success">
+                    Zmiany zostały zapisane.
+                </div>
+                <div th:if="${error != null}" th:text="${error}" class="alert alert-danger">
+                    Błąd.
+                </div>
+                <h4>Edycja wyborów prezydenckich <b>#<span th:text="${wybory.id}"></span> <span th:text="${wybory.dataGlosowania}"></span></b></h4>
+                <p>Lista kandydatów w wyborach:</p>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
+                            <th>Płeć</th>
+                            <th>Zawód</th>
+                            <th>Miejsce zamieszkania</th>
+                            <th>Partia</th>
+                            <th>Operacje</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="kandydat,status : ${wybory.kandydaciPrezydent}">
+                            <td th:text="${kandydat.nrNaLiscie}"></td>
+                            <td th:text="${kandydat.imie}"></td>
+                            <td th:text="${kandydat.nazwisko}"></td>
+                            <td th:text="${kandydat.plec}"></td>
+                            <td th:text="${kandydat.zawod}"></td>
+                            <td th:text="${kandydat.miejsceZamieszkania}"></td>
+                            <td th:text="${kandydat.partia}"></td>
+                            <td><a th:href="@{/election/szczegoly/prezydenckie/edycja(idWybory=${wybory.id}, idKandydatPrezydent=${kandydat.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/szczegoly/prezydenckie/usun(idWybory=${wybory.id}, idKandydatPrezydent=${kandydat.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a th:href="@{/election/szczegoly/prezydenckie/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj kandydata</a>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel-body">
                 <div th:if="${success != null and success}" class="alert alert-success">
@@ -48,12 +84,12 @@
                         <tr th:each="pytanie,status : ${wybory.pytaniaReferendalne}">
                             <td th:text="${status.count}"></td>
                             <td th:text="${pytanie.pytanie}"></td>
-                            <td><a th:href="@{/election/szczegoly/edycja(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/szczegoly/usun(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                            <td><a th:href="@{/election/szczegoly/referendum/edycja(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/szczegoly/referendum/usun(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <a th:href="@{/election/szczegoly/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj pytanie</a>
+                <a th:href="@{/election/szczegoly/referendum/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj pytanie</a>
             </div>
         </div>
     </div>

@@ -56,6 +56,10 @@ public class Wybory {
     @OneToMany(mappedBy = "wybory")
     private List<PytanieReferendalne> pytaniaReferendalne;
 
+    @org.hibernate.annotations.OrderBy(clause = "NR_NA_LISCIE ASC")
+    @OneToMany(mappedBy = "wybory")
+    private List<KandydatPrezydent> kandydaciPrezydent;
+
     public int getId() {
         return id;
     }
@@ -111,6 +115,14 @@ public class Wybory {
 
     public void setPytaniaReferendalne(List<PytanieReferendalne> pytaniaReferendalne) {
         this.pytaniaReferendalne = pytaniaReferendalne;
+    }
+
+    public List<KandydatPrezydent> getKandydaciPrezydent() {
+        return kandydaciPrezydent;
+    }
+
+    public void setKandydaciPrezydent(List<KandydatPrezydent> kandydaciPrezydent) {
+        this.kandydaciPrezydent = kandydaciPrezydent;
     }
 
     @Override

@@ -3,7 +3,7 @@ package pkw.models;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 /**
  * Created by Elimas on 2015-12-27.
@@ -14,11 +14,12 @@ public class KandydatPrezydent {
     private int id;
     private String imie;
     private String nazwisko;
-    private char plec;
+    private String plec;
     private String zawod;
     private String miejsceZamieszkania;
     private int nrNaLiscie;
     private String partia;
+    private Wybory wybory;
 
     @Id
     @GeneratedValue(generator="KandydaciPrezydentId")
@@ -53,12 +54,14 @@ public class KandydatPrezydent {
     }
 
     @NotBlank
+    @Pattern(regexp="M|K")
+    @Size(min = 1, max = 1)
     @Column(name = "PLEC")
-    public char getPlec() {
+    public String getPlec() {
         return plec;
     }
 
-    public void setPlec(char plec) {
+    public void setPlec(String plec) {
         this.plec = plec;
     }
 
@@ -102,6 +105,16 @@ public class KandydatPrezydent {
         this.partia = partia;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "WYBORY_ID", referencedColumnName = "ID", nullable = false)
+    public Wybory getWybory() {
+        return wybory;
+    }
+
+    public void setWybory(Wybory wybory) {
+        this.wybory = wybory;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,7 +140,7 @@ public class KandydatPrezydent {
         int result = id;
         result = 31 * result + (imie != null ? imie.hashCode() : 0);
         result = 31 * result + (nazwisko != null ? nazwisko.hashCode() : 0);
-        result = 31 * result + (int) plec;
+        result = 31 * result + (plec != null ? plec.hashCode() : 0);
         result = 31 * result + (zawod != null ? zawod.hashCode() : 0);
         result = 31 * result + (miejsceZamieszkania != null ? miejsceZamieszkania.hashCode() : 0);
         result = 31 * result + nrNaLiscie;
