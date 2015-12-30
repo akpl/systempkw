@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Komisje i okręgi</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Komisje
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nazwa</th>
+                            <th>Adres</th>
+                            <th>Liczba wyborców</th>
+                            <th>Przewodniczący</th>
+                            <th>Operacje</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="okreg : ${okregi}">
+                        <tr>
+                            <td>
+                                <h4 th:text="${okreg.nr}"></h4>
+                            </td>
+                            <td colspan="4">
+                                <h4 th:inline="text">[[${okreg.nazwa}]] <small>(woj. [[${okreg.wojewodztwo}]], m. [[${okreg.miasto}]])</small></h4>
+                            </td>
+                            <td>
+                                <a th:href="@{/komisje/dodaj(okreg=${okreg.nr})}" class="btn btn-outline btn-success" title="Dodaj komisję"><i class="fa fa-plus"></i></a>
+                                <a th:href="@{/komisje/okregi/edytuj(id=${okreg.nr})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>
+                                <a th:href="@{/komisje/okregi/usun(id=${okreg.nr})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a>
+                            </td>
+                        </tr>
+                        <tr th:each="komisja : ${okreg.komisje}">
+                            <td th:text="${komisja.nr}"></td>
+                            <td th:text="${komisja.nazwa}"></td>
+                            <td th:text="${komisja.adres}"></td>
+                            <td th:text="${komisja.liczbaWyborcow}"></td>
+                            <td th:inline="text">[[${komisja.przewodniczacy.nazwisko}]], [[${komisja.przewodniczacy.imie}]]</td>
+                            <td>
+                                <a th:href="@{/komisje/edytuj(id=${komisja.nr})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>
+                                <a th:href="@{/komisje/usun(id=${komisja.nr})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

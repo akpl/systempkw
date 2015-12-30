@@ -95,6 +95,18 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    <li th:class="${#strings.contains(view, 'komisje')} ? active">
+                        <a href="#"><i class="fa fa-university fa-fw"></i> Komisje i okręgi<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a th:href="@{/komisje}" th:class="${view} == 'komisje' ? active">Przeglądaj</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/komisje/okregi/dodaj}" th:class="${view} == 'komisje/okregi/dodaj' ? active">Dodaj okręg</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

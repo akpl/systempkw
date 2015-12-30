@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Komisje i okręgi</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Edytuj komisje
+            </div>
+            <div th:if="${!exists}" class="panel-body">
+                <div class="alert alert-danger">
+                    Komisja nie istnieje.
+                </div>
+                <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj</a>
+            </div>
+            <div th:if="${exists}" class="panel-body">
+                <form th:include="view/komisje/form-komisja :: form" th:action="@{/komisje/edytuj(id=${komisja.nr})}" th:object="${komisja}" method="post">
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

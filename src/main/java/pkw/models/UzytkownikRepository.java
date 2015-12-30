@@ -10,4 +10,5 @@ import java.util.List;
 public interface UzytkownikRepository extends CrudRepository<Uzytkownik, Integer> {
     List<Uzytkownik> findByOrderByIdAsc();
     List<Uzytkownik> findByLogin(String login);
+    List<Uzytkownik> findByPoziomDostepu(PoziomDostepu poziomDostepu);
 }

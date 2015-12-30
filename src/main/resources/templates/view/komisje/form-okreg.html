@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Komisje i okręgi</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form>
+                    <!--<div class="form-group" th:classappend="${#fields.hasErrors('nr')} ? 'has-error'">
+                        <label for="nr">Nr okręgu</label>
+                        <input type="text" class="form-control" th:field="*{nr}" />
+                        <span th:if="${#fields.hasErrors('nr')}" th:errors="*{nr}" id="login-error" class="help-block"></span>
+                    </div>-->
+                    <div class="form-group" th:classappend="${#fields.hasErrors('nazwa')} ? 'has-error'">
+                        <label for="nazwa">Nazwa</label>
+                        <input type="text" class="form-control" th:field="*{nazwa}" />
+                        <span th:if="${#fields.hasErrors('nazwa')}" th:errors="*{nazwa}" id="login-error" class="help-block"></span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('wojewodztwo')} ? 'has-error'">
+                        <label for="wojewodztwo">Województwo</label>
+                        <input type="text" class="form-control" th:field="*{wojewodztwo}" />
+                        <span th:if="${#fields.hasErrors('wojewodztwo')}" th:errors="*{wojewodztwo}" id="login-error" class="help-block"></span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('miasto')} ? 'has-error'">
+                        <label for="miasto">Miasto</label>
+                        <input type="text" class="form-control" th:field="*{miasto}" />
+                        <span th:if="${#fields.hasErrors('miasto')}" th:errors="*{miasto}" id="login-error" class="help-block"></span>
+                    </div>
+                    <button type="submit" class="btn btn-success">Zapisz</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Komisje i okręgi</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Dodaj komisję
+            </div>
+            <div class="panel-body">
+                <form th:include="view/komisje/form-komisja :: form" th:action="@{/komisje/dodaj(okreg=${idOkregu})}" th:object="${komisja}" method="post">
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
