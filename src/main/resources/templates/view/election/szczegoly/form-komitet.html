@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wybory</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('nazwa')} ? 'has-error'">
+                        <label for="nazwa">Nazwa</label>
+                        <input type="text" class="form-control" th:field="*{nazwa}" />
+                        <span th:if="${#fields.hasErrors('nazwa')}" th:errors="*{nazwa}" id="nazwa-error" class="help-block">nazwa Error</span>
+                    </div>
+                    <button type="submit" class="btn btn-success">Zapisz</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

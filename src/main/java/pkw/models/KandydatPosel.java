@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Elimas on 2015-12-27.
@@ -14,11 +16,12 @@ public class KandydatPosel {
     private int id;
     private String imie;
     private String nazwisko;
-    private char plec;
+    private String plec;
     private String zawod;
     private String miejsceZamieszkania;
     private int nrNaLiscie;
     private String partia;
+    private Komitet komitet;
 
     @Id
     @GeneratedValue(generator="KandydaciPoselId")
@@ -53,12 +56,14 @@ public class KandydatPosel {
     }
 
     @NotBlank
+    @Pattern(regexp="M|K")
+    @Size(min = 1, max = 1)
     @Column(name = "PLEC")
-    public char getPlec() {
+    public String getPlec() {
         return plec;
     }
 
-    public void setPlec(char plec) {
+    public void setPlec(String plec) {
         this.plec = plec;
     }
 
@@ -102,6 +107,16 @@ public class KandydatPosel {
         this.partia = partia;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "KOMITET_NR", referencedColumnName = "NR", nullable = false)
+    public Komitet getKomitet() {
+        return komitet;
+    }
+
+    public void setKomitet(Komitet komitet) {
+        this.komitet = komitet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,7 +142,7 @@ public class KandydatPosel {
         int result = id;
         result = 31 * result + (imie != null ? imie.hashCode() : 0);
         result = 31 * result + (nazwisko != null ? nazwisko.hashCode() : 0);
-        result = 31 * result + (int) plec;
+        result = 31 * result + (plec != null ? plec.hashCode() : 0);
         result = 31 * result + (zawod != null ? zawod.hashCode() : 0);
         result = 31 * result + (miejsceZamieszkania != null ? miejsceZamieszkania.hashCode() : 0);
         result = 31 * result + nrNaLiscie;

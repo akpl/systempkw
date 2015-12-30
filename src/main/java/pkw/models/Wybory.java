@@ -60,6 +60,10 @@ public class Wybory {
     @OneToMany(mappedBy = "wybory")
     private List<KandydatPrezydent> kandydaciPrezydent;
 
+    @org.hibernate.annotations.OrderBy(clause = "NR ASC")
+    @OneToMany(mappedBy = "wybory")
+    private List<Komitet> komitety;
+
     public int getId() {
         return id;
     }
@@ -123,6 +127,14 @@ public class Wybory {
 
     public void setKandydaciPrezydent(List<KandydatPrezydent> kandydaciPrezydent) {
         this.kandydaciPrezydent = kandydaciPrezydent;
+    }
+
+    public List<Komitet> getKomitety() {
+        return komitety;
+    }
+
+    public void setKomitety(List<Komitet> komitety) {
+        this.komitety = komitety;
     }
 
     @Override

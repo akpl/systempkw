@@ -21,7 +21,34 @@
                 <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj wybory</a>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" class="panel-body">
-                NOT_IMPLEMENTED
+                <div th:if="${success != null and success}" class="alert alert-success">
+                    Zmiany zostały zapisane.
+                </div>
+                <div th:if="${error != null}" th:text="${error}" class="alert alert-danger">
+                    Błąd.
+                </div>
+                <h4>Edycja komitetów <b>#<span th:text="${wybory.id}"></span> <span th:text="${wybory.dataGlosowania}"></span></b></h4>
+                <p>Aby edytować listę kandydatów w komitecie naciśnij na przycisk <i class="fa fa-list"></i> obok wybranego komitetu.</p>
+                <p>Lista komitetów:</p>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nazwa</th>
+                            <th>Operacje</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="komitet,status : ${wybory.komitety}">
+                            <td th:text="${status.count}"></td>
+                            <td th:text="${komitet.nazwa}"></td>
+                            <td><a th:href="@{/election/szczegoly/komitety/poslowie(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" class="btn btn-outline btn-primary" title="Lista kandydatów"><i class="fa fa-list"></i></a>  <a th:href="@{/election/szczegoly/komitety/edycja(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/szczegoly/komitety/usun(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a th:href="@{/election/szczegoly/komitety/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj komitet</a>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
                 <div th:if="${success != null and success}" class="alert alert-success">
@@ -33,7 +60,7 @@
                 <h4>Edycja wyborów prezydenckich <b>#<span th:text="${wybory.id}"></span> <span th:text="${wybory.dataGlosowania}"></span></b></h4>
                 <p>Lista kandydatów w wyborach:</p>
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-striped table-hover">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -72,7 +99,7 @@
                 <h4>Edycja referendum <b>#<span th:text="${wybory.id}"></span> <span th:text="${wybory.dataGlosowania}"></span></b></h4>
                 <p>Lista pytań w referendum:</p>
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-striped table-hover">
                         <thead>
                         <tr>
                             <th>#</th>

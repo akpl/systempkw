@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wybory</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('nrNaLiscie')} ? 'has-error'">
+                        <label for="nrNaLiscie">Numer na liście</label>
+                        <input th:if="${nrLista == null}" type="text" class="form-control" th:field="*{nrNaLiscie}" />
+                        <input th:if="${nrLista != null}" type="text" class="form-control" th:value="${nrLista}" id="nrNaLiscie" name="nrNaLiscie" />
+                        <span th:if="${#fields.hasErrors('nrNaLiscie')}" th:errors="*{nrNaLiscie}" id="nrNaLiscie-error" class="help-block">nrNaLiscie Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('imie')} ? 'has-error'">
+                        <label for="imie">Imię</label>
+                        <input type="text" class="form-control" th:field="*{imie}" />
+                        <span th:if="${#fields.hasErrors('imie')}" th:errors="*{imie}" id="imie-error" class="help-block">imie Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('nazwisko')} ? 'has-error'">
+                        <label for="nazwisko">Nazwisko</label>
+                        <input type="text" class="form-control" th:field="*{nazwisko}" />
+                        <span th:if="${#fields.hasErrors('nazwisko')}" th:errors="*{nazwisko}" id="nazwisko-error" class="help-block">nazwisko Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('plec')} ? 'has-error'">
+                        <label for="plec">Płeć</label>
+                        <label class="radio-inline"><input type="radio" name="plec" value="M" th:checked="*{plec == 'M'}" />Mężczyzna</label>
+                        <label class="radio-inline"><input type="radio" name="plec" value="K" th:checked="*{plec == 'K'}" />Kobieta</label>
+                        <span th:if="${#fields.hasErrors('plec')}" th:errors="*{plec}" id="plec-error" class="help-block">plec Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('zawod')} ? 'has-error'">
+                        <label for="zawod">Zawód</label>
+                        <input type="text" class="form-control" th:field="*{zawod}" />
+                        <span th:if="${#fields.hasErrors('zawod')}" th:errors="*{zawod}" id="zawod-error" class="help-block">zawod Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('miejsceZamieszkania')} ? 'has-error'">
+                        <label for="miejsceZamieszkania">Miejsce zamieszkania</label>
+                        <input type="text" class="form-control" th:field="*{miejsceZamieszkania}" />
+                        <span th:if="${#fields.hasErrors('miejsceZamieszkania')}" th:errors="*{miejsceZamieszkania}" id="miejsceZamieszkania-error" class="help-block">miejsceZamieszkania Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('partia')} ? 'has-error'">
+                        <label for="partia">Partia</label>
+                        <input type="text" class="form-control" th:field="*{partia}" />
+                        <span th:if="${#fields.hasErrors('partia')}" th:errors="*{partia}" id="partia-error" class="help-block">partia Error</span>
+                    </div>
+                    <button type="submit" class="btn btn-success">Zapisz</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -3,6 +3,7 @@ package pkw.models;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Elimas on 2015-12-27.
@@ -12,6 +13,8 @@ import javax.persistence.*;
 public class Komitet {
     private int nr;
     private String nazwa;
+    private Wybory wybory;
+    private List<KandydatPosel> kandydaciPosel;
 
     @Id
     @GeneratedValue(generator="KomitetyId")
@@ -33,6 +36,26 @@ public class Komitet {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "WYBORY_ID", referencedColumnName = "ID", nullable = false)
+    public Wybory getWybory() {
+        return wybory;
+    }
+
+    public void setWybory(Wybory wybory) {
+        this.wybory = wybory;
+    }
+
+    @org.hibernate.annotations.OrderBy(clause = "NR_NA_LISCIE ASC")
+    @OneToMany(mappedBy = "komitet")
+    public List<KandydatPosel> getKandydaciPosel() {
+        return kandydaciPosel;
+    }
+
+    public void setKandydaciPosel(List<KandydatPosel> kandydaciPosel) {
+        this.kandydaciPosel = kandydaciPosel;
     }
 
     @Override

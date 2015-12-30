@@ -73,7 +73,7 @@ CREATE TABLE Komisje (
   PRIMARY KEY (nr));
 CREATE TABLE Komitety (
   nr        NUMBER DEFAULT komitety_seq.nextval,
-  nazwa     varchar2(100) NOT NULL UNIQUE,
+  nazwa     varchar2(100) NOT NULL,
   Wybory_id number(10)    NOT NULL,
   PRIMARY KEY (nr));
 CREATE TABLE Kandydaci_Posel (
@@ -138,7 +138,9 @@ ALTER TABLE Wyniki_Posel ADD CONSTRAINT fk_wyniki_posel_posel FOREIGN KEY (Kandy
 ALTER TABLE Wyniki_Pytania_Referendalne ADD CONSTRAINT fk_wyniki_pytania_komisje FOREIGN KEY (Komisja_nr) REFERENCES Komisje (nr);
 ALTER TABLE Wyniki_Prezydent ADD CONSTRAINT fk_wyniki_prezydent_komisje FOREIGN KEY (Komisja_nr) REFERENCES Komisje (nr);
 ALTER TABLE Wyniki_Posel ADD CONSTRAINT fk_wyniki_posel_komisje FOREIGN KEY (Komisja_nr) REFERENCES Komisje (nr);
-ALTER TABLE Kandydaci_Prezydent ADD CONSTRAINT uc_nr_na_liscie UNIQUE (nr_na_liscie, Wybory_id);
+ALTER TABLE Kandydaci_Prezydent ADD CONSTRAINT uc_kprezydent_nr_na_liscie UNIQUE (nr_na_liscie, Wybory_id);
+ALTER TABLE Kandydaci_Posel ADD CONSTRAINT uc_kposel_nr_na_liscie UNIQUE (nr_na_liscie, Komitet_nr);
+ALTER TABLE Komitety ADD CONSTRAINT uc_komitety_nazwa UNIQUE (nazwa, Wybory_id);
 
 --add data
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('ADMINISTRATOR');
