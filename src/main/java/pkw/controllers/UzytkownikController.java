@@ -16,7 +16,7 @@ import pkw.models.*;
 import javax.validation.Valid;
 
 @Controller
-public class UserController {
+public class UzytkownikController {
     @Autowired
     private UzytkownikRepository uzytkownikRepository;
 
@@ -38,21 +38,21 @@ public class UserController {
         return "logout-success";
     }
 
-    @RequestMapping(value = "/user/browse")
-    public String browse(Model model) {
-        model.addAttribute("view", "user/browse");
+    @RequestMapping(value = "/uzytkownik")
+    public String index(Model model) {
+        model.addAttribute("view", "uzytkownik/index");
         return "main";
     }
 
-    @RequestMapping(value = "/user/add", method = RequestMethod.GET)
-    public String add(Uzytkownik uzytkownik, Model model) {
-        model.addAttribute("view", "user/add");
+    @RequestMapping(value = "/uzytkownik/dodaj", method = RequestMethod.GET)
+    public String dodaj(Uzytkownik uzytkownik, Model model) {
+        model.addAttribute("view", "uzytkownik/dodaj");
         return "main";
     }
 
-    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
-    public String add(@Valid Uzytkownik uzytkownik, BindingResult bindingResult, Model model) {
-        model.addAttribute("view", "user/add");
+    @RequestMapping(value = "/uzytkownik/dodaj", method = RequestMethod.POST)
+    public String dodaj(@Valid Uzytkownik uzytkownik, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "uzytkownik/dodaj");
         if (!bindingResult.hasErrors()) {
             if (uzytkownikRepository.findByLogin(uzytkownik.getLogin()).size() > 0) {
                 bindingResult.rejectValue("login", "error.login.exists", "Uzytkownik o takim loginie juz istnieje");
@@ -67,14 +67,14 @@ public class UserController {
             PoziomDostepu poziomDostepu = poziomDostepuRepository.findOne(uzytkownik.getPoziomDostepuId());
             uzytkownik.setPoziomDostepu(poziomDostepu);
             uzytkownikRepository.save(uzytkownik);
-            model.addAttribute("view", "user/saved");
+            model.addAttribute("view", "uzytkownik/zapisano");
             return "main";
         }
     }
 
-    @RequestMapping(value = "/user/edit", method = RequestMethod.GET)
-    public String edit(@RequestParam(value = "id") int id, Model model) {
-        model.addAttribute("view", "user/edit");
+    @RequestMapping(value = "/uzytkownik/edycja", method = RequestMethod.GET)
+    public String edycja(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "uzytkownik/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
         model.addAttribute("currentUser", false);
@@ -94,9 +94,9 @@ public class UserController {
         return "main";
     }
 
-    @RequestMapping(value = "/user/edit", method = RequestMethod.POST)
-    public String edit(@RequestParam(value = "id") int id, @Valid Uzytkownik uzytkownik, BindingResult bindingResult, Model model) {
-        model.addAttribute("view", "user/edit");
+    @RequestMapping(value = "/uzytkownik/edycja", method = RequestMethod.POST)
+    public String edycja(@RequestParam(value = "id") int id, @Valid Uzytkownik uzytkownik, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "uzytkownik/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
         model.addAttribute("currentUser", false);
@@ -114,16 +114,16 @@ public class UserController {
                     PoziomDostepu poziomDostepu = poziomDostepuRepository.findOne(uzytkownik.getPoziomDostepuId());
                     uzytkownik.setPoziomDostepu(poziomDostepu);
                     uzytkownikRepository.save(uzytkownik);
-                    model.addAttribute("view", "user/saved");
+                    model.addAttribute("view", "uzytkownik/zapisano");
                 }
             }
         }
         return "main";
     }
 
-    @RequestMapping(value = "/user/delete")
-    public String delete(@RequestParam(value = "id") int id, Model model) {
-        model.addAttribute("view", "user/delete");
+    @RequestMapping(value = "/uzytkownik/usun")
+    public String usun(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "uzytkownik/usun");
         model.addAttribute("exists", false);
         model.addAttribute("currentUser", false);
         if (uzytkownikRepository.exists(id)) {
@@ -141,9 +141,9 @@ public class UserController {
         return "main";
     }
 
-    @RequestMapping(value = "/user/delete-confirm")
-    public String deleteConfirm(@RequestParam(value = "id") int id, Model model) {
-        model.addAttribute("view", "user/delete-confirm");
+    @RequestMapping(value = "/uzytkownik/usunieto")
+    public String usunieto(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "uzytkownik/usunieto");
         model.addAttribute("success", false);
         model.addAttribute("currentUser", false);
         if (uzytkownikRepository.exists(id)) {

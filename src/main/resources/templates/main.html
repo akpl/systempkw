@@ -71,26 +71,26 @@
                     <li th:class="${view} == 'home' ? active">
                         <a th:href="@{/}" th:class="${view} == 'home' ? active"><i class="fa fa-home fa-fw"></i> Strona główna</a>
                     </li>
-                    <li th:class="${#strings.contains(view, 'election')} ? active">
+                    <li th:class="${#strings.contains(view, 'wybory')} ? active">
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Wybory<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a th:href="@{/election/browse}" th:class="${view} == 'election/browse' ? active">Przeglądaj</a>
+                                <a th:href="@{/wybory}" th:class="${view} == 'wybory/index' ? active">Przeglądaj</a>
                             </li>
                             <li>
-                                <a th:href="@{/election/add}" th:class="${view} == 'election/add' ? active">Zaplanuj</a>
+                                <a th:href="@{/wybory/dodaj}" th:class="${view} == 'wybory/dodaj' ? active">Zaplanuj</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-                    <li th:class="${#strings.contains(view, 'user')} ? active">
+                    <li th:class="${#strings.contains(view, 'uzytkownik')} ? active">
                         <a href="#"><i class="fa fa-users fa-fw"></i> Użytkownicy<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a th:href="@{/user/browse}" th:class="${view} == 'user/browse' ? active">Przeglądaj</a>
+                                <a th:href="@{/uzytkownik}" th:class="${view} == 'uzytkownik/index' ? active">Przeglądaj</a>
                             </li>
                             <li>
-                                <a th:href="@{/user/add}" th:class="${view} == 'user/add' ? active">Dodaj</a>
+                                <a th:href="@{/uzytkownik/dodaj}" th:class="${view} == 'uzytkownik/dodaj' ? active">Dodaj</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->

@@ -12,16 +12,16 @@
     <div class="col-lg-10">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Edycja
+                Edytuj wybory lub referendum
             </div>
             <div th:if="${!exists}" class="panel-body">
                 <div class="alert alert-danger">
-                    Wybrane wybory nie istnieją.
+                    Błąd wybory nie istnieją.
                 </div>
-                <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj wybory</a>
+                <a th:href="@{/wybory}" class="btn btn-default">Przeglądaj wybory</a>
             </div>
             <div th:if="${exists}" class="panel-body">
-                <form th:include="view/election/szczegoly/poslowie/form :: form" th:action="@{/election/szczegoly/komitety/poslowie/edycja(idWybory=${idWybory}, idKomitet=${idKomitet}, idKandydatPosel=${idKandydatPosel})}" th:object="${kandydatPosel}" method="post">
+                <form th:include="view/wybory/form :: form" th:action="@{/wybory/edycja(id=${id})}" th:object="${wybory}" method="post">
 
                 </form>
             </div>

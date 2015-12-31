@@ -19,9 +19,9 @@ public class WyboryPrezydenckieController {
     @Autowired
     private KandydatPrezydentRepository kandydatPrezydentRepository;
 
-    @RequestMapping(value = "/election/szczegoly/prezydenckie/dodaj", method = RequestMethod.GET)
+    @RequestMapping(value = "/wybory/szczegoly/prezydenckie/dodaj", method = RequestMethod.GET)
     public String szczegolyPrezydenckieDodaj(@RequestParam(value = "idWybory") int idWybory, KandydatPrezydent kandydatPrezydent, Model model) {
-        model.addAttribute("view", "election/szczegoly/dodaj");
+        model.addAttribute("view", "wybory/szczegoly/dodaj");
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
         if (wyboryRepository.exists(idWybory)) {
@@ -32,9 +32,9 @@ public class WyboryPrezydenckieController {
         return "main";
     }
 
-    @RequestMapping(value = "/election/szczegoly/prezydenckie/dodaj", method = RequestMethod.POST)
+    @RequestMapping(value = "/wybory/szczegoly/prezydenckie/dodaj", method = RequestMethod.POST)
     public String szczegolyPrezydenckieDodaj(@RequestParam(value = "idWybory") int idWybory, @Valid KandydatPrezydent kandydatPrezydent, BindingResult bindingResult, Model model) {
-        model.addAttribute("view", "election/szczegoly/dodaj");
+        model.addAttribute("view", "wybory/szczegoly/dodaj");
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
         if (wyboryRepository.exists(idWybory)) {
@@ -46,22 +46,22 @@ public class WyboryPrezydenckieController {
                 } else {
                     kandydatPrezydent.setWybory(wyboryRepository.findOne(idWybory));
                     kandydatPrezydentRepository.save(kandydatPrezydent);
-                    //model.addAttribute("view", "election/szczegoly/index");
+                    //model.addAttribute("view", "wybory/szczegoly/index");
                     //model.addAttribute("success", true);
                     model.addAttribute("view", null);
                     model.addAttribute("exists", null);
                     model.addAttribute("wybory", null);
                     model.addAttribute("success", true);
-                    return "redirect:/election/szczegoly";
+                    return "redirect:/wybory/szczegoly";
                 }
             }
         }
         return "main";
     }
 
-    @RequestMapping(value = "/election/szczegoly/prezydenckie/edycja", method = RequestMethod.GET)
+    @RequestMapping(value = "/wybory/szczegoly/prezydenckie/edycja", method = RequestMethod.GET)
     public String szczegolyPrezydenckieEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idKandydatPrezydent") int idKandydatPrezydent, Model model) {
-        model.addAttribute("view", "election/szczegoly/edycja");
+        model.addAttribute("view", "wybory/szczegoly/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
@@ -74,9 +74,9 @@ public class WyboryPrezydenckieController {
         return "main";
     }
 
-    @RequestMapping(value = "/election/szczegoly/prezydenckie/edycja", method = RequestMethod.POST)
+    @RequestMapping(value = "/wybory/szczegoly/prezydenckie/edycja", method = RequestMethod.POST)
     public String szczegolyPrezydenckieEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idKandydatPrezydent") int idKandydatPrezydent, @Valid KandydatPrezydent kandydatPrezydent, BindingResult bindingResult, Model model) {
-        model.addAttribute("view", "election/szczegoly/edycja");
+        model.addAttribute("view", "wybory/szczegoly/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
@@ -100,16 +100,16 @@ public class WyboryPrezydenckieController {
                     model.addAttribute("idKandydatPrezydent", null);
                     model.addAttribute("idWybory", idWybory);
                     model.addAttribute("success", true);
-                    return "redirect:/election/szczegoly";
+                    return "redirect:/wybory/szczegoly";
                 }
             }
         }
         return "main";
     }
 
-    @RequestMapping(value = "/election/szczegoly/prezydenckie/usun")
+    @RequestMapping(value = "/wybory/szczegoly/prezydenckie/usun")
     public String szczegolyPrezydenckieUsun(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idKandydatPrezydent") int idKandydatPrezydent, Model model) {
-        model.addAttribute("view", "election/szczegoly/index");
+        model.addAttribute("view", "wybory/szczegoly/index");
         model.addAttribute("exists", false);
         model.addAttribute("success", false);
         if (kandydatPrezydentRepository.exists(idKandydatPrezydent)) {

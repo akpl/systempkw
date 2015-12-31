@@ -19,9 +19,9 @@ public class ReferendumController {
     @Autowired
     private PytanieReferendalneRepository pytanieReferendalneRepository;
 
-    @RequestMapping(value = "/election/szczegoly/referendum/dodaj", method = RequestMethod.GET)
+    @RequestMapping(value = "/wybory/szczegoly/referendum/dodaj", method = RequestMethod.GET)
     public String szczegolyReferendumDodaj(@RequestParam(value = "idWybory") int idWybory, PytanieReferendalne pytanieReferendalne, Model model) {
-        model.addAttribute("view", "election/szczegoly/dodaj");
+        model.addAttribute("view", "wybory/szczegoly/dodaj");
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
         if (wyboryRepository.exists(idWybory)) {
@@ -31,9 +31,9 @@ public class ReferendumController {
         return "main";
     }
 
-    @RequestMapping(value = "/election/szczegoly/referendum/dodaj", method = RequestMethod.POST)
+    @RequestMapping(value = "/wybory/szczegoly/referendum/dodaj", method = RequestMethod.POST)
     public String szczegolyReferendumDodaj(@RequestParam(value = "idWybory") int idWybory, @Valid PytanieReferendalne pytanieReferendalne, BindingResult bindingResult, Model model) {
-        model.addAttribute("view", "election/szczegoly/dodaj");
+        model.addAttribute("view", "wybory/szczegoly/dodaj");
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
         if (wyboryRepository.exists(idWybory)) {
@@ -42,21 +42,21 @@ public class ReferendumController {
             if (!bindingResult.hasErrors()) {
                 pytanieReferendalne.setWybory(wyboryRepository.findOne(idWybory));
                 pytanieReferendalneRepository.save(pytanieReferendalne);
-                //model.addAttribute("view", "election/szczegoly/index");
+                //model.addAttribute("view", "wybory/szczegoly/index");
                 //model.addAttribute("success", true);
                 model.addAttribute("view", null);
                 model.addAttribute("exists", null);
                 model.addAttribute("wybory", null);
                 model.addAttribute("success", true);
-                return "redirect:/election/szczegoly";
+                return "redirect:/wybory/szczegoly";
             }
         }
         return "main";
     }
 
-    @RequestMapping(value = "/election/szczegoly/referendum/edycja", method = RequestMethod.GET)
+    @RequestMapping(value = "/wybory/szczegoly/referendum/edycja", method = RequestMethod.GET)
     public String szczegolyReferendumEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idPytanieReferendalne") int idPytanieReferendalne, Model model) {
-        model.addAttribute("view", "election/szczegoly/edycja");
+        model.addAttribute("view", "wybory/szczegoly/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
@@ -69,9 +69,9 @@ public class ReferendumController {
         return "main";
     }
 
-    @RequestMapping(value = "/election/szczegoly/referendum/edycja", method = RequestMethod.POST)
+    @RequestMapping(value = "/wybory/szczegoly/referendum/edycja", method = RequestMethod.POST)
     public String szczegolyReferendumEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idPytanieReferendalne") int idPytanieReferendalne, @Valid PytanieReferendalne pytanieReferendalne, BindingResult bindingResult, Model model) {
-        model.addAttribute("view", "election/szczegoly/edycja");
+        model.addAttribute("view", "wybory/szczegoly/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
@@ -92,15 +92,15 @@ public class ReferendumController {
                 model.addAttribute("idPytanieReferendalne", null);
                 model.addAttribute("idWybory", idWybory);
                 model.addAttribute("success", true);
-                return "redirect:/election/szczegoly";
+                return "redirect:/wybory/szczegoly";
             }
         }
         return "main";
     }
 
-    @RequestMapping(value = "/election/szczegoly/referendum/usun")
+    @RequestMapping(value = "/wybory/szczegoly/referendum/usun")
     public String szczegolyReferendumUsun(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idPytanieReferendalne") int idPytanieReferendalne, Model model) {
-        model.addAttribute("view", "election/szczegoly/index");
+        model.addAttribute("view", "wybory/szczegoly/index");
         model.addAttribute("exists", false);
         model.addAttribute("success", false);
         if (pytanieReferendalneRepository.exists(idPytanieReferendalne)) {

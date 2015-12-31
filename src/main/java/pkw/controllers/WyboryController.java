@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
-public class ElectionController {
+public class WyboryController {
     @Autowired
     private WyboryRepository wyboryRepository;
 
@@ -41,21 +41,21 @@ public class ElectionController {
         return wyboryRepository.findByOrderByIdAsc();
     }
 
-    @RequestMapping(value = "/election/browse")
-    public String browse(Model model) {
-        model.addAttribute("view", "election/browse");
+    @RequestMapping(value = "/wybory")
+    public String index(Model model) {
+        model.addAttribute("view", "wybory/index");
         return "main";
     }
 
-    @RequestMapping(value = "/election/add", method = RequestMethod.GET)
-    public String add(Wybory wybory, Model model) {
-        model.addAttribute("view", "election/add");
+    @RequestMapping(value = "/wybory/dodaj", method = RequestMethod.GET)
+    public String dodaj(Wybory wybory, Model model) {
+        model.addAttribute("view", "wybory/dodaj");
         return "main";
     }
 
-    @RequestMapping(value = "/election/add", method = RequestMethod.POST)
-    public String add(@Valid Wybory wybory, BindingResult bindingResult, Model model) {
-        model.addAttribute("view", "election/add");
+    @RequestMapping(value = "/wybory/dodaj", method = RequestMethod.POST)
+    public String dodaj(@Valid Wybory wybory, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "wybory/dodaj");
         if (!bindingResult.hasErrors()) {
             LocalDate currentDate = new LocalDate();
             if (wybory.getDataGlosowania().isBefore(currentDate)) {
@@ -71,14 +71,14 @@ public class ElectionController {
             wybory.setDataUtworzenia(new LocalDate());
             wybory.setTypWyborow(typWyborowRepository.findOne(wybory.getTypWyborowId()));
             wyboryRepository.save(wybory);
-            model.addAttribute("view", "election/saved");
+            model.addAttribute("view", "wybory/zapisano");
             return "main";
         }
     }
 
-    @RequestMapping(value = "/election/edit", method = RequestMethod.GET)
-    public String edit(@RequestParam(value = "id") int id, Model model) {
-        model.addAttribute("view", "election/edit");
+    @RequestMapping(value = "/wybory/edycja", method = RequestMethod.GET)
+    public String edycja(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "wybory/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
         model.addAttribute("id", id);
@@ -91,9 +91,9 @@ public class ElectionController {
         return "main";
     }
 
-    @RequestMapping(value = "/election/edit", method = RequestMethod.POST)
-    public String edit(@RequestParam(value = "id") int id, @Valid Wybory wybory, BindingResult bindingResult, Model model) {
-        model.addAttribute("view", "election/edit");
+    @RequestMapping(value = "/wybory/edycja", method = RequestMethod.POST)
+    public String edycja(@RequestParam(value = "id") int id, @Valid Wybory wybory, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "wybory/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
         model.addAttribute("id", id);
@@ -107,15 +107,15 @@ public class ElectionController {
                 TypWyborow typWyborow = typWyborowRepository.findOne(wybory.getTypWyborowId());
                 wybory.setTypWyborow(typWyborow);
                 wyboryRepository.save(wybory);
-                model.addAttribute("view", "election/saved");
+                model.addAttribute("view", "wybory/zapisano");
             }
         }
         return "main";
     }
 
-    @RequestMapping(value = "/election/delete")
-    public String delete(@RequestParam(value = "id") int id, Model model) {
-        model.addAttribute("view", "election/delete");
+    @RequestMapping(value = "/wybory/usun")
+    public String usun(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "wybory/usun");
         model.addAttribute("exists", false);
         if (wyboryRepository.exists(id)) {
             model.addAttribute("exists", true);
@@ -125,9 +125,9 @@ public class ElectionController {
         return "main";
     }
 
-    @RequestMapping(value = "/election/delete-confirm")
-    public String deleteConfirm(@RequestParam(value = "id") int id, Model model) {
-        model.addAttribute("view", "election/delete-confirm");
+    @RequestMapping(value = "/wybory/usunieto")
+    public String usunieto(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "wybory/usunieto");
         model.addAttribute("success", false);
         if (wyboryRepository.exists(id)) {
             wyboryRepository.delete(id);
@@ -136,9 +136,9 @@ public class ElectionController {
         return "main";
     }
 
-    @RequestMapping(value = "/election/szczegoly")
+    @RequestMapping(value = "/wybory/szczegoly")
     public String szczegoly(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "success", required = false, defaultValue = "false") boolean success, Model model) {
-        model.addAttribute("view", "election/szczegoly/index");
+        model.addAttribute("view", "wybory/szczegoly/index");
         model.addAttribute("exists", false);
         model.addAttribute("success", success);
         if (wyboryRepository.exists(idWybory)) {

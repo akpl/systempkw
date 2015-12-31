@@ -18,16 +18,16 @@
                 <div class="alert alert-danger">
                     Nie możesz edytować aktualnie zalogowanego użytkownika.
                 </div>
-                <a th:href="@{/user/browse}" class="btn btn-default">Przeglądaj użytkowników</a>
+                <a th:href="@{/uzytkownik}" class="btn btn-default">Przeglądaj użytkowników</a>
             </div>
             <div th:if="${!exists}" class="panel-body">
                 <div class="alert alert-danger">
                     Błąd podany użytkownik nie istnieje.
                 </div>
-                <a th:href="@{/user/browse}" class="btn btn-default">Przeglądaj użytkowników</a>
+                <a th:href="@{/uzytkownik}" class="btn btn-default">Przeglądaj użytkowników</a>
             </div>
             <div th:if="${exists and !currentUser}" class="panel-body">
-                <form th:include="view/user/form :: form" th:action="@{/user/edit(id=${uzytkownik.id})}" th:object="${uzytkownik}" method="post">
+                <form th:include="view/uzytkownik/form :: form" th:action="@{/uzytkownik/edycja(id=${uzytkownik.id})}" th:object="${uzytkownik}" method="post">
 
                 </form>
             </div>

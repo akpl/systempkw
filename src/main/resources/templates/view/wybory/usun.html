@@ -16,14 +16,14 @@
             </div>
             <div th:if="${exists}" class="panel-body">
                 <p>Czy na pewno chcesz usunąć wybory <b th:text="${'#' + wybory.id + ' ' + wybory.dataGlosowania}"></b>?</p>
-                <a th:href="@{/election/browse}" class="btn btn-default">Powrót</a>
-                <a th:href="@{/election/delete-confirm(id=${wybory.id})}" class="btn btn-danger">Potwierdź</a>
+                <a th:href="@{/wybory}" class="btn btn-default">Powrót</a>
+                <a th:href="@{/wybory/usunieto(id=${wybory.id})}" class="btn btn-danger">Potwierdź</a>
             </div>
             <div th:if="${!exists}" class="panel-body">
                 <div class="alert alert-danger">
                     Wybrane wybory nie istnieją.
                 </div>
-                <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj wybory</a>
+                <a th:href="@{/wybory}" class="btn btn-default">Przeglądaj wybory</a>
             </div>
         </div>
     </div>

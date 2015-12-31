@@ -18,7 +18,7 @@
                 <div class="alert alert-danger">
                     Wybrane wybory nie istnieją.
                 </div>
-                <a th:href="@{/election/browse}" class="btn btn-default">Przeglądaj wybory</a>
+                <a th:href="@{/wybory}" class="btn btn-default">Przeglądaj wybory</a>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" class="panel-body">
                 <div th:if="${success != null and success}" class="alert alert-success">
@@ -43,12 +43,12 @@
                         <tr th:each="komitet,status : ${wybory.komitety}">
                             <td th:text="${status.count}"></td>
                             <td th:text="${komitet.nazwa}"></td>
-                            <td><a th:href="@{/election/szczegoly/komitety/poslowie(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" class="btn btn-outline btn-primary" title="Lista kandydatów"><i class="fa fa-list"></i></a>  <a th:href="@{/election/szczegoly/komitety/edycja(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/szczegoly/komitety/usun(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                            <td><a th:href="@{/wybory/szczegoly/komitety/poslowie(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" class="btn btn-outline btn-primary" title="Lista kandydatów"><i class="fa fa-list"></i></a>  <a th:href="@{/wybory/szczegoly/komitety/edycja(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/wybory/szczegoly/komitety/usun(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <a th:href="@{/election/szczegoly/komitety/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj komitet</a>
+                <a th:href="@{/wybory/szczegoly/komitety/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj komitet</a>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
                 <div th:if="${success != null and success}" class="alert alert-success">
@@ -82,12 +82,12 @@
                             <td th:text="${kandydat.zawod}"></td>
                             <td th:text="${kandydat.miejsceZamieszkania}"></td>
                             <td th:text="${kandydat.partia}"></td>
-                            <td><a th:href="@{/election/szczegoly/prezydenckie/edycja(idWybory=${wybory.id}, idKandydatPrezydent=${kandydat.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/szczegoly/prezydenckie/usun(idWybory=${wybory.id}, idKandydatPrezydent=${kandydat.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                            <td><a th:href="@{/wybory/szczegoly/prezydenckie/edycja(idWybory=${wybory.id}, idKandydatPrezydent=${kandydat.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/wybory/szczegoly/prezydenckie/usun(idWybory=${wybory.id}, idKandydatPrezydent=${kandydat.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <a th:href="@{/election/szczegoly/prezydenckie/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj kandydata</a>
+                <a th:href="@{/wybory/szczegoly/prezydenckie/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj kandydata</a>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel-body">
                 <div th:if="${success != null and success}" class="alert alert-success">
@@ -111,12 +111,12 @@
                         <tr th:each="pytanie,status : ${wybory.pytaniaReferendalne}">
                             <td th:text="${status.count}"></td>
                             <td th:text="${pytanie.pytanie}"></td>
-                            <td><a th:href="@{/election/szczegoly/referendum/edycja(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/election/szczegoly/referendum/usun(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                            <td><a th:href="@{/wybory/szczegoly/referendum/edycja(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/wybory/szczegoly/referendum/usun(idWybory=${wybory.id}, idPytanieReferendalne=${pytanie.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <a th:href="@{/election/szczegoly/referendum/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj pytanie</a>
+                <a th:href="@{/wybory/szczegoly/referendum/dodaj(idWybory=${wybory.id})}" type="submit" class="btn btn-success">Dodaj pytanie</a>
             </div>
         </div>
     </div>

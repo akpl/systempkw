@@ -5,23 +5,23 @@
 <body>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Użytkownicy</h1>
+        <h1 class="page-header">Wybory</h1>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div th:if="${edit != null and !edit}" class="panel-heading">
-                Dodaj użytkownika
+                Zaplanuj nowe wybory lub referendum
             </div>
             <div th:if="${edit != null and edit}" class="panel-heading">
-                Edytuj użytkownika
+                Edytuj wybory lub referendum
             </div>
             <div class="panel-body">
                 <div class="alert alert-success">
-                    Użytkownik został zapisany.
+                    Zaplanowane wybory zostały zapisane.
                 </div>
-                <a th:href="@{/user/browse}" class="btn btn-default">Przeglądaj użytkowników</a>
+                <a th:href="@{/wybory}" class="btn btn-default">Przeglądaj wybory</a>
             </div>
         </div>
     </div>
