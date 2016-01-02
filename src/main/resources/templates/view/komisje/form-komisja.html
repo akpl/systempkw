@@ -21,24 +21,24 @@
                     <div class="form-group" th:classappend="${#fields.hasErrors('nazwa')} ? 'has-error'">
                         <label for="nazwa">Nazwa</label>
                         <input type="text" class="form-control" th:field="*{nazwa}" />
-                        <span th:if="${#fields.hasErrors('nazwa')}" th:errors="*{nazwa}" id="login-error" class="help-block"></span>
+                        <span th:if="${#fields.hasErrors('nazwa')}" th:errors="*{nazwa}" class="help-block"></span>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('adres')} ? 'has-error'">
                         <label for="adres">Adres</label>
                         <input type="text" class="form-control" th:field="*{adres}" />
-                        <span th:if="${#fields.hasErrors('adres')}" th:errors="*{adres}" id="login-error" class="help-block"></span>
+                        <span th:if="${#fields.hasErrors('adres')}" th:errors="*{adres}" class="help-block"></span>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('liczbaWyborcow')} ? 'has-error'">
                         <label for="liczbaWyborcow">Liczba wyborców</label>
                         <input type="number" class="form-control" th:field="*{liczbaWyborcow}" />
-                        <span th:if="${#fields.hasErrors('liczbaWyborcow')}" th:errors="*{liczbaWyborcow}" id="login-error" class="help-block"></span>
+                        <span th:if="${#fields.hasErrors('liczbaWyborcow')}" th:errors="*{liczbaWyborcow}" class="help-block"></span>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('przewodniczacyId')} ? 'has-error'">
                         <label for="przewodniczacyId">Przewodniczący</label>
                         <select class="form-control" th:field="*{przewodniczacyId}">
                             <option th:each="uzytkownik : ${czlonkowiePKW}" th:value="${uzytkownik.id}" th:text="${uzytkownik.nazwisko + ', ' + uzytkownik.imie}"></option>
                         </select>
-                        <span th:if="${#fields.hasErrors('przewodniczacyId')}" th:errors="*{przewodniczacyId}" id="login-error" class="help-block"></span>
+                        <span th:if="${#fields.hasErrors('przewodniczacyId')}" th:errors="*{przewodniczacyId}" class="help-block"></span>
                     </div>
                     <button type="submit" class="btn btn-success">Zapisz</button>
                 </form>

@@ -21,6 +21,9 @@ public class Okreg {
     @Column(name = "MIASTO")
     private String miasto;
 
+    @Column(name = "LICZBA_MANDATOW")
+    private int liczbaMandatow;
+
     @OneToMany(mappedBy = "okregWyborczy")
     private Set<Komisja> komisje;
 
@@ -62,5 +65,13 @@ public class Okreg {
 
     public void setKomisje(Set<Komisja> komisje) {
         this.komisje = komisje;
+    }
+
+    public int getLiczbaMandatow() {
+        return liczbaMandatow;
+    }
+
+    public void setLiczbaMandatow(int liczbaMandatow) {
+        this.liczbaMandatow = liczbaMandatow;
     }
 }

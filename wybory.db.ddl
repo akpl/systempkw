@@ -47,10 +47,11 @@ CREATE TABLE Poziomy_Dostepu (
   nazwa varchar2(50) NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Okregi (
-  nr          NUMBER DEFAULT okregi_seq.nextval,
-  nazwa       varchar2(100) NOT NULL UNIQUE, 
-  wojewodztwo varchar2(50) NOT NULL, 
-  miasto      varchar2(50) NOT NULL, 
+  nr              NUMBER DEFAULT okregi_seq.nextval,
+  nazwa           varchar2(100) NOT NULL UNIQUE,
+  wojewodztwo     varchar2(50) NOT NULL,
+  miasto          varchar2(50) NOT NULL,
+  liczba_mandatow number default 0 NOT NULL,
   PRIMARY KEY (nr));
 CREATE TABLE Wybory (
   id              NUMBER DEFAULT wybory_seq.nextval,
@@ -186,8 +187,8 @@ INSERT INTO Pytania_Referendalne (pytanie, Wybory_id) VALUES ('Czy jest Pani/Pan
 INSERT INTO Pytania_Referendalne (pytanie, Wybory_id) VALUES ('Czy jest Pani/Pan za utrzymaniem dotychczasowego sposobu finansowania partii politycznych z budżetu państwa?', 3);
 INSERT INTO Pytania_Referendalne (pytanie, Wybory_id) VALUES ('Czy jest Pani/Pan za wprowadzeniem zasady ogólnej rozstrzygania wątpliwości co do wykładni przepisów prawa podatkowego na korzyść podatnika?', 3);
 --przykładowe wybory prezydenckie z wynikami
-INSERT INTO Okregi (nazwa, wojewodztwo, miasto) VALUES ('Okręgowa Komisja Wyborcza nr 19', 'Małopolskie', 'Kraków');
-INSERT INTO Okregi (nazwa, wojewodztwo, miasto) VALUES ('Okręgowa Komisja Wyborcza nr 21', 'Małopolskie', 'Nowy Sącz');
+INSERT INTO Okregi (nazwa, wojewodztwo, miasto, liczba_mandatow) VALUES ('Okręgowa Komisja Wyborcza nr 19', 'Małopolskie', 'Kraków', 4);
+INSERT INTO Okregi (nazwa, wojewodztwo, miasto, liczba_mandatow) VALUES ('Okręgowa Komisja Wyborcza nr 21', 'Małopolskie', 'Nowy Sącz', 2);
 INSERT INTO Komisje (nazwa, adres, liczba_Wyborcow, Okreg_Wyborczy_nr, id_Przewodniczacego) VALUES ('Komisja nr 1', 'Gimnazjum Nr 3, ul. Wąska 5, Kraków', 1297, 1, 3);
 INSERT INTO Komisje (nazwa, adres, liczba_Wyborcow, Okreg_Wyborczy_nr, id_Przewodniczacego) VALUES ('Komisja nr 2', 'Szkoła Podstawowa Nr 11, ul. Miodowa 36, Kraków', 1149, 1, 4);
 INSERT INTO Komisje (nazwa, adres, liczba_Wyborcow, Okreg_Wyborczy_nr, id_Przewodniczacego) VALUES ('Komisja nr 3', 'Zespół Szkół Mechanicznych Nr 4, ul. Podbrzezie 10, Kraków', 773, 1, 5);
