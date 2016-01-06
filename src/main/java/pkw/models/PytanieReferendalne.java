@@ -13,6 +13,7 @@ public class PytanieReferendalne {
     private int id;
     private String pytanie;
     private Wybory wybory;
+    private WynikiPytaniaReferendalne wyniki;
 
     @Id
     @GeneratedValue(generator="PytaniaReferendalneId")
@@ -44,6 +45,15 @@ public class PytanieReferendalne {
 
     public void setWybory(Wybory wybory) {
         this.wybory = wybory;
+    }
+
+    @OneToOne(mappedBy = "pytanieReferendalne")
+    public WynikiPytaniaReferendalne getWyniki() {
+        return wyniki;
+    }
+
+    public void setWyniki(WynikiPytaniaReferendalne wyniki) {
+        this.wyniki = wyniki;
     }
 
     @Override

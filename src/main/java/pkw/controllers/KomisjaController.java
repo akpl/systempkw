@@ -39,15 +39,13 @@ public class KomisjaController {
 
     @RequestMapping(value = "/komisje/dodaj", method = RequestMethod.GET)
     public String dodajKomisje(@RequestParam(value = "okreg") int idOkregu, Komisja komisja, Model model) {
-        model.addAttribute("czlonkowiePKW", wybierzCzlonkowPKW());
+        List<Uzytkownik> przewodniczacy = uzytkownikRepository.dostepniPrzewodniczacyKomisji();
+        model.addAttribute("usersAvailable", false);
+        if (przewodniczacy.size() > 0) model.addAttribute("usersAvailable", true);
+        model.addAttribute("czlonkowiePKW", przewodniczacy);
         model.addAttribute("idOkregu", idOkregu);
         model.addAttribute("view", "komisje/dodaj-komisja");
         return "main";
-    }
-
-    private List<Uzytkownik> wybierzCzlonkowPKW() {
-        PoziomDostepu poziomDostepuCzlonekPKW = poziomDostepuRepository.findOne(3);
-        return uzytkownikRepository.findByPoziomDostepu(poziomDostepuCzlonekPKW);
     }
 
     @RequestMapping(value = "/komisje/dodaj", method = RequestMethod.POST)
@@ -87,9 +85,11 @@ public class KomisjaController {
         model.addAttribute("exists", false);
         if (komisjaRepository.exists(id)) {
             model.addAttribute("exists", true);
-            model.addAttribute("czlonkowiePKW", wybierzCzlonkowPKW());
             Komisja komisjaDoEdycji = komisjaRepository.findOne(id);
             komisjaDoEdycji.setPrzewodniczacyId(komisjaDoEdycji.getPrzewodniczacy().getId());
+            List<Uzytkownik> dostepniPrzewodniczacy = uzytkownikRepository.dostepniPrzewodniczacyKomisji();
+            dostepniPrzewodniczacy.add(komisjaDoEdycji.getPrzewodniczacy());
+            model.addAttribute("czlonkowiePKW", dostepniPrzewodniczacy);
             model.addAttribute("komisja", komisjaDoEdycji);
         }
         return "main";

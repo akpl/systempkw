@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Protokoły z głosowań</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Wyślij protokół
+            </div>
+            <div th:if="${!exists}" class="panel-body">
+                <div class="alert alert-danger">
+                    Wybrane wybory nie istnieją.
+                </div>
+                <a th:href="@{/protokoly}" class="btn btn-default">Powrót</a>
+            </div>
+            <div th:if="${exists and !authorized}" class="panel-body">
+                <div class="alert alert-danger">
+                    Nie masz uprawnień do wysyłania protkołów głosowań do tych wyborów ponieważ nie jesteś przypisany do żadnej komisji. Poproś administratora lub członka PKW, aby przypisał Cię do komisji.
+                </div>
+                <a th:href="@{/protokoly}" class="btn btn-default">Powrót</a>
+            </div>
+            <div th:if="${authorized and exists and wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" class="panel-body">
+                NOT_IMPLEMENTED
+                <form th:include="view/protokoly/form :: form" th:action="@{/protokoly/wyslij}" th:object="${wynikiPosel}" method="post">
+
+                </form>
+            </div>
+            <div th:if="${authorized and exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
+                NOT_IMPLEMENTED
+                <form th:include="view/protokoly/form :: form" th:action="@{/protokoly/wyslij}" th:object="${wynikiPrezydent}" method="post">
+
+                </form>
+            </div>
+            <div th:if="${authorized and exists and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel-body">
+                <div th:if="${errorVotes != null and errorVotes}" class="alert alert-danger">
+                    Przekroczono maksymalną liczbę głosów dostępną dla twojego okręgu. Popraw wartości.
+                </div>
+                <div class="well">
+                    <h4>Twoja komisja:</h4>
+                    <p>Nazwa: <b th:text="${komisja.nazwa}"></b></p>
+                    <p>Adres: <b th:text="${komisja.adres}"></b></p>
+                    <p>Liczba wyborców: <b th:text="${komisja.liczbaWyborcow}"></b></p>
+                </div>
+                <form th:include="view/protokoly/form-referendum :: form" th:action="@{/protokoly/wyslij/referendum(idWybory=${wybory.id})}" th:object="${wynikiPytaniaReferendalneCollection}" method="post">
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -107,6 +107,15 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    <li th:class="${#strings.contains(view, 'protokoly')} ? active">
+                        <a href="#"><i class="fa fa-envelope fa-fw"></i> Protokoły<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a th:href="@{/protokoly}" th:class="${view} == 'protokoly/index' ? active">Wyślij protokół</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

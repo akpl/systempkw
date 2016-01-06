@@ -12,6 +12,8 @@ drop table PYTANIA_REFERENDALNE cascade constraints;
 drop table WYNIKI_PYTANIA_REFERENDALNE cascade constraints;
 drop table WYNIKI_PREZYDENT cascade constraints;
 drop table WYNIKI_POSEL cascade constraints;
+drop table Wyniki_Parlamentarne CASCADE CONSTRAINTS;
+drop table Temp_Wspolczynniki CASCADE CONSTRAINTS;
 DROP SEQUENCE uzytkownicy_seq;
 DROP SEQUENCE poziomy_dostepu_seq;
 DROP SEQUENCE okregi_seq;
@@ -22,6 +24,9 @@ DROP SEQUENCE komitety_seq;
 DROP SEQUENCE kandydaci_posel_seq;
 DROP SEQUENCE kandydaci_prezydent_seq;
 DROP SEQUENCE pytania_referendalne_seq;
+DROP SEQUENCE wyniki_pytania_seq;
+DROP SEQUENCE wyniki_prezydent_seq;
+DROP SEQUENCE wyniki_posel_seq;
 
 CREATE SEQUENCE uzytkownicy_seq;
 CREATE SEQUENCE poziomy_dostepu_seq;
@@ -33,6 +38,9 @@ CREATE SEQUENCE komitety_seq;
 CREATE SEQUENCE kandydaci_posel_seq;
 CREATE SEQUENCE kandydaci_prezydent_seq;
 CREATE SEQUENCE pytania_referendalne_seq;
+CREATE SEQUENCE wyniki_pytania_seq;
+CREATE SEQUENCE wyniki_prezydent_seq;
+CREATE SEQUENCE wyniki_posel_seq;
 
 CREATE TABLE Uzytkownicy (
   id              NUMBER DEFAULT uzytkownicy_seq.nextval,
@@ -66,7 +74,7 @@ CREATE TABLE Typy_Wyborow (
   PRIMARY KEY (id));
 CREATE TABLE Komisje (
   nr                  NUMBER DEFAULT komisje_seq.nextval,
-  nazwa               varchar2(100) NOT NULL UNIQUE,
+  nazwa               varchar2(100) NOT NULL,
   adres               varchar2(100) NOT NULL,
   liczba_Wyborcow     number(10),
   Okreg_Wyborczy_nr   number(10)    NOT NULL,
@@ -105,24 +113,30 @@ CREATE TABLE Pytania_Referendalne (
   Wybory_id number(10)    NOT NULL,
   PRIMARY KEY (id));
 CREATE TABLE Wyniki_Pytania_Referendalne (
+  id        NUMBER DEFAULT wyniki_pytania_seq.nextval,
   odpowiedzi_tak          number(10) NOT NULL,
   odpowiedzi_nie          number(10) NOT NULL,
   Pytanie_Referendalne_id number(10) NOT NULL,
   Komisja_nr              number(10) NOT NULL,
-  PRIMARY KEY (Pytanie_Referendalne_id,
-               Komisja_nr));
+  CONSTRAINT uc_wyniki_referendum UNIQUE (Pytanie_Referendalne_id,
+               Komisja_nr),
+  PRIMARY KEY (id));
 CREATE TABLE Wyniki_Prezydent (
+  id        NUMBER DEFAULT wyniki_prezydent_seq.nextval,
   liczba_Glosow         number(10) NOT NULL,
   Kandydat_Prezydent_id number(10) NOT NULL,
   Komisja_nr            number(10) NOT NULL,
-  PRIMARY KEY (Kandydat_Prezydent_id,
-               Komisja_nr));
+  CONSTRAINT uc_wyniki_prezydent UNIQUE (Kandydat_Prezydent_id,
+               Komisja_nr),
+  PRIMARY KEY (id));
 CREATE TABLE Wyniki_Posel (
+  id        NUMBER DEFAULT wyniki_posel_seq.nextval,
   liczba_Glosow     number(10) NOT NULL,
   Kandydat_Posel_id number(10) NOT NULL,
   Komisja_nr        number(10) NOT NULL,
-  PRIMARY KEY (Kandydat_Posel_id,
-               Komisja_nr));
+  CONSTRAINT uc_wyniki_posel UNIQUE (Kandydat_Posel_id,
+               Komisja_nr),
+  PRIMARY KEY (id));
 CREATE TABLE Wyniki_Parlamentarne
 (
   wybory_id NUMBER NOT NULL,
@@ -132,7 +146,6 @@ CREATE TABLE Wyniki_Parlamentarne
   PRIMARY KEY (wybory_id
              , okreg_wyborczy_nr
              , komitet_nr));
-
 
 CREATE GLOBAL TEMPORARY TABLE Temp_Wspolczynniki
 (
@@ -162,80 +175,19 @@ ALTER TABLE Wyniki_Parlamentarne ADD CONSTRAINT fk_wyniki_parl_wybory FOREIGN KE
 ALTER TABLE Kandydaci_Prezydent ADD CONSTRAINT uc_kprezydent_nr_na_liscie UNIQUE (nr_na_liscie, Wybory_id);
 ALTER TABLE Kandydaci_Posel ADD CONSTRAINT uc_kposel_nr_na_liscie UNIQUE (nr_na_liscie, Komitet_nr);
 ALTER TABLE Komitety ADD CONSTRAINT uc_komitety_nazwa UNIQUE (nazwa, Wybory_id);
-
-
---procedury
-create or replace PROCEDURE OBLICZ_WYNIKI_W_OKREGU
-  (
-      NR_OKREGU IN NUMBER
-    , ID_WYBOROW IN NUMBER
-    , MIN_GLOSOW IN NUMBER
-  ) IS
-  wspolczynnik NUMBER;
-  liczba_mandatow_w_okregu NUMBER;
-  liczba_glosow_na_komitet NUMBER;
-BEGIN
-  SELECT LICZBA_MANDATOW INTO liczba_mandatow_w_okregu FROM OKREGI WHERE NR = NR_OKREGU;
-
-  DELETE FROM TEMP_WSPOLCZYNNIKI;
-  FOR wynik IN (SELECT kp.KOMITET_NR, SUM(wp.LICZBA_GLOSOW) AS GLOSY
-                FROM WYNIKI_POSEL wp
-                  JOIN KANDYDACI_POSEL kp ON kp.ID = wp.KANDYDAT_POSEL_ID
-                WHERE wp.KOMISJA_NR IN (SELECT NR FROM KOMISJE WHERE OKREG_WYBORCZY_NR = NR_OKREGU)
-                      AND kp.KOMITET_NR IN (SELECT NR FROM KOMITETY WHERE WYBORY_ID = ID_WYBOROW)
-                GROUP BY kp.KOMITET_NR)
-  LOOP
-    SELECT SUM(wp.LICZBA_GLOSOW) INTO liczba_glosow_na_komitet
-    FROM WYNIKI_POSEL wp
-      JOIN KANDYDACI_POSEL kp ON kp.ID = wp.KANDYDAT_POSEL_ID
-    WHERE kp.KOMITET_NR = wynik.KOMITET_NR;
-    IF liczba_glosow_na_komitet >= MIN_GLOSOW THEN --czy komitet przekroczyl prog wyborczy w kraju?
-    --suma glosow dla danego komitetu jest dzielona przez kolejne liczby naturalne
-      FOR dzielnik IN 1..LICZBA_MANDATOW_W_OKREGU LOOP
-        wspolczynnik := TRUNC(wynik.GLOSY / dzielnik); --zapisujemy wylacznie czesc calkowita
-        INSERT INTO TEMP_WSPOLCZYNNIKI (KOMITET_NR, WSPOLCZYNNIK) VALUES (wynik.KOMITET_NR, wspolczynnik);
-      END LOOP;
-    END IF;
-  END LOOP;
-
-  DELETE FROM WYNIKI_PARLAMENTARNE wp WHERE wp.WYBORY_ID = ID_WYBOROW AND wp.OKREG_WYBORCZY_NR = NR_OKREGU;
-  INSERT INTO WYNIKI_PARLAMENTARNE
-  (WYBORY_ID, OKREG_WYBORCZY_NR, KOMITET_NR, LICZBA_POSLOW)
-    SELECT ID_WYBOROW, NR_OKREGU, KOMITET_NR, COUNT(*) FROM (SELECT * FROM (SELECT * FROM TEMP_WSPOLCZYNNIKI ORDER BY WSPOLCZYNNIK DESC) WHERE rownum <= LICZBA_MANDATOW_W_OKREGU) GROUP BY KOMITET_NR;
-END OBLICZ_WYNIKI_W_OKREGU;
-
-
-CREATE OR REPLACE PROCEDURE OBLICZ_WYNIKI_WYBOROW
-  (
-      ID_WYBOROW IN NUMBER
-    , PROG_WYBORCZY IN NUMBER DEFAULT 5 -- 5% to przyjety w Polsce prog wyborczy
-  ) IS
-  liczba_glosow_w_wyborach NUMBER;
-  minimalna_liczba_glosow NUMBER;
-BEGIN
-  SELECT SUM(wp.LICZBA_GLOSOW) INTO liczba_glosow_w_wyborach
-  FROM WYNIKI_POSEL wp
-    JOIN KANDYDACI_POSEL kp ON kp.ID = wp.KANDYDAT_POSEL_ID
-  WHERE kp.KOMITET_NR IN (SELECT NR FROM KOMITETY WHERE WYBORY_ID = ID_WYBOROW);
-
-  minimalna_liczba_glosow := TRUNC((PROG_WYBORCZY / 100) * liczba_glosow_w_wyborach);
-
-  FOR okreg IN (SELECT NR FROM OKREGI) LOOP
-    OBLICZ_WYNIKI_W_OKREGU(okreg.NR, ID_WYBOROW, minimalna_liczba_glosow);
-  END LOOP;
-END OBLICZ_WYNIKI_WYBOROW;
+ALTER TABLE Komisje ADD CONSTRAINT uc_komisje_nazwa UNIQUE (nazwa, Okreg_Wyborczy_nr);
 
 --add data
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('ADMINISTRATOR');
-INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_PKW');
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_OKW');
+INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_PKW');
 INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'Jan', 'Kowalski', 1);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('pkw', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 2);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Klemens', 'Dudek', 3);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw2', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 3);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw3', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 3);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw4', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 3);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw5', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 3);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('pkw', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 3);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Klemens', 'Dudek', 2);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw2', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 2);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw3', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 2);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw4', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 2);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw5', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 2);
 
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('PARLAMENTARNE');
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('PREZYDENCKIE');
@@ -276,7 +228,7 @@ INSERT INTO Komisje (nazwa, adres, liczba_Wyborcow, Okreg_Wyborczy_nr, id_Przewo
 INSERT INTO Komisje (nazwa, adres, liczba_Wyborcow, Okreg_Wyborczy_nr, id_Przewodniczacego) VALUES ('Komisja nr 3', 'Zespół Szkół Mechanicznych Nr 4, ul. Podbrzezie 10, Kraków', 773, 1, 5);
 INSERT INTO Komisje (nazwa, adres, liczba_Wyborcow, Okreg_Wyborczy_nr, id_Przewodniczacego) VALUES ('Komisja nr 1', 'Zespół Szkół Ogólnokształcących (sala nr I), Dobra', 1157, 2, 6);
 INSERT INTO Komisje (nazwa, adres, liczba_Wyborcow, Okreg_Wyborczy_nr, id_Przewodniczacego) VALUES ('Komisja nr 2', 'Zespół Szkół Ogólnokształcących (sala nr II), Dobra', 1357, 2, 7);
-INSERT INTO Wybory (data_utworzenia, data_glosowania, Typ_Wyborow_id, id_Tworcy) VALUES ('2010-05-01', '2010-07-04', 4, 2);
+INSERT INTO Wybory (data_utworzenia, data_glosowania, Typ_Wyborow_id, id_Tworcy) VALUES ('2010-05-01', '2010-07-04', 2, 2);
 INSERT INTO Kandydaci_Prezydent (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Wybory_id) VALUES ('Bronisław', 'Komorowski', 'M', 'nauczyciel, polityk', 'Warszawa', 1, 'Platforma Obywatelska', 4);
 INSERT INTO Kandydaci_Prezydent (imie, nazwisko, plec, zawod, miejsce_zamieszkania, nr_na_liscie, partia, Wybory_id) VALUES ('Jarosław', 'Kaczyński', 'M', 'polityk, adwokat', 'Warszawa', 2, 'Prawo i Sprawiedliwość', 4);
 INSERT INTO Wyniki_Prezydent (liczba_Glosow, Kandydat_Prezydent_id, Komisja_nr) VALUES (551, 6, 1);
@@ -297,5 +249,12 @@ INSERT INTO Wyniki_Pytania_Referendalne (odpowiedzi_tak, odpowiedzi_nie, Pytanie
 INSERT INTO Wyniki_Pytania_Referendalne (odpowiedzi_tak, odpowiedzi_nie, Pytanie_Referendalne_id, Komisja_nr) VALUES (300, 221, 4, 3);
 INSERT INTO Wyniki_Pytania_Referendalne (odpowiedzi_tak, odpowiedzi_nie, Pytanie_Referendalne_id, Komisja_nr) VALUES (476, 123, 4, 4);
 INSERT INTO Wyniki_Pytania_Referendalne (odpowiedzi_tak, odpowiedzi_nie, Pytanie_Referendalne_id, Komisja_nr) VALUES (754, 321, 4, 5);
+
+--widoki
+--CREATE OR REPLACE VIEW FREKWENCJA_WYBORCZA_REFERENDUM AS
+--  SELECT w.*, (w.odpowiedzi_nie + w.odpowiedzi_tak) / k.liczba_Wyborcow FROM Wyniki_Pytania_Referendalne w LEFT JOIN Komisje k ON w.Komisja_nr = k.nr;
+
+--CREATE OR REPLACE VIEW WYNIKI_PROCENTOWE_REFERENDUM AS
+--  SELECT w.*, w.odp FROM Wyniki_Pytania_Referendalne w
 
 COMMIT;

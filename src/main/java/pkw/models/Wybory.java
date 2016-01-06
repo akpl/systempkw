@@ -137,6 +137,35 @@ public class Wybory {
         this.komitety = komitety;
     }
 
+    public boolean getCzySaWyniki() {
+        boolean result = false;
+        Wybory wybory = this;
+        switch (wybory.getTypWyborow().getNazwa()) {
+            case "PARLAMENTARNE":
+                if (wybory.getKomitety() != null && wybory.getKomitety().size() > 0) {
+                    Komitet komitet = wybory.getKomitety().get(0);
+                    if (komitet.getKandydaciPosel() != null && komitet.getKandydaciPosel().size() > 0) {
+                        KandydatPosel posel = komitet.getKandydaciPosel().get(0);
+                        if (posel.getWyniki() != null) result = true;
+                    }
+                }
+                break;
+            case "PREZYDENCKIE":
+                if (wybory.getKandydaciPrezydent() != null && wybory.getKandydaciPrezydent().size() > 0) {
+                    KandydatPrezydent prezydent = wybory.getKandydaciPrezydent().get(0);
+                    if (prezydent.getWyniki() != null) result = true;
+                }
+                break;
+            case "REFERENDUM":
+                if (wybory.getPytaniaReferendalne() != null && wybory.getPytaniaReferendalne().size() > 0) {
+                    PytanieReferendalne pytanie = wybory.getPytaniaReferendalne().get(0);
+                    if (pytanie.getWyniki() != null) result = true;
+                }
+                break;
+        }
+        return result;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

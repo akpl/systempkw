@@ -20,7 +20,7 @@ public class Komisja {
     @Column(name = "LICZBA_WYBORCOW")
     private int liczbaWyborcow;
 
-    @ManyToOne
+    @OneToOne()
     @JoinColumn(name = "ID_PRZEWODNICZACEGO", referencedColumnName = "ID", nullable = false)
     private Uzytkownik przewodniczacy;
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wybory</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form>
+                    <p th:if="${#fields.hasErrors('*')}" >Błędy:</p>
+                    <ul th:if="${#fields.hasErrors('*')}" class="errorlist">
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                    </ul>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Pytanie</th>
+                                <th>Liczba odpowiedzi TAK</th>
+                                <th>Liczba odpowiedzi NIE</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="pytanie,status : ${pytaniaReferendalne}">
+                                <td th:text="${pytanie.pytanie}">pytanie.pytanie</td>
+                                <td>
+                                    <input type="text" class="form-control" th:field="*{pytaniaReferendalneList[__${status.index}__].odpowiedziTak}" style="width:90%;" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" th:field="*{pytaniaReferendalneList[__${status.index}__].odpowiedziNie}" style="width:90%;" />
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-success">Zapisz</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

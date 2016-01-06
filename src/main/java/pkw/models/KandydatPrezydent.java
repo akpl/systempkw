@@ -20,6 +20,7 @@ public class KandydatPrezydent {
     private int nrNaLiscie;
     private String partia;
     private Wybory wybory;
+    private WynikiPrezydent wyniki;
 
     @Id
     @GeneratedValue(generator="KandydaciPrezydentId")
@@ -113,6 +114,15 @@ public class KandydatPrezydent {
 
     public void setWybory(Wybory wybory) {
         this.wybory = wybory;
+    }
+
+    @OneToOne(mappedBy = "kandydatPrezydent")
+    public WynikiPrezydent getWyniki() {
+        return wyniki;
+    }
+
+    public void setWyniki(WynikiPrezydent wyniki) {
+        this.wyniki = wyniki;
     }
 
     @Override

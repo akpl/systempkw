@@ -21,6 +21,7 @@ public class Uzytkownik {
     private String nazwisko;
     private int poziomDostepuId = 1;
     private PoziomDostepu poziomDostepu;
+    private Komisja komisja;
     //private List<Wybory> wybory;
 
     @Id
@@ -122,6 +123,15 @@ public class Uzytkownik {
     public void setPoziomDostepu(PoziomDostepu poziomDostepu) {
         this.poziomDostepu = poziomDostepu;
         this.poziomDostepuId = poziomDostepu.getId();
+    }
+
+    @OneToOne(mappedBy = "przewodniczacy")
+    public Komisja getKomisja() {
+        return komisja;
+    }
+
+    public void setKomisja(Komisja komisja) {
+        this.komisja = komisja;
     }
 
     /*@OneToMany(mappedBy = "tworca")

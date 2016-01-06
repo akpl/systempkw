@@ -22,6 +22,7 @@ public class KandydatPosel {
     private int nrNaLiscie;
     private String partia;
     private Komitet komitet;
+    private WynikiPosel wyniki;
 
     @Id
     @GeneratedValue(generator="KandydaciPoselId")
@@ -115,6 +116,15 @@ public class KandydatPosel {
 
     public void setKomitet(Komitet komitet) {
         this.komitet = komitet;
+    }
+
+    @OneToOne(mappedBy = "kandydatPosel")
+    public WynikiPosel getWyniki() {
+        return wyniki;
+    }
+
+    public void setWyniki(WynikiPosel wyniki) {
+        this.wyniki = wyniki;
     }
 
     @Override

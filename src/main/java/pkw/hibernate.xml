@@ -14,6 +14,11 @@
     <mapping class="pkw.models.KandydatPrezydent"/>
     <mapping class="pkw.models.Komitet"/>
     <mapping class="pkw.models.PytanieReferendalne"/>
+    <mapping class="pkw.models.WynikiPosel"/>
+    <mapping class="pkw.models.WynikiPrezydent"/>
+    <mapping class="pkw.models.WynikiPytaniaReferendalne"/>
+    <mapping class="pkw.models.Komisja"/>
+    <mapping class="pkw.models.Okreg"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->
   </session-factory>
