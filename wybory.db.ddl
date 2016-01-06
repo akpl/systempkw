@@ -250,6 +250,24 @@ INSERT INTO Wyniki_Pytania_Referendalne (odpowiedzi_tak, odpowiedzi_nie, Pytanie
 INSERT INTO Wyniki_Pytania_Referendalne (odpowiedzi_tak, odpowiedzi_nie, Pytanie_Referendalne_id, Komisja_nr) VALUES (476, 123, 4, 4);
 INSERT INTO Wyniki_Pytania_Referendalne (odpowiedzi_tak, odpowiedzi_nie, Pytanie_Referendalne_id, Komisja_nr) VALUES (754, 321, 4, 5);
 
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (134, 1, 1);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (44, 2, 1);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (27, 4, 1);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (16, 5, 1);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (81, 7, 1);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (112, 8, 1);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (11, 10, 1);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (7, 11, 1);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (33, 1, 4);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (8, 2, 4);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (67, 4, 4);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (78, 5, 4);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (72, 7, 4);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (92, 8, 4);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (6, 10, 4);
+INSERT INTO Wyniki_Posel (liczba_glosow, kandydat_posel_id, komisja_nr) VALUES (19, 11, 4);
+
+
 --widoki
 --CREATE OR REPLACE VIEW FREKWENCJA_WYBORCZA_REFERENDUM AS
 --  SELECT w.*, (w.odpowiedzi_nie + w.odpowiedzi_tak) / k.liczba_Wyborcow FROM Wyniki_Pytania_Referendalne w LEFT JOIN Komisje k ON w.Komisja_nr = k.nr;
