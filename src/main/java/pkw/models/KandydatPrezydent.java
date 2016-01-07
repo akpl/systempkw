@@ -1,9 +1,11 @@
 package pkw.models;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.jpa.repository.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 /**
  * Created by Elimas on 2015-12-27.
@@ -20,7 +22,7 @@ public class KandydatPrezydent {
     private int nrNaLiscie;
     private String partia;
     private Wybory wybory;
-    private WynikiPrezydent wyniki;
+    private List<WynikiPrezydent> wyniki;
 
     @Id
     @GeneratedValue(generator="KandydaciPrezydentId")
@@ -116,13 +118,22 @@ public class KandydatPrezydent {
         this.wybory = wybory;
     }
 
-    @OneToOne(mappedBy = "kandydatPrezydent")
-    public WynikiPrezydent getWyniki() {
+    @OneToMany(mappedBy = "kandydatPrezydent")
+    public List<WynikiPrezydent> getWyniki() {
         return wyniki;
     }
 
-    public void setWyniki(WynikiPrezydent wyniki) {
+    public void setWyniki(List<WynikiPrezydent> wyniki) {
         this.wyniki = wyniki;
+    }
+
+    public WynikiPrezydent getWynikiDlaKomisji(Komisja komisja) {
+        for (WynikiPrezydent wyniki : getWyniki()) {
+            if (wyniki.getKomisja() == komisja) {
+                return wyniki;
+            }
+        }
+        return null;
     }
 
     @Override

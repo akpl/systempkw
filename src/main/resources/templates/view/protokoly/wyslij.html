@@ -26,19 +26,7 @@
                 </div>
                 <a th:href="@{/protokoly}" class="btn btn-default">Powrót</a>
             </div>
-            <div th:if="${authorized and exists and wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" class="panel-body">
-                NOT_IMPLEMENTED
-                <form th:include="view/protokoly/form :: form" th:action="@{/protokoly/wyslij}" th:object="${wynikiPosel}" method="post">
-
-                </form>
-            </div>
-            <div th:if="${authorized and exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
-                NOT_IMPLEMENTED
-                <form th:include="view/protokoly/form :: form" th:action="@{/protokoly/wyslij}" th:object="${wynikiPrezydent}" method="post">
-
-                </form>
-            </div>
-            <div th:if="${authorized and exists and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel-body">
+            <div th:if="${authorized and exists}" class="panel-body">
                 <div th:if="${errorVotes != null and errorVotes}" class="alert alert-danger">
                     Przekroczono maksymalną liczbę głosów dostępną dla twojego okręgu. Popraw wartości.
                 </div>
@@ -48,7 +36,13 @@
                     <p>Adres: <b th:text="${komisja.adres}"></b></p>
                     <p>Liczba wyborców: <b th:text="${komisja.liczbaWyborcow}"></b></p>
                 </div>
-                <form th:include="view/protokoly/form-referendum :: form" th:action="@{/protokoly/wyslij/referendum(idWybory=${wybory.id})}" th:object="${wynikiPytaniaReferendalneCollection}" method="post">
+                <form th:if="${wybory.typWyborow.nazwa == 'REFERENDUM'}" th:include="view/protokoly/form-referendum :: form" th:action="@{/protokoly/wyslij/referendum(idWybory=${wybory.id})}" th:object="${wynikiPytaniaReferendalneCollection}" method="post">
+
+                </form>
+                <form th:if="${wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" th:include="view/protokoly/form-prezydenckie :: form" th:action="@{/protokoly/wyslij/prezydenckie(idWybory=${wybory.id})}" th:object="${wynikiPrezydentCollection}" method="post">
+
+                </form>
+                <form th:if="${wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" th:include="view/protokoly/form-parlamentarne :: form" th:action="@{/protokoly/wyslij/parlamentarne(idWybory=${wybory.id})}" th:object="${wynikiPoselCollection}" method="post">
 
                 </form>
             </div>

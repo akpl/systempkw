@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wybory</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form>
+                    <p th:if="${#fields.hasErrors('*')}" >Błędy:</p>
+                    <ul th:if="${#fields.hasErrors('*')}" class="errorlist">
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                    </ul>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Kandydat na posła</th>
+                                <th>Liczba głosów</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <div th:each="komitet,status1 : ${komitety}" th:remove="tag">
+                                <tr th:each="kandydatPosel,status2 : ${komitet.kandydaciPosel}">
+                                    <input type="hidden" th:name="${'kandydatPoselId[' + counter.next + ']'}" th:value="${kandydatPosel.id}" />
+                                    <td th:text="${kandydatPosel.imie + ' ' + kandydatPosel.nazwisko + ' (' + komitet.nazwa + ')'}"></td>
+                                    <td>
+                                        <input type="text" class="form-control" th:field="*{kandydatPoselList[__${counter.current}__].liczbaGlosow}" style="width:90%;" />
+                                    </td>
+                                </tr>
+                            </div>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-success">Zapisz</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

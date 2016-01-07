@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wybory</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form>
+                    <p th:if="${#fields.hasErrors('*')}" >Błędy:</p>
+                    <ul th:if="${#fields.hasErrors('*')}" class="errorlist">
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                    </ul>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Kandydat na prezydenta</th>
+                                <th>Liczba głosów</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="kandydatPrezydent,status : ${kandydaciPrezydent}">
+                                <td th:text="${kandydatPrezydent.imie + ' ' + kandydatPrezydent.nazwisko + ' (' + kandydatPrezydent.partia + ')'}"></td>
+                                <td>
+                                    <input type="text" class="form-control" th:field="*{kandydatPrezydentList[__${status.index}__].liczbaGlosow}" style="width:90%;" />
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-success">Zapisz</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

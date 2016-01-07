@@ -43,7 +43,7 @@ public class WynikiPytaniaReferendalne {
         this.odpowiedziNie = odpowiedziNie;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "PYTANIE_REFERENDALNE_ID", referencedColumnName = "ID", nullable = false)
     public PytanieReferendalne getPytanieReferendalne() {
         return pytanieReferendalne;

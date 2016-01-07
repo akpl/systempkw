@@ -32,7 +32,7 @@ public class WynikiPosel {
         this.liczbaGlosow = liczbaGlosow;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "KANDYDAT_POSEL_ID", referencedColumnName = "ID", nullable = false)
     public KandydatPosel getKandydatPosel() {
         return kandydatPosel;

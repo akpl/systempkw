@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Created by Elimas on 2015-12-27.
@@ -22,7 +23,7 @@ public class KandydatPosel {
     private int nrNaLiscie;
     private String partia;
     private Komitet komitet;
-    private WynikiPosel wyniki;
+    private List<WynikiPosel> wyniki;
 
     @Id
     @GeneratedValue(generator="KandydaciPoselId")
@@ -118,13 +119,22 @@ public class KandydatPosel {
         this.komitet = komitet;
     }
 
-    @OneToOne(mappedBy = "kandydatPosel")
-    public WynikiPosel getWyniki() {
+    @OneToMany(mappedBy = "kandydatPosel")
+    public List<WynikiPosel> getWyniki() {
         return wyniki;
     }
 
-    public void setWyniki(WynikiPosel wyniki) {
+    public void setWyniki(List<WynikiPosel> wyniki) {
         this.wyniki = wyniki;
+    }
+
+    public WynikiPosel getWynikiDlaKomisji(Komisja komisja) {
+        for (WynikiPosel wyniki : getWyniki()) {
+            if (wyniki.getKomisja() == komisja) {
+                return wyniki;
+            }
+        }
+        return null;
     }
 
     @Override

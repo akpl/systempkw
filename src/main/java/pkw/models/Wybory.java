@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Elimas on 2015-12-24.
@@ -54,15 +55,15 @@ public class Wybory {
 
     @org.hibernate.annotations.OrderBy(clause = "ID ASC")
     @OneToMany(mappedBy = "wybory")
-    private List<PytanieReferendalne> pytaniaReferendalne;
+    private Set<PytanieReferendalne> pytaniaReferendalne;
 
     @org.hibernate.annotations.OrderBy(clause = "NR_NA_LISCIE ASC")
     @OneToMany(mappedBy = "wybory")
-    private List<KandydatPrezydent> kandydaciPrezydent;
+    private Set<KandydatPrezydent> kandydaciPrezydent;
 
     @org.hibernate.annotations.OrderBy(clause = "NR ASC")
     @OneToMany(mappedBy = "wybory")
-    private List<Komitet> komitety;
+    private Set<Komitet> komitety;
 
     public int getId() {
         return id;
@@ -113,53 +114,63 @@ public class Wybory {
         this.tworca = tworca;
     }
 
-    public List<PytanieReferendalne> getPytaniaReferendalne() {
+    public Set<PytanieReferendalne> getPytaniaReferendalne() {
         return pytaniaReferendalne;
     }
 
-    public void setPytaniaReferendalne(List<PytanieReferendalne> pytaniaReferendalne) {
+    public void setPytaniaReferendalne(Set<PytanieReferendalne> pytaniaReferendalne) {
         this.pytaniaReferendalne = pytaniaReferendalne;
     }
 
-    public List<KandydatPrezydent> getKandydaciPrezydent() {
+    public Set<KandydatPrezydent> getKandydaciPrezydent() {
         return kandydaciPrezydent;
     }
 
-    public void setKandydaciPrezydent(List<KandydatPrezydent> kandydaciPrezydent) {
+    public void setKandydaciPrezydent(Set<KandydatPrezydent> kandydaciPrezydent) {
         this.kandydaciPrezydent = kandydaciPrezydent;
     }
 
-    public List<Komitet> getKomitety() {
+    public Set<Komitet> getKomitety() {
         return komitety;
     }
 
-    public void setKomitety(List<Komitet> komitety) {
+    public void setKomitety(Set<Komitet> komitety) {
         this.komitety = komitety;
     }
 
-    public boolean getCzySaWyniki() {
+    public boolean getCzySaWyniki(Komisja komisja) {
         boolean result = false;
         Wybory wybory = this;
         switch (wybory.getTypWyborow().getNazwa()) {
             case "PARLAMENTARNE":
                 if (wybory.getKomitety() != null && wybory.getKomitety().size() > 0) {
-                    Komitet komitet = wybory.getKomitety().get(0);
-                    if (komitet.getKandydaciPosel() != null && komitet.getKandydaciPosel().size() > 0) {
-                        KandydatPosel posel = komitet.getKandydaciPosel().get(0);
-                        if (posel.getWyniki() != null) result = true;
+                    for (Komitet komitet : wybory.getKomitety()) {
+                        if (komitet.getKandydaciPosel() != null) {
+                            for (KandydatPosel kandydatPosel : komitet.getKandydaciPosel()) {
+                                if (kandydatPosel.getWynikiDlaKomisji(komisja) != null) {
+                                    result = true;
+                                } else return false;
+                            }
+                        }
                     }
                 }
                 break;
             case "PREZYDENCKIE":
                 if (wybory.getKandydaciPrezydent() != null && wybory.getKandydaciPrezydent().size() > 0) {
-                    KandydatPrezydent prezydent = wybory.getKandydaciPrezydent().get(0);
-                    if (prezydent.getWyniki() != null) result = true;
+                    for (KandydatPrezydent kandydatPrezydent : wybory.getKandydaciPrezydent()) {
+                        if (kandydatPrezydent.getWynikiDlaKomisji(komisja) != null) {
+                            result = true;
+                        } else return false;
+                    }
                 }
                 break;
             case "REFERENDUM":
                 if (wybory.getPytaniaReferendalne() != null && wybory.getPytaniaReferendalne().size() > 0) {
-                    PytanieReferendalne pytanie = wybory.getPytaniaReferendalne().get(0);
-                    if (pytanie.getWyniki() != null) result = true;
+                    for (PytanieReferendalne pytanie : wybory.getPytaniaReferendalne()) {
+                        if (pytanie.getWynikiDlaKomisji(komisja) != null) {
+                            result = true;
+                        } else return false;
+                    }
                 }
                 break;
         }

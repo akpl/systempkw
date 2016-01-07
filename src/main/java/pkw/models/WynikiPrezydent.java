@@ -1,6 +1,7 @@
 package pkw.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "WYNIKI_PREZYDENT")
@@ -32,7 +33,7 @@ public class WynikiPrezydent {
         this.liczbaGlosow = liczbaGlosow;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "KANDYDAT_PREZYDENT_ID", referencedColumnName = "ID", nullable = false)
     public KandydatPrezydent getKandydatPrezydent() {
         return kandydatPrezydent;

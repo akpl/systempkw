@@ -27,55 +27,106 @@
                 <a th:href="@{/protokoly}" class="btn btn-default">Powrót</a>
             </div>
             <div th:if="${authorized and !#lists.isEmpty(dzisiejszeWybory)}" class="panel-body">
-                <div th:if="${success != null and success}" class="alert alert-success">
-                    Protokół został zapisany.
-                </div>
-                <div class="well">
-                    <h4>Twoja komisja:</h4>
-                    <p>Nazwa: <b th:text="${komisja.nazwa}"></b></p>
-                    <p>Adres: <b th:text="${komisja.adres}"></b></p>
-                    <p>Liczba wyborców: <b th:text="${komisja.liczbaWyborcow}"></b></p>
-                </div>
-                <p>Wybierz wybory do których chcesz wysłać protokół.</p>
-                <p>Lista dzisiejszych wyborów:</p>
-                <div class="col-lg-6" style="margin-top: 12px; padding-left: 0px; padding-right: 0px;">
-                    <div th:each="wybory : ${dzisiejszeWybory}" class="panel panel-default">
-                        <div th:text="${wybory.typWyborow.nazwa}" class="panel-heading">
-                            Wybory
-                        </div>
-                        <div class="panel-body">
-                            <p>Autor: <b th:text="${wybory.tworca.login} + ' (' + ${wybory.tworca.imie} + ' ' + ${wybory.tworca.nazwisko} + ')'"></b></p>
-                            <p>Utworzono dnia: <b th:text="${wybory.dataUtworzenia}"></b></p>
-                            <div th:if="${wybory.czySaWyniki and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel panel-default panel-body">
-                                <p>Przesłany protokół:</p>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>Pytanie</th>
-                                            <th>Liczba odpowiedzi TAK</th>
-                                            <th>Liczba odpowiedzi NIE</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="pytanie : ${wybory.pytaniaReferendalne}">
-                                            <td th:text="${pytanie.pytanie}">pytanie.pytanie</td>
-                                            <td th:text="${pytanie.wyniki.odpowiedziTak}">
-
-                                            </td>
-                                            <td th:text="${pytanie.wyniki.odpowiedziNie}">
-
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <a th:if="${!wybory.czySaWyniki}" th:href="@{/protokoly/wyslij(idWybory=${wybory.id})}" class="btn btn-primary">Wyślij protokół z głosowania</a>
-                            <a th:if="${wybory.czySaWyniki}" th:href="@{/protokoly/wyslij(idWybory=${wybory.id})}" class="btn btn-primary">Popraw protokół z głosowania</a>
+                <!--<div class="col-lg-8">-->
+                    <div th:if="${success != null and success}" class="alert alert-success">
+                        Protokół został zapisany.
+                    </div>
+                    <div class="col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+                        <div class="well">
+                            <h4>Twoja komisja:</h4>
+                            <p>Nazwa: <b th:text="${komisja.nazwa}"></b></p>
+                            <p>Adres: <b th:text="${komisja.adres}"></b></p>
+                            <p>Liczba wyborców: <b th:text="${komisja.liczbaWyborcow}"></b></p>
                         </div>
                     </div>
-                </div>
+                    <div class="clearfix visible"></div>
+                    <p>Lista dzisiejszych wyborów:</p>
+                    <div class="col-lg-8" style="margin-top: 12px; padding-left: 0px; padding-right: 0px;">
+                        <div th:each="wybory : ${dzisiejszeWybory}" class="panel panel-default">
+                            <div th:text="${wybory.typWyborow.nazwa}" class="panel-heading">
+                                Wybory
+                            </div>
+                            <div class="panel-body">
+                                <p>Autor: <b th:text="${wybory.tworca.login} + ' (' + ${wybory.tworca.imie} + ' ' + ${wybory.tworca.nazwisko} + ')'"></b></p>
+                                <p>Utworzono dnia: <b th:text="${wybory.dataUtworzenia}"></b></p>
+                                <div th:if="${wybory.getCzySaWyniki(komisja) and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel panel-default panel-body">
+                                    <p>Przesłany protokół:</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Pytanie</th>
+                                                <th>Liczba odpowiedzi TAK</th>
+                                                <th>Liczba odpowiedzi NIE</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="pytanie : ${wybory.pytaniaReferendalne}">
+                                                <td th:text="${pytanie.pytanie}">pytanie.pytanie</td>
+                                                <td th:text="${pytanie.getWynikiDlaKomisji(komisja).odpowiedziTak}">
+
+                                                </td>
+                                                <td th:text="${pytanie.getWynikiDlaKomisji(komisja).odpowiedziNie}">
+
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div th:if="${wybory.getCzySaWyniki(komisja) and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel panel-default panel-body">
+                                    <p>Przesłany protokół:</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Partia</th>
+                                                <th>Kandydat</th>
+                                                <th>Liczba głosów</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="kandydatPrezydent : ${wybory.kandydaciPrezydent}">
+                                                <td th:text="${kandydatPrezydent.partia}"></td>
+                                                <td th:text="${kandydatPrezydent.imie + ' ' + kandydatPrezydent.nazwisko}"></td>
+                                                <td th:text="${kandydatPrezydent.getWynikiDlaKomisji(komisja).liczbaGlosow}">
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div th:if="${wybory.getCzySaWyniki(komisja) and wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" class="panel panel-default panel-body">
+                                    <p>Przesłany protokół:</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Komitet</th>
+                                                <th>Kandydat</th>
+                                                <th>Liczba głosów</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <div th:each="komitet : ${wybory.komitety}" th:remove="tag">
+                                                <tr th:each="kandydatPosel : ${komitet.kandydaciPosel}">
+                                                    <td th:text="${komitet.nazwa}">
+                                                    </td>
+                                                    <td th:text="${kandydatPosel.imie + ' ' + kandydatPosel.nazwisko + ' (' + kandydatPosel.partia + ')'}"></td>
+                                                    <td th:text="${kandydatPosel.getWynikiDlaKomisji(komisja).liczbaGlosow}">
+                                                    </td>
+                                                </tr>
+                                            </div>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <a th:if="${!wybory.getCzySaWyniki(komisja)}" th:href="@{/protokoly/wyslij(idWybory=${wybory.id})}" class="btn btn-primary">Wyślij protokół z głosowania</a>
+                                <a th:if="${wybory.getCzySaWyniki(komisja)}" th:href="@{/protokoly/wyslij(idWybory=${wybory.id})}" class="btn btn-primary">Popraw protokół z głosowania</a>
+                            </div>
+                        </div>
+                    </div>
+                <!--</div>-->
             </div>
         </div>
     </div>
