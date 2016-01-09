@@ -49,6 +49,7 @@
                             <div class="panel-body">
                                 <p>Autor: <b th:text="${wybory.tworca.login} + ' (' + ${wybory.tworca.imie} + ' ' + ${wybory.tworca.nazwisko} + ')'"></b></p>
                                 <p>Utworzono dnia: <b th:text="${wybory.dataUtworzenia}"></b></p>
+                                <p th:if="${wybory.frekwencja != null and wybory.frekwencja.frekwencja > 0}" th:text="${'Aktualna frekwencja: ' + wybory.frekwencja.frekwencja + '%'}"></p>
                                 <div th:if="${wybory.getCzySaWyniki(komisja) and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel panel-default panel-body">
                                     <p>Przesłany protokół:</p>
                                     <div class="table-responsive">

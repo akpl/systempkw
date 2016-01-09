@@ -19,6 +19,7 @@
     <mapping class="pkw.models.WynikiPytaniaReferendalne"/>
     <mapping class="pkw.models.Komisja"/>
     <mapping class="pkw.models.Okreg"/>
+    <mapping class="pkw.models.FrekwencjaWyborcza"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->
   </session-factory>

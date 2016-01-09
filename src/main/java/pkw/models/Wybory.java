@@ -65,6 +65,10 @@ public class Wybory {
     @OneToMany(mappedBy = "wybory")
     private Set<Komitet> komitety;
 
+    @OneToOne
+    @JoinColumn(name = "ID", referencedColumnName = "WYBORY_ID", nullable = false)
+    private FrekwencjaWyborcza frekwencja;
+
     public int getId() {
         return id;
     }
@@ -136,6 +140,14 @@ public class Wybory {
 
     public void setKomitety(Set<Komitet> komitety) {
         this.komitety = komitety;
+    }
+
+    public FrekwencjaWyborcza getFrekwencja() {
+        return frekwencja;
+    }
+
+    public void setFrekwencja(FrekwencjaWyborcza frekwencja) {
+        this.frekwencja = frekwencja;
     }
 
     public boolean getCzySaWyniki(Komisja komisja) {

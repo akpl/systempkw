@@ -178,13 +178,29 @@ ALTER TABLE Komisje ADD CONSTRAINT uc_komisje_nazwa UNIQUE (nazwa, Okreg_Wyborcz
 
 --widoki
 CREATE OR REPLACE VIEW FREKWENCJA_WYBORCZA_REFERENDUM AS
-  SELECT w.*, (w.odpowiedzi_nie + w.odpowiedzi_tak) / k.liczba_Wyborcow AS Frekwencja FROM Wyniki_Pytania_Referendalne w LEFT JOIN Komisje k ON w.Komisja_nr = k.nr;
+  SELECT Wybory.id as wybory_id, ROUND(100 * ((SUM(wp.odpowiedzi_tak) + SUM(wp.odpowiedzi_nie)) / ((SELECT SUM(liczba_wyborcow) FROM Komisje) * COUNT(DISTINCT p.id))), 2) as frekwencja FROM Pytania_Referendalne p
+    LEFT JOIN WYNIKI_PYTANIA_REFERENDALNE wp ON p.id = wp.PYTANIE_REFERENDALNE_ID
+    LEFT JOIN Wybory ON p.WYBORY_ID = Wybory.ID
+  WHERE wp.id is not null
+  GROUP BY Wybory.ID;
 
 CREATE OR REPLACE VIEW FREKWENCJA_WYBORCZA_PREZYDENT AS
-  SELECT w.*, w.liczba_Glosow / k.liczba_Wyborcow AS Frekwencja FROM Wyniki_Prezydent w LEFT JOIN Komisje k ON w.Komisja_nr = k.nr;
+  SELECT Wybory.id as wybory_id, ROUND(100 * SUM(wp.LICZBA_GLOSOW) / (SELECT SUM(liczba_wyborcow) FROM Komisje), 2) as frekwencja FROM KANDYDACI_PREZYDENT kp
+    LEFT JOIN Wyniki_Prezydent wp ON kp.id = wp.KANDYDAT_PREZYDENT_ID
+    LEFT JOIN Wybory ON kp.WYBORY_ID = Wybory.id
+  WHERE wp.id is not null
+  GROUP BY Wybory.id;
 
 CREATE OR REPLACE VIEW FREKWENCJA_WYBORCZA_POSEL AS
-  SELECT w.*, w.liczba_Glosow / k.liczba_Wyborcow AS Frekwencja FROM Wyniki_Posel w LEFT JOIN Komisje k ON w.Komisja_nr = k.nr;
+  SELECT Wybory.id as wybory_id, ROUND(100 * SUM(wp.LICZBA_GLOSOW) / (SELECT SUM(liczba_wyborcow) FROM Komisje), 2) as frekwencja FROM KANDYDACI_POSEL kp
+    LEFT JOIN WYNIKI_POSEL wp ON kp.id = wp.KANDYDAT_POSEL_ID
+    LEFT JOIN Komitety ON kp.KOMITET_NR = Komitety.NR
+    LEFT JOIN Wybory ON Komitety.WYBORY_ID = Wybory.ID
+  WHERE wp.id is not null
+  GROUP BY Wybory.id;
+
+CREATE OR REPLACE VIEW FREKWENCJA_WYBORCZA AS
+  SELECT * FROM FREKWENCJA_WYBORCZA_POSEL UNION SELECT * FROM FREKWENCJA_WYBORCZA_PREZYDENT UNION SELECT * FROM FREKWENCJA_WYBORCZA_REFERENDUM;
 
 CREATE OR REPLACE VIEW SUMA_GLOSOW_REFERENDUM AS
   SELECT w.pytanie_referendalne_id, p.pytanie, sum(w.odpowiedzi_tak) as suma_odpowiedzi_tak, sum(w.odpowiedzi_nie) as suma_odpowiedzi_nie FROM Wyniki_Pytania_Referendalne w
