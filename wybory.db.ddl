@@ -27,6 +27,7 @@ DROP SEQUENCE pytania_referendalne_seq;
 DROP SEQUENCE wyniki_pytania_seq;
 DROP SEQUENCE wyniki_prezydent_seq;
 DROP SEQUENCE wyniki_posel_seq;
+DROP SEQUENCE wyniki_parlamentarne_seq;
 
 CREATE SEQUENCE uzytkownicy_seq;
 CREATE SEQUENCE poziomy_dostepu_seq;
@@ -41,6 +42,7 @@ CREATE SEQUENCE pytania_referendalne_seq;
 CREATE SEQUENCE wyniki_pytania_seq;
 CREATE SEQUENCE wyniki_prezydent_seq;
 CREATE SEQUENCE wyniki_posel_seq;
+CREATE SEQUENCE wyniki_parlamentarne_seq;
 
 CREATE TABLE Uzytkownicy (
   id              NUMBER DEFAULT uzytkownicy_seq.nextval,
@@ -139,6 +141,7 @@ CREATE TABLE Wyniki_Posel (
   PRIMARY KEY (id));
 CREATE TABLE Wyniki_Parlamentarne
 (
+  id        NUMBER DEFAULT wyniki_parlamentarne_seq.nextval,
   wybory_id NUMBER NOT NULL,
   okreg_wyborczy_nr NUMBER NOT NULL,
   komitet_nr NUMBER NOT NULL,
@@ -146,6 +149,7 @@ CREATE TABLE Wyniki_Parlamentarne
   PRIMARY KEY (wybory_id
              , okreg_wyborczy_nr
              , komitet_nr));
+--tabela pomocnicza do procedury
 CREATE GLOBAL TEMPORARY TABLE Temp_Wspolczynniki
 (
   komitet_nr NUMBER NOT NULL,
@@ -153,6 +157,7 @@ CREATE GLOBAL TEMPORARY TABLE Temp_Wspolczynniki
 )
 ON COMMIT DELETE ROWS;
 
+--ograniczenia integralnościowe
 ALTER TABLE Uzytkownicy ADD CONSTRAINT fk_uzytkownicy_poziomy_dostepu FOREIGN KEY (Poziom_Dostepu_id) REFERENCES Poziomy_Dostepu (id);
 ALTER TABLE Wybory ADD CONSTRAINT fk_wybory_typy_wyborow FOREIGN KEY (Typ_Wyborow_id) REFERENCES Typy_Wyborow (id);
 ALTER TABLE Wybory ADD CONSTRAINT fk_wybory_uzytkownicy FOREIGN KEY (id_Tworcy) REFERENCES Uzytkownicy (id);
@@ -171,10 +176,13 @@ ALTER TABLE Wyniki_Posel ADD CONSTRAINT fk_wyniki_posel_komisje FOREIGN KEY (Kom
 ALTER TABLE Wyniki_Parlamentarne ADD CONSTRAINT fk_wyniki_parl_komitety FOREIGN KEY (komitet_nr) REFERENCES KOMITETY (nr);
 ALTER TABLE Wyniki_Parlamentarne ADD CONSTRAINT fk_wyniki_parl_okregi FOREIGN KEY (okreg_wyborczy_nr) REFERENCES OKREGI (nr);
 ALTER TABLE Wyniki_Parlamentarne ADD CONSTRAINT fk_wyniki_parl_wybory FOREIGN KEY (wybory_id) REFERENCES WYBORY (id);
-ALTER TABLE Kandydaci_Prezydent ADD CONSTRAINT uc_kprezydent_nr_na_liscie UNIQUE (nr_na_liscie, Wybory_id);
-ALTER TABLE Kandydaci_Posel ADD CONSTRAINT uc_kposel_nr_na_liscie UNIQUE (nr_na_liscie, Komitet_nr);
-ALTER TABLE Komitety ADD CONSTRAINT uc_komitety_nazwa UNIQUE (nazwa, Wybory_id);
+ALTER TABLE Kandydaci_Prezydent ADD CONSTRAINT uc_kprezydent_nr_na_liscie UNIQUE (Wybory_id, nr_na_liscie);
+ALTER TABLE Kandydaci_Posel ADD CONSTRAINT uc_kposel_nr_na_liscie UNIQUE (Komitet_nr, nr_na_liscie);
+ALTER TABLE Komitety ADD CONSTRAINT uc_komitety_nazwa UNIQUE (Wybory_id, nazwa);
 ALTER TABLE Komisje ADD CONSTRAINT uc_komisje_nazwa UNIQUE (nazwa, Okreg_Wyborczy_nr);
+
+--indeksy
+CREATE INDEX WYBORY_DATA_GL_IDX ON WYBORY(DATA_GLOSOWANIA);
 
 --widoki
 CREATE OR REPLACE VIEW FREKWENCJA_WYBORCZA_REFERENDUM AS
@@ -222,9 +230,9 @@ INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES
 INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('pkw', '3632e89dc06fcdfd486d1afa40b7f97420293aa23ad7db63eefe05a51d0ac6ef', 'Arkadiusz', 'Gorski', 3);
 INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Klemens', 'Dudek', 2);
 INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw2', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Arkadiusz', 'Gorski', 2);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw3', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Arkadiusz', 'Gorski', 2);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw4', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Arkadiusz', 'Gorski', 2);
-INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw5', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Arkadiusz', 'Gorski', 2);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw3', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Ryszard', 'Sobczak', 2);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw4', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Klaudiusz', 'Grabowski', 2);
+INSERT INTO Uzytkownicy (login, haslo, imie, nazwisko, Poziom_Dostepu_id) VALUES ('okw5', '8dd3236cec0915e557c2daa36c5d346bcc2022edf48bbc5d992e11f3214105d7', 'Marcin', 'Kwiatkowski', 2);
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('PARLAMENTARNE');
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('PREZYDENCKIE');
 INSERT INTO Typy_Wyborow (nazwa) VALUES ('REFERENDUM');
