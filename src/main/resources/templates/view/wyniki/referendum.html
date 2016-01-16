@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Wyniki</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Wyniki referendum
+            </div>
+            <div class="panel-body">
+                <div th:each="pytanie : ${pytania}">
+                    <h4 th:text="${pytanie.pytanie}"></h4>
+                    <p>TAK: <span th:text="${pytanie.wynikLaczny.odpowiedziTak}"></span></p>
+                    <p>NIE: <span th:text="${pytanie.wynikLaczny.odpowiedziNie}"></span></p>
+                    <div style="text-align: center;">
+                        <div class="ct-chart ct-double-octave ct-square" th:id="'wykres'+${pytanieStat.index}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Frekwencja
+            </div>
+            <div class="panel-body">
+                <div class="ct-chart ct-perfect-fourth" id="frekwencja"></div>
+            </div>
+            <div class="panel-footer">
+                Frekwencja w kraju: <strong th:text="${frekwencja[0]}"></strong>%
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var wykresy = /*[[${wykresy}]]*/ [];
+    var frekwencja =
+    {
+        series: /*[[${frekwencja}]]*/ [50, 50]
+    };
+
+    new Chartist.Pie('#frekwencja', frekwencja,
+    {
+        donut: true
+    });
+
+    for(nrWykresu = 0; nrWykresu < wykresy.length; nrWykresu++) {
+        var dane = {
+            series: wykresy[nrWykresu]
+        };
+        new Chartist.Pie('#wykres' + nrWykresu, dane);
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

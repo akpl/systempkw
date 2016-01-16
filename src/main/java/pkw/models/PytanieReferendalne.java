@@ -66,6 +66,22 @@ public class PytanieReferendalne {
         return null;
     }
 
+    @Transient
+    public WynikiPytaniaReferendalne getWynikLaczny() {
+        WynikiPytaniaReferendalne wynikLaczny = new WynikiPytaniaReferendalne();
+        int odpowiedziTak = 0;
+        int odpowiedziNie = 0;
+        for (WynikiPytaniaReferendalne wyniki : getWyniki()) {
+            odpowiedziTak += wyniki.getOdpowiedziTak();
+            odpowiedziNie += wyniki.getOdpowiedziNie();
+        }
+        wynikLaczny.setPytanieReferendalne(this);
+        wynikLaczny.setOdpowiedziTak(odpowiedziTak);
+        wynikLaczny.setOdpowiedziNie(odpowiedziNie);
+
+        return wynikLaczny;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

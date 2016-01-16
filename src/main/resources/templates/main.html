@@ -23,6 +23,9 @@
     <!-- Custom Fonts -->
     <link href="/template/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" />
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -72,7 +75,7 @@
                         <a th:href="@{/}" th:class="${view} == 'home' ? active"><i class="fa fa-home fa-fw"></i> Strona główna</a>
                     </li>
                     <li th:class="${#strings.contains(view, 'wybory')} ? active">
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Wybory<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-gavel fa-fw"></i> Wybory<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a th:href="@{/wybory}" th:class="${view} == 'wybory/index' ? active">Przeglądaj</a>
@@ -115,6 +118,9 @@
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
+                    </li>
+                    <li th:class="${#strings.contains(view, 'wyniki')} ? active">
+                        <a th:href="@{/wyniki}" th:class="${view} == 'wyniki/index' ? active"><i class="fa fa-bar-chart fa-fw"></i> Wyniki</a>
                     </li>
                 </ul>
             </div>

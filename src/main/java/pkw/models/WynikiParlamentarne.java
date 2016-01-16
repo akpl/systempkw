@@ -3,9 +3,6 @@ package pkw.models;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by Elimas on 2016-01-13.
- */
 @Entity
 @Table(name = "WYNIKI_PARLAMENTARNE")
 public class WynikiParlamentarne implements Serializable {

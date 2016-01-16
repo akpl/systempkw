@@ -136,6 +136,19 @@ public class KandydatPrezydent {
         return null;
     }
 
+    @Transient
+    public WynikiPrezydent getWynikLaczny() {
+        WynikiPrezydent wynikLaczny = new WynikiPrezydent();
+        int liczbaGlosow = 0;
+        for (WynikiPrezydent wyniki : getWyniki()) {
+            liczbaGlosow += wyniki.getLiczbaGlosow();
+        }
+        wynikLaczny.setKandydatPrezydent(this);
+        wynikLaczny.setLiczbaGlosow(liczbaGlosow);
+
+        return wynikLaczny;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
