@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -74,7 +74,7 @@
                     <li th:class="${view} == 'home' ? active">
                         <a th:href="@{/}" th:class="${view} == 'home' ? active"><i class="fa fa-home fa-fw"></i> Strona główna</a>
                     </li>
-                    <li th:class="${#strings.contains(view, 'wybory')} ? active">
+                    <li th:if="${#authorization.expression('hasAuthority(''ADMINISTRATOR'')') or #authorization.expression('hasAuthority(''CZLONEK_PKW'')')}" th:class="${#strings.contains(view, 'wybory')} ? active">
                         <a href="#"><i class="fa fa-gavel fa-fw"></i> Wybory<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -86,7 +86,7 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-                    <li th:class="${#strings.contains(view, 'uzytkownik')} ? active">
+                    <li sec:authorize="hasAuthority('ADMINISTRATOR')" th:class="${#strings.contains(view, 'uzytkownik')} ? active">
                         <a href="#"><i class="fa fa-users fa-fw"></i> Użytkownicy<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -98,7 +98,7 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-                    <li th:class="${#strings.contains(view, 'komisje')} ? active">
+                    <li th:if="${#authorization.expression('hasAuthority(''ADMINISTRATOR'')') or #authorization.expression('hasAuthority(''CZLONEK_PKW'')')}" th:class="${#strings.contains(view, 'komisje')} ? active">
                         <a href="#"><i class="fa fa-university fa-fw"></i> Komisje i okręgi<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -110,7 +110,7 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-                    <li th:class="${#strings.contains(view, 'protokoly')} ? active">
+                    <li sec:authorize="hasAuthority('CZLONEK_OKW')" th:class="${#strings.contains(view, 'protokoly')} ? active">
                         <a href="#"><i class="fa fa-envelope fa-fw"></i> Protokoły<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
