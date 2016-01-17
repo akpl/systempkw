@@ -146,7 +146,8 @@ CREATE TABLE Wyniki_Parlamentarne
   okreg_wyborczy_nr NUMBER NOT NULL,
   komitet_nr NUMBER NOT NULL,
   liczba_poslow NUMBER NOT NULL,
-  PRIMARY KEY (wybory_id
+  PRIMARY KEY (id),
+  CONSTRAINT uc_wparlam_wok UNIQUE (wybory_id
              , okreg_wyborczy_nr
              , komitet_nr));
 --tabela pomocnicza do procedury
