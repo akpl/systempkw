@@ -10,4 +10,5 @@ public interface KomitetRepository extends CrudRepository<Komitet, Integer> {
     boolean komitetExists(int wyboryId, String nazwa);
 
     List<Komitet> findByWybory(Wybory wybory);
+    List<Komitet> findByWyboryOrderByNrAsc(Wybory wybory);
 }

@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/css/**", "/img/**","/template/**")
+                .antMatchers("/css/**", "/img/**", "/template/**", "/wyniki", "/wyniki/*","/")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 .and()
-            .logout()
+                .logout()
                 .permitAll().logoutUrl("/logout").logoutSuccessUrl("/logout-success");
     }
 

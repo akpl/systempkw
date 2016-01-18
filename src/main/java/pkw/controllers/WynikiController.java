@@ -41,7 +41,7 @@ public class WynikiController {
 
     @ModelAttribute("wyboryList")
     public Iterable<Wybory> wyboryList() {
-        return wyboryRepository.findByOrderByIdAsc();
+        return wyboryRepository.findByDataGlosowaniaBeforeOrderByIdAsc(new LocalDate().plusDays(1));
     }
 
     @RequestMapping(value = "/wyniki")
@@ -55,6 +55,11 @@ public class WynikiController {
         Wybory wybory = wyboryRepository.findOne(idWybory);
         model.addAttribute("wybory", wybory);
 
+        if(wybory.getFrekwencja() == null) {
+            model.addAttribute("blad", "Brak wyników z wybranych wyborów.");
+            model.addAttribute("view", "wyniki/lista");
+            return "main";
+        }
         float frekwencja = wybory.getFrekwencja().getFrekwencja();
         float[] frekwencjaDane = {frekwencja, 100 - frekwencja};
 
@@ -62,27 +67,29 @@ public class WynikiController {
         DaneWykresu daneWykresu = new DaneWykresu();
         switch(wybory.getTypWyborow().getId())
         {
-            case 1: //parl
-                List<Komitet> komitety = komitetRepository.findByWybory(wybory);
+            case 1: //parlamentarne
+                List<Komitet> komitety = komitetRepository.findByWyboryOrderByNrAsc(wybory);
 
                 for(Komitet komitet : komitety) {
                     daneWykresu.dodajElement(komitet.getNazwa(), komitet.getWynikLaczny().getLiczbaPoslow());
                 }
 
+                model.addAttribute("komitety", komitety);
                 model.addAttribute("wykres", daneWykresu);
                 model.addAttribute("view", "wyniki/parlamentarne");
                 break;
-            case 2:
+            case 2: //prezydenckie
                 List<KandydatPrezydent> kandydaci = kandydatPrezydentRepository.findByWybory(wybory);
 
                 for(KandydatPrezydent kandydat : kandydaci) {
                     daneWykresu.dodajElement(kandydat.getImie() + " " + kandydat.getNazwisko(), kandydat.getWynikLaczny().getLiczbaGlosow());
                 }
 
+                model.addAttribute("kandydaci", kandydaci);
                 model.addAttribute("wykres", daneWykresu);
                 model.addAttribute("view", "wyniki/prezydent");
                 break;
-            case 3: //refer
+            case 3: //referendum
                 List<PytanieReferendalne> pytania = pytanieReferendalneRepository.findByWybory(wybory);
                 List<List<Integer>> daneWykresow = new ArrayList<>();
                 for (PytanieReferendalne pytanie : pytania) {
@@ -97,7 +104,6 @@ public class WynikiController {
                 model.addAttribute("view", "wyniki/referendum");
                 break;
         }
-        //model.addAttribute("view", "wyniki/wyswietl");
         return "main";
     }
 

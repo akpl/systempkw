@@ -12,4 +12,6 @@ public interface WyboryRepository extends CrudRepository<Wybory, Integer> {
     List<Wybory> findByOrderByIdAsc();
     @Query("FROM Wybory w WHERE w.dataGlosowania = ?")
     List<Wybory> dzisiejszeWybory(LocalDate today);
+
+    List<Wybory> findByDataGlosowaniaBeforeOrderByIdAsc(LocalDate date);
 }

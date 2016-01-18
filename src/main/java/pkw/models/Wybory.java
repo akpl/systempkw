@@ -1,15 +1,11 @@
 package pkw.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.annotations.*;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
@@ -17,9 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by Elimas on 2015-12-24.
- */
 @Entity
 @Table(name = "WYBORY")
 public class Wybory {
