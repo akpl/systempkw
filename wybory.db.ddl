@@ -223,6 +223,15 @@ CREATE OR REPLACE VIEW SUMA_GLOSOW_POSEL AS
   SELECT w.Kandydat_Posel_id, k.imie, k.nazwisko, sum(w.liczba_Glosow) as suma_liczba_glosow FROM Wyniki_Posel w
     LEFT JOIN Kandydaci_Posel k ON w.Kandydat_Posel_id = k.id GROUP BY w.Kandydat_Posel_id, k.imie, k.nazwisko;
 
+--trigger
+CREATE OR REPLACE TRIGGER TRIGGER_WYNIKI
+AFTER INSERT OR DELETE OR UPDATE ON WYNIKI_POSEL
+BEGIN
+  FOR wybory IN (SELECT ID FROM WYBORY WHERE TYP_WYBOROW_ID=1) LOOP
+    OBLICZ_WYNIKI_WYBOROW(wybory.ID);
+  END LOOP;
+END;
+
 --dodajemy startowe dane do tabel
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('ADMINISTRATOR');
 INSERT INTO Poziomy_Dostepu (nazwa) VALUES ('CZLONEK_OKW');
