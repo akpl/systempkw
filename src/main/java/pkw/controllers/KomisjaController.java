@@ -8,7 +8,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pkw.models.*;
+import pkw.models.Komisja;
+import pkw.models.Okreg;
+import pkw.models.Uzytkownik;
+import pkw.repositories.KomisjaRepository;
+import pkw.repositories.OkregRepository;
+import pkw.repositories.PoziomDostepuRepository;
+import pkw.repositories.UzytkownikRepository;
+
 import javax.validation.Valid;
 import java.util.List;
 

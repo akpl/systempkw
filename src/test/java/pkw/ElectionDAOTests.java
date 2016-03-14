@@ -1,21 +1,5 @@
 package pkw;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
-
-
 public class ElectionDAOTests {
     //TODO testy do przepisania na repository
     /*ElectionDAO electionDAO;

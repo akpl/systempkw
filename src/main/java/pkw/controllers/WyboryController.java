@@ -2,28 +2,23 @@ package pkw.controllers;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.servlet.ModelAndView;
-import pkw.models.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import pkw.models.TypWyborow;
+import pkw.models.Uzytkownik;
+import pkw.models.Wybory;
+import pkw.repositories.TypWyborowRepository;
+import pkw.repositories.UzytkownikRepository;
+import pkw.repositories.WyboryRepository;
 
 import javax.validation.Valid;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.List;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Controller
 public class WyboryController {

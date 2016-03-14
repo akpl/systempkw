@@ -4,8 +4,8 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url">jdbc:oracle:thin:@//wybory.cloudapp.net:1521/wybory</property>
-    <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+    <property name="connection.url">jdbc:mysql://wybory.elential.com:3306/wybory?useSSL=false</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
     <mapping class="pkw.models.PoziomDostepu"/>
     <mapping class="pkw.models.Uzytkownik"/>
     <mapping class="pkw.models.TypWyborow"/>

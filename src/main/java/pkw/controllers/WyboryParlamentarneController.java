@@ -7,7 +7,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pkw.models.*;
+import pkw.models.KandydatPosel;
+import pkw.models.Komitet;
+import pkw.repositories.KandydatPoselRepository;
+import pkw.repositories.KomitetRepository;
+import pkw.repositories.WyboryRepository;
 
 import javax.validation.Valid;
 

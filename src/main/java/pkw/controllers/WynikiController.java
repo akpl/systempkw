@@ -1,24 +1,16 @@
 package pkw.controllers;
 
-import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import pkw.DaneWykresu;
 import pkw.models.*;
+import pkw.repositories.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 

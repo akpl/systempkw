@@ -1,16 +1,12 @@
 package pkw.models;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Range;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.*;
-import java.util.Date;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity

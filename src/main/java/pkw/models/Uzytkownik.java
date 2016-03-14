@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * Created by Elimas on 2015-12-23.

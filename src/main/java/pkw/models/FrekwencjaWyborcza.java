@@ -1,11 +1,8 @@
 package pkw.models;
 
-import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "FREKWENCJA_WYBORCZA")

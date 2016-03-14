@@ -1,10 +1,14 @@
-package pkw.models;
+package pkw.repositories;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import pkw.models.KandydatPrezydent;
+import pkw.models.Wybory;
 
 import java.util.List;
 
+@Repository
 public interface KandydatPrezydentRepository extends CrudRepository<KandydatPrezydent, Integer> {
     @Query(value = "SELECT NVL(MAX(NR_NA_LISCIE) + 1, 1) FROM KANDYDACI_PREZYDENT WHERE WYBORY_ID = ?", nativeQuery = true)
     int getNextNrListy(int wyboryId);

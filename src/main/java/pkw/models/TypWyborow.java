@@ -3,7 +3,6 @@ package pkw.models;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by Elimas on 2015-12-24.

@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pkw.models.*;
+import pkw.models.PoziomDostepu;
+import pkw.models.Uzytkownik;
+import pkw.repositories.PoziomDostepuRepository;
+import pkw.repositories.UzytkownikRepository;
 
 import javax.validation.Valid;
 

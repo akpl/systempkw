@@ -7,7 +7,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pkw.models.*;
+import pkw.models.PytanieReferendalne;
+import pkw.repositories.PytanieReferendalneRepository;
+import pkw.repositories.WyboryRepository;
 
 import javax.validation.Valid;
 
