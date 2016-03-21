@@ -15,6 +15,7 @@ import pkw.models.PoziomDostepu;
 import pkw.models.Uzytkownik;
 import pkw.repositories.PoziomDostepuRepository;
 import pkw.repositories.UzytkownikRepository;
+import pkw.SendMail;
 
 import javax.validation.Valid;
 
