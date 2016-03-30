@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Użytkownicy</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" th:if="${uzytkownik == null}">
+            <div class="panel-body">
+                <div class="alert alert-danger">
+                    Błąd podany użytkownik nie istnieje.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default" th:if="${uzytkownik != null}" th:object="${uzytkownik}">
+            <div class="panel-heading">
+                Historia logowań
+            </div>
+            <div class="panel-body">
+                <p>Historia logowań użytkownika <b th:text="*{login}"></b> (<span th:text="*{imie + ' ' + nazwisko}"></span>)</p>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Data logowania</th>
+                            <th>IP</th>
+                            <th>Przeglądarka</th>
+                            <th>System</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="logowanie : *{logowania}">
+                            <td th:text="${counter.next + 1}"></td>
+                            <td th:text="${logowanie.dataLogowania.toString('yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${logowanie.ip}"></td>
+                            <td th:title="${logowanie.ua}">
+                                <img th:src="${'/img/browsers/' + logowanie.przegladarkaIkona}" onerror="this.style.display='none'"> <object th:text="${logowanie.przegladarka}" th:remove="tag"></object>
+                            </td>
+                            <td th:title="${logowanie.ua}">
+                                <i th:if="${logowanie.typUrzadzenia == 'PERSONAL_COMPUTER'}" class="fa fa-desktop"></i>
+                                <i th:if="${logowanie.typUrzadzenia == 'SMARTPHONE'}" class="fa fa-mobile"></i>
+                                <i th:if="${logowanie.typUrzadzenia == 'TABLET'}" class="fa fa-tablet"></i>
+                                <img th:src="${'/img/browsers/' + logowanie.osIkona}" onerror="this.style.display='none'"> <object th:text="${logowanie.os}" th:remove="tag"></object>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

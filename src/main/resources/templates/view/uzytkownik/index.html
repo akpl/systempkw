@@ -34,7 +34,7 @@
                             <td th:text="${uzytkownik.imie}"></td>
                             <td th:text="${uzytkownik.nazwisko}"></td>
                             <td th:text="${uzytkownik.poziomDostepu.nazwa}"></td>
-                            <td><a th:href="@{/uzytkownik/edycja(id=${uzytkownik.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/uzytkownik/usun(id=${uzytkownik.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                            <td><a th:href="@{/uzytkownik/historia/{idUzytkownika}(idUzytkownika=${uzytkownik.id})}" class="btn btn-outline btn-primary" title="Historia logowań"><i class="fa fa-history"></i></a>  <a th:href="@{/uzytkownik/edycja(id=${uzytkownik.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/uzytkownik/usun(id=${uzytkownik.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
                         </tr>
                         </tbody>
                     </table>

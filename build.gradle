@@ -44,6 +44,8 @@ dependencies {
     compile('org.jadira.usertype:usertype.jodatime:2.0.1')
     compile('mysql:mysql-connector-java:5.1.38')
     compile('net.sourceforge.nekohtml:nekohtml:1.9.22')
+    compile('net.sf.uadetector:uadetector-resources:2014.10')
+    compile('com.google.guava:guava:19.0')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

@@ -7,12 +7,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import pkw.Counter;
+import pkw.models.Logowanie;
 import pkw.models.PoziomDostepu;
 import pkw.models.Uzytkownik;
+import pkw.repositories.LogowanieRepository;
 import pkw.repositories.PoziomDostepuRepository;
 import pkw.repositories.UzytkownikRepository;
 
@@ -26,9 +26,17 @@ public class UzytkownikController {
     @Autowired
     private PoziomDostepuRepository poziomDostepuRepository;
 
+    @Autowired
+    private LogowanieRepository logowanieRepository;
+
     @ModelAttribute("uzytkownicyList")
     public Iterable<Uzytkownik> uzytkownicyList() {
         return uzytkownikRepository.findByOrderByIdAsc();
+    }
+
+    @ModelAttribute("logowaniaList")
+    public Iterable<Logowanie> logowaniaList() {
+        return logowanieRepository.findByOrderByIdDesc();
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -160,6 +168,24 @@ public class UzytkownikController {
                 uzytkownikRepository.delete(id);
                 model.addAttribute("success", true);
             }
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/uzytkownik/historia")
+    public String historia(Model model) {
+        model.addAttribute("view", "uzytkownik/historia_logowan");
+        model.addAttribute("counter", new Counter());
+        return "main";
+    }
+
+    @RequestMapping(value = "/uzytkownik/historia/{idUzytkownika}")
+    public String historiaUzytkownika(@PathVariable int idUzytkownika, Model model) {
+        model.addAttribute("view", "uzytkownik/historia_logowan_uzytkownika");
+        if (uzytkownikRepository.exists(idUzytkownika)) {
+            Uzytkownik uzytkownik = uzytkownikRepository.findOne(idUzytkownika);
+            model.addAttribute("uzytkownik", uzytkownik);
+            model.addAttribute("counter", new Counter());
         }
         return "main";
     }

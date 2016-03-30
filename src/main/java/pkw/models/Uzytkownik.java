@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * Created by Elimas on 2015-12-23.
@@ -21,7 +22,7 @@ public class Uzytkownik {
     private int poziomDostepuId = 1;
     private PoziomDostepu poziomDostepu;
     private Komisja komisja;
-    //private List<Wybory> wybory;
+    private Set<Logowanie> logowania;
 
     @Id
     @GeneratedValue(generator="UzytkownicyId")
@@ -85,6 +86,16 @@ public class Uzytkownik {
 
     public void setPoziomDostepuId(int poziomDostepuId) {
         this.poziomDostepuId = poziomDostepuId;
+    }
+
+    @OneToMany(mappedBy = "uzytkownik")
+    @org.hibernate.annotations.OrderBy(clause = "id desc")
+    public Set<Logowanie> getLogowania() {
+        return logowania;
+    }
+
+    public void setLogowania(Set<Logowanie> logowania) {
+        this.logowania = logowania;
     }
 
     @Override

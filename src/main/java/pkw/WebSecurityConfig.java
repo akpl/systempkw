@@ -8,25 +8,35 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import pkw.services.LoginLogger;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebMvcSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     DataSource dataSource;
+
+    @Autowired
+    private LoginLogger loginLogger;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
             .authorizeRequests()
+                .antMatchers("/uzytkownik/**").access("hasAuthority('ADMINISTRATOR')")
+                .antMatchers("/wybory/**").access("hasAnyAuthority('ADMINISTRATOR', 'CZLONEK_PKW')")
+                .antMatchers("/komisje/**").access("hasAnyAuthority('ADMINISTRATOR', 'CZLONEK_PKW')")
+                .antMatchers("/protokoly/**").access("hasAuthority('CZLONEK_OKW')")
                 .antMatchers("/css/**", "/img/**", "/template/**", "/wyniki", "/wyniki/*","/")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
+                .successHandler(loginLogger)
                 .loginPage("/login")
                 .permitAll()
                 .and()
