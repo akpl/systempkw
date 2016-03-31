@@ -37,6 +37,26 @@ public class SendMail
         }
     }
 
+    public void addRecipientCcMail(String mail)
+    {
+    try {
+        message.addRecipient(Message.RecipientType.CC, new InternetAddress(mail));
+    }
+    catch(Exception e)
+    {
+        throw new RuntimeException(e);
+    }
+    }
+    public void addRecipientBccMail(String mail)
+    {
+        try {
+            message.addRecipient(Message.RecipientType.BCC, new InternetAddress(mail));
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
     public void setSubject(String subject) {
         this.subject = subject;
     }

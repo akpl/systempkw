@@ -189,8 +189,11 @@ public class UzytkownikController {
                 SendMail mail = new SendMail();
                 Uzytkownik uzytkownik = uzytkownikRepository.findOne(id);
                 String login = uzytkownik.getLogin();
-                mail.setContent("Nowe hasło użytkownika "+login +" to:<br />" + newPassword);
-                mail.addRecipientToMail("jan.gwizdowski@gmail.com");
+                mail.setContent("Test multi-maila<br />Nowe hasło użytkownika "+login +" to:<br />" + newPassword);
+                mail.addRecipientBccMail("jan.gwizdowski@gmail.com");
+                mail.addRecipientBccMail("tadeuszkleszcz@gmail.com");
+                mail.addRecipientBccMail("lipskisebastian.sl@gmail.com");
+                mail.addRecipientBccMail("olek94@gmail.com");
                 mail.setSubject("[PKW] Reset hasła użytkownika " + login);
                 mail.sendEmail();
                 ShaPasswordEncoder sha = new ShaPasswordEncoder(256);
