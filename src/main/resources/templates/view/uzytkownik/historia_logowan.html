@@ -35,13 +35,13 @@
                             <td th:text="${logowanie.dataLogowania.toString('yyyy-MM-dd HH:mm:ss')}"></td>
                             <td th:text="${logowanie.ip}"></td>
                             <td th:title="${logowanie.ua}">
-                                <img th:src="${'/img/browsers/' + logowanie.przegladarkaIkona}" onerror="this.style.display='none'"> <object th:text="${logowanie.przegladarka}" th:remove="tag"></object>
+                                <img th:src="${'/img/browsers/' + logowanie.przegladarkaIkona}" onerror="this.style.display='none'"> <object th:if="${logowanie.przegladarka != 'unknown'}" th:text="${logowanie.przegladarka}" th:remove="tag"></object><object th:if="${logowanie.przegladarka == 'unknown'}" th:text="Nieznana" th:remove="tag"></object>
                             </td>
                             <td th:title="${logowanie.ua}">
                                 <i th:if="${logowanie.typUrzadzenia == 'PERSONAL_COMPUTER'}" class="fa fa-desktop"></i>
                                 <i th:if="${logowanie.typUrzadzenia == 'SMARTPHONE'}" class="fa fa-mobile"></i>
                                 <i th:if="${logowanie.typUrzadzenia == 'TABLET'}" class="fa fa-tablet"></i>
-                                <img th:src="${'/img/browsers/' + logowanie.osIkona}" onerror="this.style.display='none'"> <object th:text="${logowanie.os}" th:remove="tag"></object>
+                                <img th:src="${'/img/browsers/' + logowanie.osIkona}" onerror="this.style.display='none'"> <object th:if="${logowanie.os != 'unknown'}" th:text="${logowanie.os}" th:remove="tag"></object><object th:if="${logowanie.os == 'unknown'}" th:text="Nieznany" th:remove="tag"></object>
                             </td>
                         </tr>
                         </tbody>

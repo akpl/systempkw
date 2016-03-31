@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/systempkw.iml" filepath="$PROJECT_DIR$/.idea/modules/systempkw.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/systempkw_main.iml" filepath="$PROJECT_DIR$/.idea/modules/systempkw_main.iml" group="systempkw" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/systempkw_test.iml" filepath="$PROJECT_DIR$/.idea/modules/systempkw_test.iml" group="systempkw" />
+    </modules>
+  </component>
+</project>
