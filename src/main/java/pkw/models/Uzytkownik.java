@@ -1,5 +1,6 @@
 package pkw.models;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -18,8 +19,7 @@ public class Uzytkownik {
     private String haslo;
     private String imie;
     private String nazwisko;
-    private String resetHaslaN;
-    private String resetHaslaY;
+    private String email;
     private int poziomDostepuId = 1;
     private PoziomDostepu poziomDostepu;
     private Komisja komisja;
@@ -135,21 +135,15 @@ public class Uzytkownik {
         this.komisja = komisja;
     }
 
-    @Transient
-    public String getResetHaslaY() {
-        return resetHaslaY;
+    @NotBlank
+    @Email
+    @Column(name = "EMAIL")
+    public String getEmail() {
+        return email;
     }
 
-    public void setResetHaslaY(String resetHaslaY) {
-        this.resetHaslaY = resetHaslaY;
-    }
-    @Transient
-    public String getResetHaslaN() {
-        return resetHaslaN;
-    }
-
-    public void setResetHaslaN(String resetHaslaN) {
-        this.resetHaslaN = resetHaslaN;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /*@OneToMany(mappedBy = "tworca")

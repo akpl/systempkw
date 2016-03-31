@@ -76,7 +76,7 @@ public class SendMail
     {
         try {
             message.setSubject(subject);
-            message.setContent(content, "text/html");
+            message.setContent(content, "text/html; charset=ISO-8859-2");
             Transport transport = session.getTransport("smtp");
             transport.connect("smtp.gmail.com", username, password);
             transport.sendMessage(message, message.getAllRecipients());
