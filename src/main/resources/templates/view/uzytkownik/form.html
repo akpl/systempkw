@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('haslo')} ? 'has-error'">
                         <label for="haslo">Hasło</label>
-                        <input type="password" class="form-control" th:field="*{haslo}" />
+                        <input type="hidden" class="form-control" th:field="*{haslo}" />
                         <span th:if="${#fields.hasErrors('haslo')}" th:errors="*{haslo}" id="haslo-error" class="help-block">Haslo Error</span>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('poziomDostepuId')} ? 'has-error'">

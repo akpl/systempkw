@@ -18,6 +18,8 @@ import pkw.repositories.UzytkownikRepository;
 import pkw.SendMail;
 
 import javax.validation.Valid;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 @Controller
 public class UzytkownikController {
@@ -115,6 +117,7 @@ public class UzytkownikController {
             else {
                 if (!bindingResult.hasErrors()) {
                     uzytkownik.setId(id);
+                    uzytkownik.setHaslo(uzytkownikDoEdycji.getHaslo());
                     PoziomDostepu poziomDostepu = poziomDostepuRepository.findOne(uzytkownik.getPoziomDostepuId());
                     uzytkownik.setPoziomDostepu(poziomDostepu);
                     uzytkownikRepository.save(uzytkownik);
@@ -160,6 +163,45 @@ public class UzytkownikController {
             else {
                 uzytkownikRepository.delete(id);
                 model.addAttribute("success", true);
+            }
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/uzytkownik/haslo")
+    public String haslo(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "uzytkownik/haslo");
+        if (uzytkownikRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            model.addAttribute("uzytkownik", uzytkownikRepository.findOne(id));
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/uzytkownik/zresetowano")
+    public String zresetowano(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "uzytkownik/zresetowano");
+        if (uzytkownikRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            try{
+                SecureRandom random = new SecureRandom();
+                String newPassword = new BigInteger(60, random).toString(32);
+                SendMail mail = new SendMail();
+                Uzytkownik uzytkownik = uzytkownikRepository.findOne(id);
+                String login = uzytkownik.getLogin();
+                mail.setContent("Nowe hasło użytkownika "+login +" to:<br />" + newPassword);
+                mail.addRecipientToMail("jan.gwizdowski@gmail.com");
+                mail.setSubject("[PKW] Reset hasła użytkownika " + login);
+                mail.sendEmail();
+                ShaPasswordEncoder sha = new ShaPasswordEncoder(256);
+                String encodedPassword = sha.encodePassword(newPassword, null);
+                uzytkownik.setHaslo(encodedPassword);
+                uzytkownikRepository.save(uzytkownik);
+                model.addAttribute("success",true);
+            }
+            catch(Exception e)
+            {
+                model.addAttribute("success",false);
             }
         }
         return "main";

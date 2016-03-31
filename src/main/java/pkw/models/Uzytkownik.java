@@ -18,6 +18,8 @@ public class Uzytkownik {
     private String haslo;
     private String imie;
     private String nazwisko;
+    private String resetHaslaN;
+    private String resetHaslaY;
     private int poziomDostepuId = 1;
     private PoziomDostepu poziomDostepu;
     private Komisja komisja;
@@ -131,6 +133,23 @@ public class Uzytkownik {
 
     public void setKomisja(Komisja komisja) {
         this.komisja = komisja;
+    }
+
+    @Transient
+    public String getResetHaslaY() {
+        return resetHaslaY;
+    }
+
+    public void setResetHaslaY(String resetHaslaY) {
+        this.resetHaslaY = resetHaslaY;
+    }
+    @Transient
+    public String getResetHaslaN() {
+        return resetHaslaN;
+    }
+
+    public void setResetHaslaN(String resetHaslaN) {
+        this.resetHaslaN = resetHaslaN;
     }
 
     /*@OneToMany(mappedBy = "tworca")
