@@ -34,7 +34,7 @@
                             <td th:text="${uzytkownik.imie}"></td>
                             <td th:text="${uzytkownik.nazwisko}"></td>
                             <td th:text="${uzytkownik.poziomDostepu.nazwa}"></td>
-                            <td th:text="${uzytkownik.email}"</td>
+                            <!--<td th:text="${uzytkownik.email}"</td>-->
                             <td><a th:href="@{/uzytkownik/edycja(id=${uzytkownik.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>
                                 <a th:href="@{/uzytkownik/usun(id=${uzytkownik.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a>
                                 <a th:href="@{/uzytkownik/haslo(id=${uzytkownik.id})}" class="btn btn-outline btn-danger" title="Resetuj hasło"><i class="fa fa-undo"></i></a>

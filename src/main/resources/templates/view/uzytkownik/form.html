@@ -34,8 +34,15 @@
                         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="email-error" class="help-block">Email Error</span>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('haslo')} ? 'has-error'">
-                        <label for="haslo">Hasło</label>
-                        <input type="hidden" class="form-control" th:field="*{haslo}" />
+                    <div th:switch="${view}">
+                        <div th:case="${'uzytkownik/dodaj'}">
+                            <label for="haslo">Hasło</label>
+                            <input type="password" class="form-control" th:field="*{haslo}" /><br />
+                        </div>
+                        <div th:case="${'/uzytkownik/edycja'}">
+                            <label for="haslo"></label>
+                            <input type="hidden" class="form-control" th:field="*{haslo}" />
+                        </div>
                         <span th:if="${#fields.hasErrors('haslo')}" th:errors="*{haslo}" id="haslo-error" class="help-block">Haslo Error</span>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('poziomDostepuId')} ? 'has-error'">
