@@ -1,5 +1,6 @@
 package pkw.models;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Uzytkownik {
     private String haslo;
     private String imie;
     private String nazwisko;
+    private String email;
     private int poziomDostepuId = 1;
     private PoziomDostepu poziomDostepu;
     private Komisja komisja;
@@ -142,6 +144,16 @@ public class Uzytkownik {
 
     public void setKomisja(Komisja komisja) {
         this.komisja = komisja;
+    }
+
+    @Email
+    @Column(name = "EMAIL")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /*@OneToMany(mappedBy = "tworca")

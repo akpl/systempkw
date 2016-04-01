@@ -27,6 +27,7 @@ CREATE TABLE uzytkownicy (
   haslo             CHAR(64)     NOT NULL,
   imie              VARCHAR(50)  NOT NULL,
   nazwisko          VARCHAR(50)  NOT NULL,
+  email             varchar(80) DEFAULT NULL,
   poziom_dostepu_id INT(10)      NOT NULL,
   PRIMARY KEY (id)
 );
@@ -189,7 +190,7 @@ ALTER TABLE wyniki_posel ADD CONSTRAINT fk_wyniki_posel_komisje FOREIGN KEY (kom
 ALTER TABLE wyniki_parlamentarne ADD CONSTRAINT fk_wyniki_parl_komitety FOREIGN KEY (komitet_nr) REFERENCES komitety (nr);
 ALTER TABLE wyniki_parlamentarne ADD CONSTRAINT fk_wyniki_parl_okregi FOREIGN KEY (okreg_wyborczy_nr) REFERENCES okregi (nr);
 ALTER TABLE wyniki_parlamentarne ADD CONSTRAINT fk_wyniki_parl_wybory FOREIGN KEY (wybory_id) REFERENCES wybory (id);
-ALTER TABLE logowania ADD CONSTRAINT fk_logowania_u FOREIGN KEY (uzytkownik_id) REFERENCES uzytkownicy (id);
+ALTER TABLE logowania ADD CONSTRAINT fk_logowania_u FOREIGN KEY (uzytkownik_id) REFERENCES uzytkownicy (id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE kandydaci_prezydent ADD CONSTRAINT uc_kprezydent_nr_na_liscie UNIQUE (wybory_id, nr_na_liscie);
 ALTER TABLE kandydaci_posel ADD CONSTRAINT uc_kposel_nr_na_liscie UNIQUE (komitet_nr, nr_na_liscie);
 ALTER TABLE komitety ADD CONSTRAINT uc_komitety_nazwa UNIQUE (wybory_id, nazwa);

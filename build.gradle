@@ -46,6 +46,8 @@ dependencies {
     compile('net.sourceforge.nekohtml:nekohtml:1.9.22')
     compile('net.sf.uadetector:uadetector-resources:2014.10')
     compile('com.google.guava:guava:19.0')
+    compile('javax.mail:mail:1.4.1')
+    compile('javax.activation:activation:1.1.1')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test:4.0.4.RELEASE')
 }

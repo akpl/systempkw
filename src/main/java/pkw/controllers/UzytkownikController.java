@@ -1,5 +1,7 @@
 package pkw.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pkw.Counter;
+import pkw.SendMail;
 import pkw.models.Logowanie;
 import pkw.models.PoziomDostepu;
 import pkw.models.Uzytkownik;
@@ -17,6 +20,8 @@ import pkw.repositories.PoziomDostepuRepository;
 import pkw.repositories.UzytkownikRepository;
 
 import javax.validation.Valid;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 @Controller
 public class UzytkownikController {
@@ -28,6 +33,8 @@ public class UzytkownikController {
 
     @Autowired
     private LogowanieRepository logowanieRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(UzytkownikController.class);
 
     @ModelAttribute("uzytkownicyList")
     public Iterable<Uzytkownik> uzytkownicyList() {
@@ -122,6 +129,7 @@ public class UzytkownikController {
             else {
                 if (!bindingResult.hasErrors()) {
                     uzytkownik.setId(id);
+                    uzytkownik.setHaslo(uzytkownikDoEdycji.getHaslo());
                     PoziomDostepu poziomDostepu = poziomDostepuRepository.findOne(uzytkownik.getPoziomDostepuId());
                     uzytkownik.setPoziomDostepu(poziomDostepu);
                     uzytkownikRepository.save(uzytkownik);
@@ -186,6 +194,46 @@ public class UzytkownikController {
             Uzytkownik uzytkownik = uzytkownikRepository.findOne(idUzytkownika);
             model.addAttribute("uzytkownik", uzytkownik);
             model.addAttribute("counter", new Counter());
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/uzytkownik/haslo")
+    public String haslo(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "uzytkownik/haslo");
+        if (uzytkownikRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            model.addAttribute("uzytkownik", uzytkownikRepository.findOne(id));
+        }
+        return "main";
+    }
+
+    @RequestMapping(value = "/uzytkownik/zresetowano")
+    public String zresetowano(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "uzytkownik/zresetowano");
+        if (uzytkownikRepository.exists(id)) {
+            model.addAttribute("exists", true);
+            Uzytkownik uzytkownik = uzytkownikRepository.findOne(id);
+            if (uzytkownik.getEmail() != null) {
+                try {
+                    SecureRandom random = new SecureRandom();
+                    String newPassword = new BigInteger(60, random).toString(32);
+                    SendMail mail = new SendMail();
+                    String login = uzytkownik.getLogin();
+                    mail.setContent("Nowe hasło użytkownika " + login + " to:<br />" + newPassword);
+                    mail.addRecipientToMail(uzytkownik.getEmail());
+                    mail.setSubject("[PKW] Reset hasła użytkownika " + login);
+                    mail.sendEmail();
+                    ShaPasswordEncoder sha = new ShaPasswordEncoder(256);
+                    String encodedPassword = sha.encodePassword(newPassword, null);
+                    uzytkownik.setHaslo(encodedPassword);
+                    uzytkownikRepository.save(uzytkownik);
+                    model.addAttribute("success", true);
+                } catch (Exception e) {
+                    model.addAttribute("success", false);
+                    logger.error("Error during sending email", e);
+                }
+            } else model.addAttribute("success", false);
         }
         return "main";
     }
