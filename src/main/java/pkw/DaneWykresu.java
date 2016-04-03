@@ -1,22 +1,34 @@
 package pkw;
 
-import java.util.ArrayList;
-import java.util.List;
+import pkw.services.LabelValue;
+
+import java.util.*;
 
 public class DaneWykresu {
-    private List<String> labels = new ArrayList<>();
-    private List<Integer> series = new ArrayList<>();
+    private List<LabelValue> data = new ArrayList<>();
 
-    public List<String> getLabels() {
+    public Collection<String> getLabels() {
+        List<String> labels = new ArrayList<>();
+        for(LabelValue lv : data)
+        {
+            labels.add(lv.getLabel());
+        }
         return labels;
     }
-
-    public List<Integer> getSeries() {
+    public Collection<Integer> getSeries() {
+        List<Integer> series = new ArrayList<>();
+        for(LabelValue lv : data)
+        {
+            series.add(lv.getValue());
+        }
         return series;
     }
 
     public void dodajElement(String etykieta, Integer wartosc) {
-        labels.add(etykieta);
-        series.add(wartosc);
+        data.add(new LabelValue(etykieta, wartosc));
+    }
+
+    public List<LabelValue> getData() {
+        return data;
     }
 }

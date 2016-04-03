@@ -1,6 +1,7 @@
 package pkw.controllers;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -114,6 +115,7 @@ public class ProtokolController {
         model.addAttribute("authorized", false);
         model.addAttribute("success", false);
         model.addAttribute("errorVotes", false);
+        LocalDateTime currentTime = new LocalDateTime();
         if (wyboryRepository.exists(idWybory)) {
             Wybory wybory = wyboryRepository.findOne(idWybory);
             model.addAttribute("exists", true);
@@ -145,6 +147,7 @@ public class ProtokolController {
                                 if (wynikiEdycja != null) {
                                     wyniki.setId(wynikiEdycja.getId());
                                 }
+                                wyniki.setCzasWprowadzenia(currentTime);
                                 wynikiPytaniaReferendalneRepository.save(wyniki);
                                 i++;
                             }
@@ -172,6 +175,7 @@ public class ProtokolController {
         model.addAttribute("authorized", false);
         model.addAttribute("success", false);
         model.addAttribute("errorVotes", false);
+        LocalDateTime currentTime = new LocalDateTime();
         if (wyboryRepository.exists(idWybory)) {
             Wybory wybory = wyboryRepository.findOne(idWybory);
             model.addAttribute("exists", true);
@@ -203,6 +207,7 @@ public class ProtokolController {
                                 if (wynikiEdycja != null) {
                                     wyniki.setId(wynikiEdycja.getId());
                                 }
+                                wyniki.setCzasWprowadzenia(currentTime);
                                 wynikiPrezydentRepository.save(wyniki);
                                 i++;
                             }
@@ -230,6 +235,7 @@ public class ProtokolController {
         model.addAttribute("authorized", false);
         model.addAttribute("success", false);
         model.addAttribute("errorVotes", false);
+        LocalDateTime currentTime = new LocalDateTime();
         if (wyboryRepository.exists(idWybory)) {
             Wybory wybory = wyboryRepository.findOne(idWybory);
             model.addAttribute("exists", true);
@@ -262,6 +268,7 @@ public class ProtokolController {
                                 if (wynikiEdycja != null) {
                                     wyniki.setId(wynikiEdycja.getId());
                                 }
+                                wyniki.setCzasWprowadzenia(currentTime);
                                 wynikiPoselRepository.save(wyniki);
                                 i++;
                             }

@@ -108,6 +108,7 @@ CREATE TABLE wyniki_pytania_referendalne (
   odpowiedzi_nie          INT(10) NOT NULL,
   pytanie_referendalne_id INT(10) NOT NULL,
   komisja_nr              INT(10) NOT NULL,
+  czas_wprowadzenia       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT uc_wyniki_referendum UNIQUE (pytanie_referendalne_id,
                                           komisja_nr),
   PRIMARY KEY (id)
@@ -117,6 +118,7 @@ CREATE TABLE wyniki_prezydent (
   liczba_glosow         INT(10) NOT NULL,
   kandydat_prezydent_id INT(10) NOT NULL,
   komisja_nr            INT(10) NOT NULL,
+  czas_wprowadzenia     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT uc_wyniki_prezydent UNIQUE (kandydat_prezydent_id,
                                          komisja_nr),
   PRIMARY KEY (id)
@@ -126,6 +128,7 @@ CREATE TABLE wyniki_posel (
   liczba_glosow     INT(10) NOT NULL,
   kandydat_posel_id INT(10) NOT NULL,
   komisja_nr        INT(10) NOT NULL,
+  czas_wprowadzenia DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT uc_wyniki_posel UNIQUE (kandydat_posel_id,
                                      komisja_nr),
   PRIMARY KEY (id)

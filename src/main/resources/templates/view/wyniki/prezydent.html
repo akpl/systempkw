@@ -9,28 +9,19 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Wyniki wyborów prezydenckich
             </div>
             <div class="panel-body">
-                <div class="ct-chart ct-perfect-fourth" id="wykres"></div>
+                <div class="ct-chart" id="wykres"></div>
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Frekwencja
-            </div>
-            <div class="panel-body">
-                <div class="ct-chart ct-perfect-fourth" id="frekwencja"></div>
-            </div>
-            <div class="panel-footer">
-                Frekwencja w kraju: <strong th:text="${frekwencja[0]}"></strong>%
-            </div>
-        </div>
+</div>
+<div class="row">
+    <div class="col-lg-12" th:include="${'view/wyniki/frekwencja'} :: body">
     </div>
 </div>
 <div class="row">
@@ -73,16 +64,6 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     var wykres = /*[[${wykres}]]*/ [];
-    var frekwencja =
-    {
-        series: /*[[${frekwencja}]]*/ [50, 50]
-    };
-
-    new Chartist.Pie('#frekwencja', frekwencja,
-            {
-                donut: true
-            });
-
     new Chartist.Bar('#wykres', wykres, {
         distributeSeries: true
     });

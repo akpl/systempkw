@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Frekwencja
+    </div>
+    <div class="panel-body">
+        <div class="col-lg-4">
+            <div class="ct-chart ct-golden-section" id="frekwencja"></div>
+        </div>
+        <div class="col-lg-8">
+            <div class="ct-chart ct-golden-section" id="frekwencja_w_czasie"></div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        Frekwencja w kraju: <strong th:text="${frekwencja[0]}"></strong>%
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var frekwencja =
+    {
+        series: /*[[${frekwencja}]]*/ [50, 50]
+    };
+    new Chartist.Pie('#frekwencja', frekwencja,
+    {
+        donut: true
+    });
+
+    new Morris.Area({
+        element: 'frekwencja_w_czasie',
+        data: /*[[${frekwencjaWCzasie.data}]]*/[],
+        xkey: 'label',
+        ykeys: ['value'],
+        labels: ['Frekwencja'],
+        goals: [30],
+        ymin: 0,
+        ymax: 100,
+        postUnits: '%',
+        goalLineColors: ['#d70206'],
+        fillOpacity: 0.5
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

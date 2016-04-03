@@ -1,6 +1,7 @@
 package pkw.controllers;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +12,7 @@ import pkw.DaneWykresu;
 import pkw.models.*;
 import pkw.repositories.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class WynikiController {
@@ -27,6 +27,9 @@ public class WynikiController {
 
     @Autowired
     private WynikiParlamentarneRepository wynikiParlamentarneRepository;
+
+    @Autowired
+    private KomisjaRepository komisjaRepository;
 
     @Autowired
     private KomitetRepository komitetRepository;
@@ -57,9 +60,9 @@ public class WynikiController {
 
         model.addAttribute("frekwencja", frekwencjaDane);
         DaneWykresu daneWykresu = new DaneWykresu();
-        switch(wybory.getTypWyborow().getId())
+        switch(wybory.getTypWyborow().getNazwa())
         {
-            case 1: //parlamentarne
+            case "PARLAMENTARNE":
                 List<Komitet> komitety = komitetRepository.findByWyboryOrderByNrAsc(wybory);
 
                 for(Komitet komitet : komitety) {
@@ -70,31 +73,69 @@ public class WynikiController {
                 model.addAttribute("wykres", daneWykresu);
                 model.addAttribute("view", "wyniki/parlamentarne");
                 break;
-            case 2: //prezydenckie
+            case "PREZYDENCKIE": {
                 List<KandydatPrezydent> kandydaci = kandydatPrezydentRepository.findByWybory(wybory);
+                SortedMap<LocalDateTime, Integer> liczbaGlosow = new TreeMap<>();
 
-                for(KandydatPrezydent kandydat : kandydaci) {
+                for (KandydatPrezydent kandydat : kandydaci) {
                     daneWykresu.dodajElement(kandydat.getImie() + " " + kandydat.getNazwisko(), kandydat.getWynikLaczny().getLiczbaGlosow());
+                    for (WynikiPrezydent wyniki : kandydat.getWyniki()) {
+                        Integer glosy = liczbaGlosow.getOrDefault(wyniki.getCzasWprowadzenia(), 0);
+                        glosy += wyniki.getLiczbaGlosow();
+                        liczbaGlosow.put(wyniki.getCzasWprowadzenia(), glosy);
+                    }
                 }
 
+                DaneWykresu frekwencjaWCzasie = new DaneWykresu();
+                int sumaGlosow = 0;
+                int liczbaWyborcow = komisjaRepository.getLiczbaWyborcow();
+                for(Map.Entry<LocalDateTime, Integer> punktCzasu : liczbaGlosow.entrySet()) {
+                    sumaGlosow += punktCzasu.getValue();
+                    Double f = (double)sumaGlosow / liczbaWyborcow * 100;
+                    frekwencjaWCzasie.dodajElement(punktCzasu.getKey().toString(), f.intValue());
+                }
+
+                model.addAttribute("frekwencjaWCzasie", frekwencjaWCzasie);
                 model.addAttribute("kandydaci", kandydaci);
                 model.addAttribute("wykres", daneWykresu);
                 model.addAttribute("view", "wyniki/prezydent");
                 break;
-            case 3: //referendum
+            }
+            case "REFERENDUM": {
                 List<PytanieReferendalne> pytania = pytanieReferendalneRepository.findByWybory(wybory);
                 List<List<Integer>> daneWykresow = new ArrayList<>();
+                SortedMap<LocalDateTime, Integer> liczbaGlosow = new TreeMap<>();
+
                 for (PytanieReferendalne pytanie : pytania) {
-                    List<Integer> liczbaGlosow = new ArrayList<>();
+                    List<Integer> glosy = new ArrayList<>();
                     WynikiPytaniaReferendalne wynikLaczny = pytanie.getWynikLaczny();
-                    liczbaGlosow.add(wynikLaczny.getOdpowiedziTak());
-                    liczbaGlosow.add(wynikLaczny.getOdpowiedziNie());
-                    daneWykresow.add(liczbaGlosow);
+                    glosy.add(wynikLaczny.getOdpowiedziTak());
+                    glosy.add(wynikLaczny.getOdpowiedziNie());
+                    daneWykresow.add(glosy);
+
+                    for (WynikiPytaniaReferendalne wyniki : pytanie.getWyniki()) {
+                        Integer gl = liczbaGlosow.getOrDefault(wyniki.getCzasWprowadzenia(), 0);
+                        gl += wyniki.getOdpowiedziTak();
+                        gl += wyniki.getOdpowiedziNie();
+                        liczbaGlosow.put(wyniki.getCzasWprowadzenia(), gl);
+                    }
                 }
+
+                DaneWykresu frekwencjaWCzasie = new DaneWykresu();
+                int sumaGlosow = 0;
+                int liczbaWyborcow = komisjaRepository.getLiczbaWyborcow();
+                for(Map.Entry<LocalDateTime, Integer> punktCzasu : liczbaGlosow.entrySet()) {
+                    sumaGlosow += punktCzasu.getValue();
+                    Double f = (double)sumaGlosow / liczbaWyborcow * 100;
+                    frekwencjaWCzasie.dodajElement(punktCzasu.getKey().toString(), f.intValue());
+                }
+
+                model.addAttribute("frekwencjaWCzasie", frekwencjaWCzasie);
                 model.addAttribute("pytania", pytania);
                 model.addAttribute("wykresy", daneWykresow);
                 model.addAttribute("view", "wyniki/referendum");
                 break;
+            }
         }
         return "main";
     }

@@ -1,5 +1,8 @@
 package pkw.models;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,6 +12,7 @@ public class WynikiPosel {
     private int liczbaGlosow;
     private KandydatPosel kandydatPosel;
     private Komisja komisja;
+    private LocalDateTime czasWprowadzenia;
 
     @Id
     @GeneratedValue(generator="WynikiPoselId")
@@ -50,6 +54,16 @@ public class WynikiPosel {
 
     public void setKomisja(Komisja komisja) {
         this.komisja = komisja;
+    }
+
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+    @Column(name = "CZAS_WPROWADZENIA")
+    public LocalDateTime getCzasWprowadzenia() {
+        return czasWprowadzenia;
+    }
+
+    public void setCzasWprowadzenia(LocalDateTime czasWprowadzenia) {
+        this.czasWprowadzenia = czasWprowadzenia;
     }
 
     @Override
