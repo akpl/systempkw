@@ -10,11 +10,10 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
-@Table(name = "WYBORY")
+@Table(name = "wybory")
 public class Wybory {
     @Id
-    @GeneratedValue(generator="WyboryId")
-    @SequenceGenerator(name="WyboryId",sequenceName="wybory_seq")
+    @GeneratedValue
     @Column(name = "ID")
     private int id;
 

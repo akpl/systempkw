@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Elimas on 2015-12-27.
  */
 @Entity
-@Table(name = "PYTANIA_REFERENDALNE")
+@Table(name = "pytania_referendalne")
 public class PytanieReferendalne {
     private int id;
     private String pytanie;
@@ -17,8 +17,7 @@ public class PytanieReferendalne {
     private List<WynikiPytaniaReferendalne> wyniki;
 
     @Id
-    @GeneratedValue(generator="PytaniaReferendalneId")
-    @SequenceGenerator(name="PytaniaReferendalneId",sequenceName="pytania_referendalne_seq")
+    @GeneratedValue
     @Column(name = "ID")
     public int getId() {
         return id;

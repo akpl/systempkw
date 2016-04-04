@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Elimas on 2015-12-27.
  */
 @Entity
-@Table(name = "KANDYDACI_POSEL")
+@Table(name = "kandydaci_posel")
 public class KandydatPosel {
     private int id;
     private String imie;
@@ -26,8 +26,7 @@ public class KandydatPosel {
     private List<WynikiPosel> wyniki;
 
     @Id
-    @GeneratedValue(generator="KandydaciPoselId")
-    @SequenceGenerator(name="KandydaciPoselId",sequenceName="kandydaci_posel_seq")
+    @GeneratedValue
     @Column(name = "ID")
     public int getId() {
         return id;

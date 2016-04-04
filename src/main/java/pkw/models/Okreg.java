@@ -4,11 +4,10 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "OKREGI")
+@Table(name = "okregi")
 public class Okreg {
     @Id
-    @GeneratedValue(generator="OkregNr")
-    @SequenceGenerator(name="OkregNr",sequenceName="okregi_seq")
+    @GeneratedValue
     @Column(name = "NR")
     private int nr;
 

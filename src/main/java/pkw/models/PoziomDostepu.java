@@ -2,16 +2,13 @@ package pkw.models;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Elimas on 2015-12-23.
  */
 @Entity
-@Table(name = "POZIOMY_DOSTEPU")
+@Table(name = "poziomy_dostepu")
 public class PoziomDostepu {
     private int id;
     private String nazwa;
@@ -19,6 +16,7 @@ public class PoziomDostepu {
     //private List<Uzytkownik> uzytkownicy;
 
     @Id
+    @GeneratedValue
     @Column(name = "ID")
     public int getId() {
         return id;

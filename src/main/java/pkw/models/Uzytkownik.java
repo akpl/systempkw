@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by Elimas on 2015-12-23.
  */
 @Entity
-@Table(name = "UZYTKOWNICY")
+@Table(name = "uzytkownicy")
 public class Uzytkownik {
     private int id;
     private String login;
@@ -27,8 +27,7 @@ public class Uzytkownik {
     private Set<Logowanie> logowania;
 
     @Id
-    @GeneratedValue(generator="UzytkownicyId")
-    @SequenceGenerator(name="UzytkownicyId",sequenceName="uzytkownicy_seq")
+    @GeneratedValue
     @Column(name = "ID")
     public int getId() {
         return id;

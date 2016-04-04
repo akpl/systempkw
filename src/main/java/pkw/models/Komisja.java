@@ -3,11 +3,10 @@ package pkw.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "KOMISJE")
+@Table(name = "komisje")
 public class Komisja {
     @Id
-    @GeneratedValue(generator="KomisjaNr")
-    @SequenceGenerator(name="KomisjaNr",sequenceName="komisje_seq")
+    @GeneratedValue
     @Column(name = "NR")
     private int nr;
 

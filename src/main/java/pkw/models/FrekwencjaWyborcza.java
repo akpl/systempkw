@@ -5,11 +5,10 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "FREKWENCJA_WYBORCZA")
+@Table(name = "frekwencja_wyborcza")
 public class FrekwencjaWyborcza {
     @Id
-    @GeneratedValue(generator="WyboryId")
-    @SequenceGenerator(name="WyboryId",sequenceName="wybory_seq")
+    @GeneratedValue
     @Column(name = "WYBORY_ID")
     private int id;
 

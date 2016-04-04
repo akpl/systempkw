@@ -8,15 +8,14 @@ import javax.persistence.*;
  * Created by Elimas on 2015-12-24.
  */
 @Entity
-@Table(name = "TYPY_WYBOROW")
+@Table(name = "typy_wyborow")
 public class TypWyborow {
     private int id;
     private String nazwa;
     //private List<pkw.models.Wybory> wybory;
 
     @Id
-    @GeneratedValue(generator="TypWyborowId")
-    @SequenceGenerator(name="TypWyborowId",sequenceName="typ_wyborow_seq")
+    @GeneratedValue
     @Column(name = "ID")
     public int getId() {
         return id;

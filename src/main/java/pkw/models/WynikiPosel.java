@@ -6,7 +6,7 @@ import org.joda.time.LocalDateTime;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "WYNIKI_POSEL")
+@Table(name = "wyniki_posel")
 public class WynikiPosel {
     private int id;
     private int liczbaGlosow;
@@ -15,8 +15,7 @@ public class WynikiPosel {
     private LocalDateTime czasWprowadzenia;
 
     @Id
-    @GeneratedValue(generator="WynikiPoselId")
-    @SequenceGenerator(name="WynikiPoselId",sequenceName="wyniki_posel_seq")
+    @GeneratedValue
     @Column(name = "ID")
     public int getId() {
         return id;

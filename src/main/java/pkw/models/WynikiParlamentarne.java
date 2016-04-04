@@ -4,11 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "WYNIKI_PARLAMENTARNE")
+@Table(name = "wyniki_parlamentarne")
 public class WynikiParlamentarne implements Serializable {
     @Id
-    @GeneratedValue(generator="WynikiParlamentarneId")
-    @SequenceGenerator(name="WynikiParlamentarneId",sequenceName="wyniki_parlamentarne_seq")
+    @GeneratedValue
     @Column(name = "ID")
     private int id;
 

@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Elimas on 2015-12-27.
  */
 @Entity
-@Table(name = "KOMITETY")
+@Table(name = "komitety")
 public class Komitet {
     private int nr;
     private String nazwa;
@@ -18,8 +18,7 @@ public class Komitet {
     private List<WynikiParlamentarne> wyniki;
 
     @Id
-    @GeneratedValue(generator="KomitetyId")
-    @SequenceGenerator(name="KomitetyId",sequenceName="komitety_seq")
+    @GeneratedValue
     @Column(name = "NR")
     public int getNr() {
         return nr;
