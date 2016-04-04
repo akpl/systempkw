@@ -43,6 +43,7 @@
         ymin: 0,
         ymax: 100,
         postUnits: '%',
+        dateFormat: function (x) { return new Date(x).toLocaleString(); },
         goalLineColors: ['#d70206'],
         fillOpacity: 0.5
     });

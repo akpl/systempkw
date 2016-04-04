@@ -112,15 +112,16 @@ public class WynikiController {
                     glosy.add(wynikLaczny.getOdpowiedziTak());
                     glosy.add(wynikLaczny.getOdpowiedziNie());
                     daneWykresow.add(glosy);
+                }
 
-                    for (WynikiPytaniaReferendalne wyniki : pytanie.getWyniki()) {
+                if(!pytania.isEmpty()) {
+                    for (WynikiPytaniaReferendalne wyniki : pytania.get(0).getWyniki()) {
                         Integer gl = liczbaGlosow.getOrDefault(wyniki.getCzasWprowadzenia(), 0);
                         gl += wyniki.getOdpowiedziTak();
                         gl += wyniki.getOdpowiedziNie();
                         liczbaGlosow.put(wyniki.getCzasWprowadzenia(), gl);
                     }
                 }
-
                 DaneWykresu frekwencjaWCzasie = new DaneWykresu();
                 int sumaGlosow = 0;
                 int liczbaWyborcow = komisjaRepository.getLiczbaWyborcow();
