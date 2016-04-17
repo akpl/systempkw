@@ -14,6 +14,7 @@ public class SendMail
     private final String password = "hibrzqfucdffdcwt"; //Generowane hasło dla tej apki, użyczam swoje konto na czas testów.
     private Properties properties;
     private Session session;
+    private String replyTo;
     private String subject;
     private String content;
     private Message message;
@@ -25,6 +26,15 @@ public class SendMail
         createSession();
         message = new MimeMessage(session);
     }
+
+    public String getReplyTo() {
+        return replyTo;
+    }
+
+    public void setReplyTo(String replyTo) {
+        this.replyTo = replyTo;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }
@@ -82,6 +92,7 @@ public class SendMail
         try {
             message.setSubject(subject);
             message.setContent(content, "text/html; charset=ISO-8859-2");
+            if (replyTo != null && replyTo.length() > 0) message.setReplyTo(new InternetAddress[] { new InternetAddress(replyTo) });
             Transport transport = session.getTransport("smtp");
             transport.connect("smtp.gmail.com", username, password);
             transport.sendMessage(message, message.getAllRecipients());
