@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pkw.DaneWykresu;
 import pkw.models.*;
 import pkw.repositories.*;
+import pkw.services.WynikiParlamentarneKalkulator;
 
 import java.util.*;
 
@@ -26,13 +27,11 @@ public class WynikiController {
     private KandydatPrezydentRepository kandydatPrezydentRepository;
 
     @Autowired
-    private WynikiParlamentarneRepository wynikiParlamentarneRepository;
-
-    @Autowired
     private KomisjaRepository komisjaRepository;
 
     @Autowired
-    private KomitetRepository komitetRepository;
+    private WynikiParlamentarneKalkulator wynikiParlamentarneKalkulator;
+
 
     @ModelAttribute("wyboryList")
     public Iterable<Wybory> wyboryList() {
@@ -59,23 +58,20 @@ public class WynikiController {
         float[] frekwencjaDane = {frekwencja, 100 - frekwencja};
 
         model.addAttribute("frekwencja", frekwencjaDane);
-        DaneWykresu daneWykresu = new DaneWykresu();
         switch(wybory.getTypWyborow().getNazwa())
         {
-            case "PARLAMENTARNE":
-                List<Komitet> komitety = komitetRepository.findByWyboryOrderByNrAsc(wybory);
+            case "PARLAMENTARNE": {
+                WynikiParlamentarne wyniki = wynikiParlamentarneKalkulator.obliczDlaWyborow(wybory);
 
-                for(Komitet komitet : komitety) {
-                    daneWykresu.dodajElement(komitet.getNazwa(), komitet.getWynikLaczny().getLiczbaPoslow());
-                }
-
-                model.addAttribute("komitety", komitety);
-                model.addAttribute("wykres", daneWykresu);
+                model.addAttribute("komitety", wyniki.getKomitety());
+                model.addAttribute("wykres", wyniki.getWykres());
                 model.addAttribute("view", "wyniki/parlamentarne");
                 break;
+            }
             case "PREZYDENCKIE": {
                 List<KandydatPrezydent> kandydaci = kandydatPrezydentRepository.findByWybory(wybory);
                 SortedMap<LocalDateTime, Integer> liczbaGlosow = new TreeMap<>();
+                DaneWykresu daneWykresu = new DaneWykresu();
 
                 for (KandydatPrezydent kandydat : kandydaci) {
                     daneWykresu.dodajElement(kandydat.getImie() + " " + kandydat.getNazwisko(), kandydat.getWynikLaczny().getLiczbaGlosow());
