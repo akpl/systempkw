@@ -16,4 +16,5 @@ public interface UzytkownikRepository extends CrudRepository<Uzytkownik, Integer
     List<Uzytkownik> findByPoziomDostepu(PoziomDostepu poziomDostepu);
     @Query("SELECT u FROM Uzytkownik u LEFT JOIN u.komisja as komisja WHERE komisja is null and u.poziomDostepu.id = 2")
     List<Uzytkownik> dostepniPrzewodniczacyKomisji();
+    Uzytkownik findFirstByPoziomDostepuOrderByIdAsc(PoziomDostepu poziomDostepu);
 }

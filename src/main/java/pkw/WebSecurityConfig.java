@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/wybory/**").access("hasAnyAuthority('ADMINISTRATOR', 'CZLONEK_PKW')")
                 .antMatchers("/komisje/**").access("hasAnyAuthority('ADMINISTRATOR', 'CZLONEK_PKW')")
                 .antMatchers("/protokoly/**").access("hasAuthority('CZLONEK_OKW')")
-                .antMatchers("/css/**", "/img/**", "/template/**", "/wyniki", "/wyniki/*","/")
+                .antMatchers("/css/**", "/img/**", "/template/**", "/wyniki", "/wyniki/*","/","/kontakt")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

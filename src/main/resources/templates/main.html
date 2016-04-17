@@ -138,6 +138,9 @@
                     <li th:class="${#strings.contains(view, 'wyniki')} ? active">
                         <a th:href="@{/wyniki}" th:class="${view} == 'wyniki/index' ? active"><i class="fa fa-bar-chart fa-fw"></i> Wyniki</a>
                     </li>
+                    <li th:class="${#strings.contains(view, 'kontakt')} ? active">
+                        <a th:href="@{/kontakt}" th:class="${view} == 'kontakt/index' ? active"><i class="fa fa-envelope-o fa-fw"></i> Kontakt</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
