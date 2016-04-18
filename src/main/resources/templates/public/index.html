@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
   <head>
 
     <!-- Basic Page Needs
@@ -81,7 +81,7 @@
             <!-- LOGO -->
 
             <!-- TEXT BASED LOGO -->
-            <a class="navbar-brand" href="#"><span style="color: #E9E8E7">System</span><span style="color:  #D4213D">Wyborczy</span></a>
+            <a class="navbar-brand" href="/"><span style="color: #E9E8E7">System</span><span style="color:  #D4213D">Wyborczy</span></a>
             
             <!-- IMG BASED LOGO  -->
             <!--  <a class="navbar-brand" href="#"><img src="img2/logo.png" alt="logo"></a> -->
@@ -94,8 +94,9 @@
               <li><a href="#about">Cisza Wyborcza</a></li>
               <li><a href="#service">Sejm</a></li> 
               <li><a href="#team">Kandydaci</a></li>                        
-              <li><a href="#contact">Kontakt</a></li> 
-              <li><a href="logowanie.html">Logowanie</a></li>                              
+              <li><a href="#contactFeature">Kontakt</a></li>
+              <li><a th:href="@{/kontakt}">Zostaw wiadomość</a></li>
+              <li><a th:href="@{/panel}">Logowanie</a></li>
             </ul>           
           </div><!--/.nav-collapse -->
           </div>     
@@ -373,49 +374,7 @@
 
 
    
-    <!--=========== BEGAIN CONTACT SECTION ================-->
-    <section id="contact">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12">
-            <!-- START CONTACT HEADING -->
-            <div class="heading">
-              <h2 class="wow fadeInLeftBig">Skontaktuj się z nami</h2>
-              <p>Uwagi, propozycje, skargi. </p>
-            </div>
-          </div>
-        </div>       
-        <div class="row">
-          <!-- BEGAIN CONTACT CONTENT -->
-          <div class="contact_content">
-            <!-- BEGAIN CONTACT FORM -->
-            <div class="col-lg-5 col-md-5 col-sm-5">
-              <div class="contact_form">
 
-                <!-- FOR CONTACT FORM MESSAGE -->
-                <div id="form-messages"></div>
-
-                <form>
-                  <input class="form-control" type="text" placeholder="Imię">
-                  <input class="form-control" type="email" placeholder="Email">
-                  <input class="form-control" type="text" placeholder="Temat">
-                  <textarea class="form-control" cols="30" rows="10" placeholder="Twoja Wiadomość"></textarea>
-                   <input class="submit_btn" type="submit" value="Wyślij">  
-                </form>
-              </div>
-            </div>
-            <!-- BEGAIN CONTACT MAP -->
-            <div class="col-lg-7 col-md-7 col-sm-7">
-              <div class="contact_map">
-              <!-- BEGAIN GOOGLE MAP -->
-               <div id="map_canvas"></div>
-              </div>
-            </div>           
-          </div>
-        </div>      
-      </div>             
-    </section>
-    <!--=========== END CONTACT SECTION ================-->
 
     <!--=========== BEGAIN CONTACT FEATURE SECTION ================-->
     <section id="contactFeature">
