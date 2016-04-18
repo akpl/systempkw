@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pkw.models.TypWyborow;
 import pkw.models.Uzytkownik;
 import pkw.models.Wybory;
+import pkw.models.Newsletter;
 import pkw.repositories.TypWyborowRepository;
 import pkw.repositories.UzytkownikRepository;
 import pkw.repositories.WyboryRepository;
+import pkw.repositories.NewsletterRepository;
+import pkw.SendMail;
 
 import javax.validation.Valid;
+import java.lang.Iterable;
 
 @Controller
 @RequestMapping("/panel")
@@ -31,6 +35,9 @@ public class WyboryController {
 
     @Autowired
     private TypWyborowRepository typWyborowRepository;
+
+    @Autowired
+    private NewsletterRepository newsletterRepository;
 
     @ModelAttribute("wyboryList")
     public Iterable<Wybory> wyboryList() {
@@ -67,6 +74,19 @@ public class WyboryController {
             wybory.setDataUtworzenia(new LocalDate());
             wybory.setTypWyborow(typWyborowRepository.findOne(wybory.getTypWyborowId()));
             wyboryRepository.save(wybory);
+            Iterable<Newsletter> listNewsletter = newsletterRepository.findAll();
+            SendMail news = new SendMail();
+            for(Newsletter a : listNewsletter)
+            {
+                news.addRecipientBccMail(a.getEmail());
+            }
+            StringBuilder content = new StringBuilder("Zostały ogłoszone wybory.</br>");
+            content.append("Odbędą się one ");
+            content.append(new LocalDate().toString());
+            content.append(".</br>");
+            news.setSubject("[PKW] Ogłoszenie o nowych wyborach");
+            news.setContent(content.toString());
+            news.sendEmail();
             model.addAttribute("view", "wybory/zapisano");
             return "main";
         }
@@ -103,6 +123,19 @@ public class WyboryController {
                 TypWyborow typWyborow = typWyborowRepository.findOne(wybory.getTypWyborowId());
                 wybory.setTypWyborow(typWyborow);
                 wyboryRepository.save(wybory);
+                Iterable<Newsletter> listNewsletter = newsletterRepository.findAll();
+                SendMail news = new SendMail();
+                for(Newsletter a : listNewsletter)
+                {
+                    news.addRecipientBccMail(a.getEmail());
+                }
+                StringBuilder content = new StringBuilder("Zostały zmienione wybory.</br>");
+                content.append("Odbędą się one ");
+                content.append(new LocalDate().toString());
+                content.append(".</br>");
+                news.setSubject("[PKW] Zmiana wyborów");
+                news.setContent(content.toString());
+                news.sendEmail();
                 model.addAttribute("view", "wybory/zapisano");
             }
         }
