@@ -12,6 +12,7 @@ import pkw.models.Newsletter;
 import pkw.repositories.NewsletterRepository;
 
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MainController {
@@ -21,10 +22,10 @@ public class MainController {
     private NewsletterRepository newsletterRepository;
 
     @RequestMapping("/")
-    public String index() {
-        return "public/index";
+    public String index(Model model) {
+        model.addAttribute("view", "home");
+        return "main";
     }
-
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginForm() {
         return "login";
