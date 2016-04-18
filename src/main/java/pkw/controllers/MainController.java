@@ -16,4 +16,9 @@ public class MainController {
     public String loginForm() {
         return "login";
     }
+
+    @RequestMapping(value = "/logout-success", method = RequestMethod.GET)
+    public String logoutSuccess() {
+        return "logout-success";
+    }
 }

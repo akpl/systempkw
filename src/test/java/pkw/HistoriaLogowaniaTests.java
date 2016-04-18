@@ -6,26 +6,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
-import pkw.models.Logowanie;
 import pkw.repositories.LogowanieRepository;
 
-import java.nio.charset.Charset;
-
-import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -61,8 +54,8 @@ public class HistoriaLogowaniaTests {
 	@Test
 	@WithMockUser(username="admin",authorities={"ADMINISTRATOR"})
 	public void sprawdzBezpieczenstwoDlaAdministratora() throws Exception {
-		mockMvc.perform(get("/uzytkownik/historia")).andExpect(status().isOk());
-		mockMvc.perform(get("/uzytkownik/historia/0")).andExpect(status().isOk());
+		mockMvc.perform(get("/panel/uzytkownik/historia")).andExpect(status().isOk());
+		mockMvc.perform(get("/panel/uzytkownik/historia/0")).andExpect(status().isOk());
 	}
 
 	/**
@@ -71,12 +64,12 @@ public class HistoriaLogowaniaTests {
      */
 	@Test
 	public void sprawdzBezpieczenstwoDlaNiezalogowanego() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(post("/uzytkownik/historia"))
+		MvcResult mvcResult = mockMvc.perform(post("/panel/uzytkownik/historia"))
 				.andExpect(status().is3xxRedirection()).andReturn();
 		String location = mvcResult.getResponse().getHeader("Location");
 		Assert.assertTrue(location.contains("login"));
 
-		MvcResult mvcResult2 = mockMvc.perform(post("/uzytkownik/historia/0"))
+		MvcResult mvcResult2 = mockMvc.perform(post("/panel/uzytkownik/historia/0"))
 				.andExpect(status().is3xxRedirection()).andReturn();
 		String location2 = mvcResult2.getResponse().getHeader("Location");
 		Assert.assertTrue(location2.contains("login"));
@@ -89,8 +82,8 @@ public class HistoriaLogowaniaTests {
 	@Test
 	@WithMockUser(username="okw",authorities={"CZLONEK_OKW"})
 	public void sprawdzBezpieczenstwoDlaCzlonkaOkw() throws Exception {
-		mockMvc.perform(get("/uzytkownik/historia")).andExpect(status().isForbidden());
-		mockMvc.perform(get("/uzytkownik/historia/0")).andExpect(status().isForbidden());
+		mockMvc.perform(get("/panel/uzytkownik/historia")).andExpect(status().isForbidden());
+		mockMvc.perform(get("/panel/uzytkownik/historia/0")).andExpect(status().isForbidden());
 	}
 
 	/**
@@ -100,7 +93,7 @@ public class HistoriaLogowaniaTests {
 	@Test
 	@WithMockUser(username="pkw",authorities={"CZLONEK_PKW"})
 	public void sprawdzBezpieczenstwoDlaCzlonkaPkw() throws Exception {
-		mockMvc.perform(get("/uzytkownik/historia")).andExpect(status().isForbidden());
-		mockMvc.perform(get("/uzytkownik/historia/0")).andExpect(status().isForbidden());
+		mockMvc.perform(get("/panel/uzytkownik/historia")).andExpect(status().isForbidden());
+		mockMvc.perform(get("/panel/uzytkownik/historia/0")).andExpect(status().isForbidden());
 	}
 }

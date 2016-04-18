@@ -52,4 +52,33 @@ public class KontaktController {
         }
         return "public/kontakt";
     }
+
+    @Deprecated
+    @RequestMapping(value = "/panel/kontakt", method = RequestMethod.GET)
+    public String kontakt2(Kontakt kontakt, Model model) {
+        model.addAttribute("view", "kontakt/index");
+        return "main";
+    }
+
+    @Deprecated
+    @RequestMapping(value = "/panel/kontakt", method = RequestMethod.POST)
+    public String kontakt2(@Valid Kontakt kontakt, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "kontakt/index");
+        if (!bindingResult.hasErrors()) {
+            //email będzie wysłany do pierwszego admina
+            Uzytkownik admin = uzytkownikRepository.findFirstByPoziomDostepuOrderByIdAsc(poziomDostepuRepository.findOne(1));
+            if (admin == null || admin.getEmail() == null || admin.getEmail().length() == 0) {
+                model.addAttribute("error", true);
+            } else {
+                SendMail mail = new SendMail();
+                mail.setContent(kontakt.getWiadomosc().replaceAll("(\r\n|\n\r|\r|\n)", "<br />"));
+                mail.addRecipientToMail(admin.getEmail());
+                mail.setReplyTo(kontakt.getNazwa() + " <" + kontakt.getEmail() + ">");
+                mail.setSubject("[PKW][Kontakt] " + kontakt.getTemat());
+                mail.sendEmail();
+                model.addAttribute("success", true);
+            }
+        }
+        return "main";
+    }
 }

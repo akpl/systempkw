@@ -47,11 +47,6 @@ public class UzytkownikController {
         return logowanieRepository.findByOrderByIdDesc();
     }
 
-    @RequestMapping(value = "/logout-success", method = RequestMethod.GET)
-    public String logoutSuccess() {
-        return "logout-success";
-    }
-
     @RequestMapping(value = "/uzytkownik")
     public String index(Model model) {
         model.addAttribute("view", "uzytkownik/index");
