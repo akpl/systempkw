@@ -18,13 +18,13 @@
                 <div class="alert alert-danger">
                     Wybrane wybory nie istnieją.
                 </div>
-                <a th:href="@{/protokoly}" class="btn btn-default">Powrót</a>
+                <a th:href="@{/panel/protokoly}" class="btn btn-default">Powrót</a>
             </div>
             <div th:if="${exists and !authorized}" class="panel-body">
                 <div class="alert alert-danger">
                     Nie masz uprawnień do wysyłania protkołów głosowań do tych wyborów ponieważ nie jesteś przypisany do żadnej komisji. Poproś administratora lub członka PKW, aby przypisał Cię do komisji.
                 </div>
-                <a th:href="@{/protokoly}" class="btn btn-default">Powrót</a>
+                <a th:href="@{/panel/protokoly}" class="btn btn-default">Powrót</a>
             </div>
             <div th:if="${authorized and exists}" class="panel-body">
                 <div th:if="${errorVotes != null and errorVotes}" class="alert alert-danger">

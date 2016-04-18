@@ -18,7 +18,7 @@
                 <div class="alert alert-danger">
                     Komisja nie istnieje.
                 </div>
-                <a th:href="@{/wybory}" class="btn btn-default">Przeglądaj</a>
+                <a th:href="@{/panel/wybory}" class="btn btn-default">Przeglądaj</a>
             </div>
             <div th:if="${exists}" class="panel-body">
                 <form th:include="view/komisje/form-komisja :: form" th:action="@{/komisje/edytuj(id=${komisja.nr})}" th:object="${komisja}" method="post">

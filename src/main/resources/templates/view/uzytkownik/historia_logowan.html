@@ -31,7 +31,7 @@
                         <tbody>
                         <tr th:each="logowanie : ${logowaniaList}">
                             <td th:text="${counter.next + 1}"></td>
-                            <td><a th:href="@{/uzytkownik/historia/{idUzytkownika}(idUzytkownika=${logowanie.uzytkownik.id})}" th:text="${logowanie.uzytkownik.login}"></a></td>
+                            <td><a th:href="@{/panel/uzytkownik/historia/{idUzytkownika}(idUzytkownika=${logowanie.uzytkownik.id})}" th:text="${logowanie.uzytkownik.login}"></a></td>
                             <td th:text="${logowanie.dataLogowania.toString('yyyy-MM-dd HH:mm:ss')}"></td>
                             <td th:text="${logowanie.ip}"></td>
                             <td th:title="${logowanie.ua}">

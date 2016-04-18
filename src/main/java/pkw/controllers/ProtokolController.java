@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 
 @Controller
+@RequestMapping("/panel")
 public class ProtokolController {
     @Autowired
     private WyboryRepository wyboryRepository;

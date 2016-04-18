@@ -29,7 +29,7 @@ public class KontaktController {
     @RequestMapping(value = "/kontakt", method = RequestMethod.GET)
     public String kontakt(Kontakt kontakt, Model model) {
         model.addAttribute("view", "kontakt/index");
-        return "main";
+        return "public/kontakt";
     }
 
     @RequestMapping(value = "/kontakt", method = RequestMethod.POST)
@@ -50,6 +50,6 @@ public class KontaktController {
                 model.addAttribute("success", true);
             }
         }
-        return "main";
+        return "public/kontakt";
     }
 }

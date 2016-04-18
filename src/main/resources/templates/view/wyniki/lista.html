@@ -32,11 +32,11 @@
                         <tr th:each="wybory : ${wyboryList}">
                             <td th:text="${wybory.id}"></td>
                             <td>
-                                <a th:href="@{/wyniki/wyswietl(idWybory=${wybory.id})}" th:text="${wybory.typWyborow.nazwa}"></a>
+                                <a th:href="@{/panel/wyniki/wyswietl(idWybory=${wybory.id})}" th:text="${wybory.typWyborow.nazwa}"></a>
                             </td>
                             <td th:text="${wybory.dataGlosowania}"></td>
                             <td>
-                                <a th:href="@{/wyniki/wyswietl(idWybory=${wybory.id})}" class="btn btn-outline btn-primary" title="Wyświetl wyniki">
+                                <a th:href="@{/panel/wyniki/wyswietl(idWybory=${wybory.id})}" class="btn btn-outline btn-primary" title="Wyświetl wyniki">
                                     <i class="fa fa-folder-open"></i>
                                 </a>
                             </td>

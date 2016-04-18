@@ -18,7 +18,7 @@
                 <div class="alert alert-danger">
                     Wybrane wybory nie istnieją.
                 </div>
-                <a th:href="@{/wybory}" class="btn btn-default">Przeglądaj wybory</a>
+                <a th:href="@{/panel/wybory}" class="btn btn-default">Przeglądaj wybory</a>
             </div>
             <div th:if="${exists}" class="panel-body">
                 <div th:if="${success != null and success}" class="alert alert-success">
@@ -52,12 +52,12 @@
                             <td th:text="${kandydat.zawod}"></td>
                             <td th:text="${kandydat.miejsceZamieszkania}"></td>
                             <td th:text="${kandydat.partia}"></td>
-                            <td><a th:href="@{/wybory/szczegoly/komitety/poslowie/edycja(idWybory=${wybory.id}, idKomitet=${komitet.nr}, idKandydatPosel=${kandydat.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/wybory/szczegoly/komitety/poslowie/usun(idWybory=${wybory.id}, idKomitet=${komitet.nr}, idKandydatPosel=${kandydat.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                            <td><a th:href="@{/panel/wybory/szczegoly/komitety/poslowie/edycja(idWybory=${wybory.id}, idKomitet=${komitet.nr}, idKandydatPosel=${kandydat.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/panel/wybory/szczegoly/komitety/poslowie/usun(idWybory=${wybory.id}, idKomitet=${komitet.nr}, idKandydatPosel=${kandydat.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <a th:href="@{/wybory/szczegoly/komitety/poslowie/dodaj(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" type="submit" class="btn btn-success">Dodaj kandydata</a>
+                <a th:href="@{/panel/wybory/szczegoly/komitety/poslowie/dodaj(idWybory=${wybory.id}, idKomitet=${komitet.nr})}" type="submit" class="btn btn-success">Dodaj kandydata</a>
             </div>
         </div>
     </div>

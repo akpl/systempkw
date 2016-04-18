@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequestMapping("/panel")
 public class KomisjaController {
     @Autowired
     private OkregRepository okregRepository;

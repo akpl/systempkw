@@ -18,7 +18,7 @@
                 <div class="alert alert-danger">
                     Nie ma wolnych użytkowników z uprawnieniami Członek OKW którzy mogliby być przypisani do tej komisji.
                 </div>
-                <a th:href="@{/komisje}" class="btn btn-default">Powrót</a>
+                <a th:href="@{/panel/komisje}" class="btn btn-default">Powrót</a>
             </div>
             <div th:if="${usersAvailable}" class="panel-body">
                 <form th:include="view/komisje/form-komisja :: form" th:action="@{/komisje/dodaj(okreg=${idOkregu})}" th:object="${komisja}" method="post">

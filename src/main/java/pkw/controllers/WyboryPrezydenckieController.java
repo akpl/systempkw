@@ -14,6 +14,7 @@ import pkw.repositories.WyboryRepository;
 import javax.validation.Valid;
 
 @Controller
+@RequestMapping("/panel")
 public class WyboryPrezydenckieController {
     @Autowired
     private WyboryRepository wyboryRepository;

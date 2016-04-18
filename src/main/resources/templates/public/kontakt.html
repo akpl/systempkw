@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Bootstrap Core CSS -->
+    <link href="/template/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- MetisMenu CSS -->
+    <link href="/template/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="/template/dist/css/sb-admin-2.css" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="/template/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" />
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+    <link href="/template/bower_components/morrisjs/morris.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery -->
+    <script src="/template/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script src="/template/bower_components/raphael/raphael-min.js"></script>
+    <script src="/template/bower_components/morrisjs/morris.min.js"></script>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Kontakt</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Kontakt z urzędnikiem
+            </div>
+            <div th:if="${error != null and error}" class="panel-body">
+                <div class="alert alert-danger">
+                    Przepraszamy. Nie ma obecnie urzędnika, który mógłby obsłużyc twoje zapytanie.
+                </div>
+            </div>
+            <div th:if="${success != null and success}" class="panel-body">
+                <div class="alert alert-success">
+                    Wiadomość została wysłana. Dziękujemy.
+                </div>
+            </div>
+            <div th:if="${success == null}" class="panel-body">
+                <form th:object="${kontakt}" method="post">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('nazwa')} ? 'has-error'">
+                        <label for="nazwa">Imię i nazwisko</label>
+                        <input type="text" class="form-control" th:field="*{nazwa}" />
+                        <span th:if="${#fields.hasErrors('nazwa')}" th:errors="*{nazwa}" id="nazwa-error" class="help-block">nazwa Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" th:field="*{email}" />
+                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="email-error" class="help-block">Email Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('temat')} ? 'has-error'">
+                        <label for="temat">Temat</label>
+                        <input type="text" class="form-control" th:field="*{temat}" />
+                        <span th:if="${#fields.hasErrors('temat')}" th:errors="*{temat}" id="temat-error" class="help-block">temat Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('wiadomosc')} ? 'has-error'">
+                        <label for="wiadomosc">Wiadomość</label>
+                        <textarea type="text" class="form-control" th:field="*{wiadomosc}"></textarea>
+                        <span th:if="${#fields.hasErrors('wiadomosc')}" th:errors="*{wiadomosc}" id="wiadomosc-error" class="help-block">wiadomosc Error</span>
+                    </div>
+                    <button type="submit" class="btn btn-success">Wyślij</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

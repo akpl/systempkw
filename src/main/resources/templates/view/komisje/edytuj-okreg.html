@@ -18,7 +18,7 @@
                 <div class="alert alert-danger">
                     Okręg nie istnieje.
                 </div>
-                <a th:href="@{/wybory}" class="btn btn-default">Przeglądaj</a>
+                <a th:href="@{/panel/wybory}" class="btn btn-default">Przeglądaj</a>
             </div>
             <div th:if="${exists}" class="panel-body">
                 <form th:include="view/komisje/form-okreg :: form" th:action="@{/komisje/okregi/edytuj(id=${okreg.nr})}" th:object="${okreg}" method="post">

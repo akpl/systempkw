@@ -18,7 +18,7 @@
                 <div class="alert alert-danger">
                     Wybrane wybory nie istnieją.
                 </div>
-                <a th:href="@{/wybory}" class="btn btn-default">Przeglądaj wybory</a>
+                <a th:href="@{/panel/wybory}" class="btn btn-default">Przeglądaj wybory</a>
             </div>
             <div th:if="${exists}" class="panel-body">
                 <form th:include="view/wybory/szczegoly/poslowie/form :: form" th:action="@{/wybory/szczegoly/komitety/poslowie/dodaj(idWybory=${idWybory}, idKomitet=${idKomitet})}" th:object="${kandydatPosel}" method="post">

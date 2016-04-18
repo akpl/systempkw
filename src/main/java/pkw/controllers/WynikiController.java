@@ -15,6 +15,7 @@ import pkw.repositories.*;
 import java.util.*;
 
 @Controller
+@RequestMapping("/panel")
 public class WynikiController {
     @Autowired
     private WyboryRepository wyboryRepository;

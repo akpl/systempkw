@@ -18,13 +18,13 @@
                 <div class="alert alert-danger">
                     Nie ma zaplanowanych wyborów na dzisiaj. Protokoły z głosowań można wysyłać tylko w trakcie ich trwania.
                 </div>
-                <a th:href="@{/wybory/dodaj}" class="btn btn-default">Zaplanuj nowe wybory</a>
+                <a th:href="@{/panel/wybory/dodaj}" class="btn btn-default">Zaplanuj nowe wybory</a>
             </div>
             <div th:if="${!authorized}" class="panel-body">
                 <div class="alert alert-danger">
                     Nie masz uprawnień do wysyłania protkołów głosowań do tych wyborów ponieważ nie jesteś przypisany do żadnej komisji. Poproś administratora lub członka PKW, aby przypisał Cię do komisji.
                 </div>
-                <a th:href="@{/protokoly}" class="btn btn-default">Powrót</a>
+                <a th:href="@{/panel/protokoly}" class="btn btn-default">Powrót</a>
             </div>
             <div th:if="${authorized and !#lists.isEmpty(dzisiejszeWybory)}" class="panel-body">
                 <!--<div class="col-lg-8">-->
@@ -122,8 +122,8 @@
                                         </table>
                                     </div>
                                 </div>
-                                <a th:if="${!wybory.getCzySaWyniki(komisja)}" th:href="@{/protokoly/wyslij(idWybory=${wybory.id})}" class="btn btn-primary">Wyślij protokół z głosowania</a>
-                                <a th:if="${wybory.getCzySaWyniki(komisja)}" th:href="@{/protokoly/wyslij(idWybory=${wybory.id})}" class="btn btn-primary">Popraw protokół z głosowania</a>
+                                <a th:if="${!wybory.getCzySaWyniki(komisja)}" th:href="@{/panel/protokoly/wyslij(idWybory=${wybory.id})}" class="btn btn-primary">Wyślij protokół z głosowania</a>
+                                <a th:if="${wybory.getCzySaWyniki(komisja)}" th:href="@{/panel/protokoly/wyslij(idWybory=${wybory.id})}" class="btn btn-primary">Popraw protokół z głosowania</a>
                             </div>
                         </div>
                     </div>

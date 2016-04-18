@@ -24,6 +24,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 @Controller
+@RequestMapping("/panel")
 public class UzytkownikController {
     @Autowired
     private UzytkownikRepository uzytkownikRepository;
@@ -44,11 +45,6 @@ public class UzytkownikController {
     @ModelAttribute("logowaniaList")
     public Iterable<Logowanie> logowaniaList() {
         return logowanieRepository.findByOrderByIdDesc();
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginForm() {
-        return "login";
     }
 
     @RequestMapping(value = "/logout-success", method = RequestMethod.GET)

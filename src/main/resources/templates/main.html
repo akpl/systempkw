@@ -55,7 +55,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" th:href="@{/}">System wyborczy</a>
+            <a class="navbar-brand" th:href="@{/panel/}">System wyborczy</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -76,7 +76,7 @@
 
         <div sec:authorize="isAnonymous()" class="nav navbar-top-links navbar-right">
             <li>
-                <a th:href="@{/login}"><span class="fa fa-sign-in"></span> Logowanie</a>
+                <a th:href="@{/panel/login}"><span class="fa fa-sign-in"></span> Logowanie</a>
             </li>
         </div>
         <!-- /.navbar-top-links -->
@@ -85,61 +85,61 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li th:class="${view} == 'home' ? active">
-                        <a th:href="@{/}" th:class="${view} == 'home' ? active"><i class="fa fa-home fa-fw"></i> Strona główna</a>
+                        <a th:href="@{/panel/}" th:class="${view} == 'home' ? active"><i class="fa fa-home fa-fw"></i> Strona główna</a>
                     </li>
-                    <li sec:authorize-url="/wybory" th:class="${#strings.contains(view, 'wybory')} ? active">
+                    <li sec:authorize-url="/panel/wybory" th:class="${#strings.contains(view, 'wybory')} ? active">
                         <a href="#"><i class="fa fa-gavel fa-fw"></i> Wybory<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a th:href="@{/wybory}" th:class="${view} == 'wybory/index' ? active">Przeglądaj</a>
+                                <a th:href="@{/panel/wybory}" th:class="${view} == 'wybory/index' ? active">Przeglądaj</a>
                             </li>
                             <li>
-                                <a th:href="@{/wybory/dodaj}" th:class="${view} == 'wybory/dodaj' ? active">Zaplanuj</a>
+                                <a th:href="@{/panel/wybory/dodaj}" th:class="${view} == 'wybory/dodaj' ? active">Zaplanuj</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-                    <li sec:authorize-url="/uzytkownik" th:class="${#strings.contains(view, 'uzytkownik')} ? active">
+                    <li sec:authorize-url="/panel/uzytkownik" th:class="${#strings.contains(view, 'uzytkownik')} ? active">
                         <a href="#"><i class="fa fa-users fa-fw"></i> Użytkownicy<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a th:href="@{/uzytkownik}" th:class="${view} == 'uzytkownik/index' ? active">Przeglądaj</a>
+                                <a th:href="@{/panel/uzytkownik}" th:class="${view} == 'uzytkownik/index' ? active">Przeglądaj</a>
                             </li>
                             <li>
-                                <a th:href="@{/uzytkownik/dodaj}" th:class="${view} == 'uzytkownik/dodaj' ? active">Dodaj</a>
+                                <a th:href="@{/panel/uzytkownik/dodaj}" th:class="${view} == 'uzytkownik/dodaj' ? active">Dodaj</a>
                             </li>
                             <li>
-                                <a th:href="@{/uzytkownik/historia}" th:class="${view} == 'uzytkownik/historia' ? active">Historia logowań</a>
+                                <a th:href="@{/panel/uzytkownik/historia}" th:class="${view} == 'uzytkownik/historia' ? active">Historia logowań</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-                    <li sec:authorize-url="/komisje" th:class="${#strings.contains(view, 'komisje')} ? active">
+                    <li sec:authorize-url="/panel/komisje" th:class="${#strings.contains(view, 'komisje')} ? active">
                         <a href="#"><i class="fa fa-university fa-fw"></i> Komisje i okręgi<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a th:href="@{/komisje}" th:class="${view} == 'komisje' ? active">Przeglądaj</a>
+                                <a th:href="@{/panel/komisje}" th:class="${view} == 'komisje' ? active">Przeglądaj</a>
                             </li>
                             <li>
-                                <a th:href="@{/komisje/okregi/dodaj}" th:class="${view} == 'komisje/okregi/dodaj' ? active">Dodaj okręg</a>
+                                <a th:href="@{/panel/komisje/okregi/dodaj}" th:class="${view} == 'komisje/okregi/dodaj' ? active">Dodaj okręg</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-                    <li sec:authorize-url="/protokoly" th:class="${#strings.contains(view, 'protokoly')} ? active">
+                    <li sec:authorize-url="/panel/protokoly" th:class="${#strings.contains(view, 'protokoly')} ? active">
                         <a href="#"><i class="fa fa-envelope fa-fw"></i> Protokoły<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a th:href="@{/protokoly}" th:class="${view} == 'protokoly/index' ? active">Wyślij protokół</a>
+                                <a th:href="@{/panel/protokoly}" th:class="${view} == 'protokoly/index' ? active">Wyślij protokół</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
                     <li th:class="${#strings.contains(view, 'wyniki')} ? active">
-                        <a th:href="@{/wyniki}" th:class="${view} == 'wyniki/index' ? active"><i class="fa fa-bar-chart fa-fw"></i> Wyniki</a>
+                        <a th:href="@{/panel/wyniki}" th:class="${view} == 'wyniki/index' ? active"><i class="fa fa-bar-chart fa-fw"></i> Wyniki</a>
                     </li>
                     <li th:class="${#strings.contains(view, 'kontakt')} ? active">
-                        <a th:href="@{/kontakt}" th:class="${view} == 'kontakt/index' ? active"><i class="fa fa-envelope-o fa-fw"></i> Kontakt</a>
+                        <a th:href="@{/panel/kontakt}" th:class="${view} == 'kontakt/index' ? active"><i class="fa fa-envelope-o fa-fw"></i> Kontakt</a>
                     </li>
                 </ul>
             </div>

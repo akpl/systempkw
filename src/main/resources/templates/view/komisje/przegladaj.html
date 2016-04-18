@@ -36,9 +36,9 @@
                                 <h4 th:inline="text">[[${okreg.nazwa}]] <small>(woj. [[${okreg.wojewodztwo}]], m. [[${okreg.miasto}]])</small></h4>
                             </td>
                             <td>
-                                <a th:href="@{/komisje/dodaj(okreg=${okreg.nr})}" class="btn btn-outline btn-success" title="Dodaj komisję"><i class="fa fa-plus"></i></a>
-                                <a th:href="@{/komisje/okregi/edytuj(id=${okreg.nr})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>
-                                <a th:href="@{/komisje/okregi/usun(id=${okreg.nr})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a>
+                                <a th:href="@{/panel/komisje/dodaj(okreg=${okreg.nr})}" class="btn btn-outline btn-success" title="Dodaj komisję"><i class="fa fa-plus"></i></a>
+                                <a th:href="@{/panel/komisje/okregi/edytuj(id=${okreg.nr})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>
+                                <a th:href="@{/panel/komisje/okregi/usun(id=${okreg.nr})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a>
                             </td>
                         </tr>
                         <tr th:each="komisja : ${okreg.komisje}">
@@ -48,8 +48,8 @@
                             <td th:text="${komisja.liczbaWyborcow}"></td>
                             <td th:inline="text">[[${komisja.przewodniczacy.nazwisko}]], [[${komisja.przewodniczacy.imie}]]</td>
                             <td>
-                                <a th:href="@{/komisje/edytuj(id=${komisja.nr})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>
-                                <a th:href="@{/komisje/usun(id=${komisja.nr})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a>
+                                <a th:href="@{/panel/komisje/edytuj(id=${komisja.nr})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>
+                                <a th:href="@{/panel/komisje/usun(id=${komisja.nr})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a>
                             </td>
                         </tr>
                         </tbody>

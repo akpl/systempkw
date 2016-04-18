@@ -35,7 +35,7 @@
                             <td th:text="${wybory.dataGlosowania}"></td>
                             <td th:text="${wybory.dataUtworzenia}"></td>
                             <td th:text="${wybory.tworca.login}"></td>
-                            <td><a th:href="@{/wybory/szczegoly(idWybory=${wybory.id})}" class="btn btn-outline btn-primary" title="Lista kandydatów/pytań do referendum"><i class="fa fa-list"></i></a>  <a th:href="@{/wybory/edycja(id=${wybory.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/wybory/usun(id=${wybory.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
+                            <td><a th:href="@{/panel/wybory/szczegoly(idWybory=${wybory.id})}" class="btn btn-outline btn-primary" title="Lista kandydatów/pytań do referendum"><i class="fa fa-list"></i></a>  <a th:href="@{/panel/wybory/edycja(id=${wybory.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>  <a th:href="@{/panel/wybory/usun(id=${wybory.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
