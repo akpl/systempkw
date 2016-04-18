@@ -15,7 +15,7 @@
                 Zaplanuj nowe wybory lub referendum
             </div>
             <div class="panel-body">
-                <form th:include="view/wybory/form :: form" th:action="@{/wybory/dodaj}" th:object="${wybory}" method="post">
+                <form th:include="view/wybory/form :: form" th:action="@{/panel/wybory/dodaj}" th:object="${wybory}" method="post">
 
                 </form>
             </div>

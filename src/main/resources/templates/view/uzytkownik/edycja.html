@@ -27,7 +27,7 @@
                 <a th:href="@{/panel/uzytkownik}" class="btn btn-default">Przeglądaj użytkowników</a>
             </div>
             <div th:if="${exists and !currentUser}" class="panel-body">
-                <form th:include="view/uzytkownik/form :: form" th:action="@{/uzytkownik/edycja(id=${uzytkownik.id})}" th:object="${uzytkownik}" method="post">
+                <form th:include="view/uzytkownik/form :: form" th:action="@{/panel/uzytkownik/edycja(id=${uzytkownik.id})}" th:object="${uzytkownik}" method="post">
 
                 </form>
             </div>

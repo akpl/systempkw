@@ -1,6 +1,7 @@
 package pkw.controllers;
 
 import org.joda.time.LocalDate;
+import org.joda.time.Months;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -82,8 +83,10 @@ public class WyboryController {
             }
             StringBuilder content = new StringBuilder("Zostały ogłoszone wybory.</br>");
             content.append("Odbędą się one ");
-            content.append(new LocalDate().toString());
-            content.append(".</br>");
+            content.append(wybory.getDataGlosowania());
+            content.append(" czyli za ok. ");
+            content.append(Months.monthsBetween(wybory.getDataUtworzenia(),wybory.getDataGlosowania()).getMonths());
+            content.append(" miesięcy.</br>");
             news.setSubject("[PKW] Ogłoszenie o nowych wyborach");
             news.setContent(content.toString());
             news.sendEmail();
@@ -131,8 +134,10 @@ public class WyboryController {
                 }
                 StringBuilder content = new StringBuilder("Zostały zmienione wybory.</br>");
                 content.append("Odbędą się one ");
-                content.append(new LocalDate().toString());
-                content.append(".</br>");
+                content.append(wybory.getDataGlosowania());
+                content.append(" czyli za ok. ");
+                content.append(Months.monthsBetween(wybory.getDataUtworzenia(),wybory.getDataGlosowania()).getMonths());
+                content.append(" miesięcy.</br>");
                 news.setSubject("[PKW] Zmiana wyborów");
                 news.setContent(content.toString());
                 news.sendEmail();

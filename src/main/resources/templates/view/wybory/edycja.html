@@ -21,7 +21,7 @@
                 <a th:href="@{/panel/wybory}" class="btn btn-default">Przeglądaj wybory</a>
             </div>
             <div th:if="${exists}" class="panel-body">
-                <form th:include="view/wybory/form :: form" th:action="@{/wybory/edycja(id=${id})}" th:object="${wybory}" method="post">
+                <form th:include="view/wybory/form :: form" th:action="@{/panel/wybory/edycja(id=${id})}" th:object="${wybory}" method="post">
 
                 </form>
             </div>

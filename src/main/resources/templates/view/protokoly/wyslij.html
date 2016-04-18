@@ -36,13 +36,13 @@
                     <p>Adres: <b th:text="${komisja.adres}"></b></p>
                     <p>Liczba wyborców: <b th:text="${komisja.liczbaWyborcow}"></b></p>
                 </div>
-                <form th:if="${wybory.typWyborow.nazwa == 'REFERENDUM'}" th:include="view/protokoly/form-referendum :: form" th:action="@{/protokoly/wyslij/referendum(idWybory=${wybory.id})}" th:object="${wynikiPytaniaReferendalneCollection}" method="post">
+                <form th:if="${wybory.typWyborow.nazwa == 'REFERENDUM'}" th:include="view/protokoly/form-referendum :: form" th:action="@{/panel/protokoly/wyslij/referendum(idWybory=${wybory.id})}" th:object="${wynikiPytaniaReferendalneCollection}" method="post">
 
                 </form>
-                <form th:if="${wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" th:include="view/protokoly/form-prezydenckie :: form" th:action="@{/protokoly/wyslij/prezydenckie(idWybory=${wybory.id})}" th:object="${wynikiPrezydentCollection}" method="post">
+                <form th:if="${wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" th:include="view/protokoly/form-prezydenckie :: form" th:action="@{/panel/protokoly/wyslij/prezydenckie(idWybory=${wybory.id})}" th:object="${wynikiPrezydentCollection}" method="post">
 
                 </form>
-                <form th:if="${wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" th:include="view/protokoly/form-parlamentarne :: form" th:action="@{/protokoly/wyslij/parlamentarne(idWybory=${wybory.id})}" th:object="${wynikiPoselCollection}" method="post">
+                <form th:if="${wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" th:include="view/protokoly/form-parlamentarne :: form" th:action="@{/panel/protokoly/wyslij/parlamentarne(idWybory=${wybory.id})}" th:object="${wynikiPoselCollection}" method="post">
 
                 </form>
             </div>

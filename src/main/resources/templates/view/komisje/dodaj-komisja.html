@@ -21,7 +21,7 @@
                 <a th:href="@{/panel/komisje}" class="btn btn-default">Powrót</a>
             </div>
             <div th:if="${usersAvailable}" class="panel-body">
-                <form th:include="view/komisje/form-komisja :: form" th:action="@{/komisje/dodaj(okreg=${idOkregu})}" th:object="${komisja}" method="post">
+                <form th:include="view/komisje/form-komisja :: form" th:action="@{/panel/komisje/dodaj(okreg=${idOkregu})}" th:object="${komisja}" method="post">
 
                 </form>
             </div>

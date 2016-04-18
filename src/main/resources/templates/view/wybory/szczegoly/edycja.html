@@ -21,17 +21,17 @@
                 <a th:href="@{/panel/wybory}" class="btn btn-default">Przeglądaj wybory</a>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'PARLAMENTARNE'}" class="panel-body">
-                <form th:include="view/wybory/szczegoly/form-komitet :: form" th:action="@{/wybory/szczegoly/komitety/edycja(idWybory=${idWybory}, idKomitet=${idKomitet})}" th:object="${komitet}" method="post">
+                <form th:include="view/wybory/szczegoly/form-komitet :: form" th:action="@{/panel/wybory/szczegoly/komitety/edycja(idWybory=${idWybory}, idKomitet=${idKomitet})}" th:object="${komitet}" method="post">
 
                 </form>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
-                <form th:include="view/wybory/szczegoly/form-kandydat-prezydent :: form" th:action="@{/wybory/szczegoly/prezydenckie/edycja(idWybory=${idWybory}, idKandydatPrezydent=${idKandydatPrezydent})}" th:object="${kandydatPrezydent}" method="post">
+                <form th:include="view/wybory/szczegoly/form-kandydat-prezydent :: form" th:action="@{/panel/wybory/szczegoly/prezydenckie/edycja(idWybory=${idWybory}, idKandydatPrezydent=${idKandydatPrezydent})}" th:object="${kandydatPrezydent}" method="post">
 
                 </form>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'REFERENDUM'}" class="panel-body">
-                <form th:include="view/wybory/szczegoly/form-pytania-referendum :: form" th:action="@{/wybory/szczegoly/referendum/edycja(idWybory=${idWybory}, idPytanieReferendalne=${idPytanieReferendalne})}" th:object="${pytanieReferendalne}" method="post">
+                <form th:include="view/wybory/szczegoly/form-pytania-referendum :: form" th:action="@{/panel/wybory/szczegoly/referendum/edycja(idWybory=${idWybory}, idPytanieReferendalne=${idPytanieReferendalne})}" th:object="${pytanieReferendalne}" method="post">
 
                 </form>
             </div>
