@@ -3,8 +3,8 @@ package pkw.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MainController {
@@ -14,10 +14,10 @@ public class MainController {
     private NewsletterRepository newsletterRepository;
 
     @RequestMapping("/")
-    public String index() {
-        return "public/index";
+    public String index(Model model) {
+        model.addAttribute("view", "home");
+        return "main";
     }
-
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginForm() {
         return "login";
