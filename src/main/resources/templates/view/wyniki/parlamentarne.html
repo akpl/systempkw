@@ -12,7 +12,7 @@
     <div class="col-lg-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Wyniki procentowe
+                Liczba posłów
             </div>
             <div class="panel-body">
                 <div class="ct-chart ct-perfect-fourth" id="wykres"></div>
@@ -50,9 +50,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="komitet : ${komitety}">
-                        <td th:text="${komitet.nr}"></td>
-                        <td th:text="${komitet.nazwa}"></td>
-                        <td th:text="${komitet.wynikLaczny.liczbaPoslow}"></td>
+                        <td th:text="${komitet.key.nr}"></td>
+                        <td th:text="${komitet.key.nazwa}"></td>
+                        <td th:text="${komitet.value}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -74,7 +74,11 @@
             });
 
     new Chartist.Bar('#wykres', wykres, {
-        distributeSeries: true
+        distributeSeries: true,
+        reverseData: false,
+        axisY: {
+            onlyInteger: true
+        }
     });
     /*]]>*/
 </script>
