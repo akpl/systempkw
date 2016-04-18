@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import pkw.models.PoziomDostepu;
 import pkw.models.Newsletter;
 import pkw.repositories.NewsletterRepository;
 
@@ -33,8 +34,10 @@ public class MainController {
     public String logoutSuccess() {
         return "logout-success";
     }
+
     @RequestMapping(value = "/newsletter", method = RequestMethod.POST)
-    public String signNewsletter(@Valid Newsletter newsletter, BindingResult bindingResult) {
+    public String signNewsletter(@Valid Newsletter newsletter, BindingResult bindingResult, Model model) {
+        model.addAttribute("view", "newsletter");
         if (!bindingResult.hasErrors()) {
         }
         if (bindingResult.hasErrors()) {
