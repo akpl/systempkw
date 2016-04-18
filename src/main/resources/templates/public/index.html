@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
   <head>
 
     <!-- Basic Page Needs
@@ -434,9 +434,10 @@
               <p>Otrzymasz przypomnienie odnośnie nadchodzących wyborów. </p>
             </div>
             <!-- BEGAIN SUBSCRIVE FORM -->
-            <form class="subscribe_form">
-              <div class="subscrive_group wow fadeInUp">
-                <input class="form-control subscribe_mail" type="email" placeholder="Podaj swój adres email">
+            <form class="subscribe_form" method="post" th:object="${newsletter}" th:action="@{/newsletter}">
+              <div class="subscrive_group wow fadeInUp" th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
+                <input class="form-control subscribe_mail" type="email" placeholder="Podaj swój adres email" th:field="*{email}">
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="email-error" class="help-block">email Error</span>
                 <input class="subscr_btn" type="submit" value="Zapisz się">
               </div>
             </form>

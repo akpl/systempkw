@@ -20,8 +20,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
                 .addResourceHandler("/js/**")
                 .addResourceLocations("/js/");
         registry
-                .addResourceHandler("/img2/**")
-                .addResourceLocations("/img2/");
+                .addResourceHandler("/img/**")
+                .addResourceLocations("/img/");
         registry
                 .addResourceHandler("/img2/**")
                 .addResourceLocations("/img2/");

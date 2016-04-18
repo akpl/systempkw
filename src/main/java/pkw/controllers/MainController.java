@@ -1,18 +1,15 @@
 package pkw.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pkw.models.PoziomDostepu;
 import pkw.models.Newsletter;
 import pkw.repositories.NewsletterRepository;
 
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MainController {
@@ -22,9 +19,8 @@ public class MainController {
     private NewsletterRepository newsletterRepository;
 
     @RequestMapping("/")
-    public String index(Model model) {
-        model.addAttribute("view", "home");
-        return "main";
+    public String index(Newsletter newsletter) {
+        return "public/index";
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginForm() {
