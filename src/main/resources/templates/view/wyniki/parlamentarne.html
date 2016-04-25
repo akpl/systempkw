@@ -36,6 +36,16 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
+            <div class="panel-heading">Rozkład mandatów w Sejmie</div>
+            <div class="panel-body">
+                <div id="sejm"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 Lista komitetów
             </div>
@@ -50,9 +60,12 @@
                     </thead>
                     <tbody>
                     <tr th:each="komitet : ${komitety}">
-                        <td th:text="${komitet.key.nr}"></td>
-                        <td th:text="${komitet.key.nazwa}"></td>
-                        <td th:text="${komitet.value}"></td>
+                        <td>
+                            <span th:text="${komitet.numer}"></span>
+                            <span th:style="'color: ' + ${komitet.kolor}">&#x2b24;</span>
+                        </td>
+                        <td th:text="${komitet.nazwa}"></td>
+                        <td th:text="${komitet.liczbaPoslow}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -62,7 +75,60 @@
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var wykres = /*[[${wykres}]]*/ [];
+    var komitety = /*[[${komitety}]]*/ [];
+
+    (function narysujRozkladMiejsc() {
+        var allSeatsCount = 400;
+
+        var seatColors = [];
+        for (var partyNumber = 0; partyNumber < komitety.length; partyNumber++) {
+            var seatsForParty = komitety[partyNumber].liczbaPoslow;
+            for (var seat = 0; seat < seatsForParty; seat++) {
+                seatColors.push(komitety[partyNumber].kolor);
+            }
+        }
+        var emptySeats = allSeatsCount - seatColors.length;
+        for (var seat = 0; seat < emptySeats; seat++) {
+            seatColors.push('gray');
+        }
+
+        var rows = 10;
+        var columns = allSeatsCount / rows - 1;
+        var canvasWidth = 1008;
+        var canvasHeight = 600;
+
+        var seatRadius = 6;
+
+        var startPointX = canvasWidth / 2;
+        var startPointY = canvasHeight - seatRadius;
+
+        var lineLength = startPointX - seatRadius;
+        var sceneRadius = 200;
+
+        var canvas = Raphael("sejm");
+        canvas.setViewBox(0, 0, canvasWidth, canvasHeight);
+
+        var svg = document.querySelector("#sejm svg");
+        svg.removeAttribute("width");
+        svg.removeAttribute("height");
+
+        for (var column = 0; column <= columns; column++) {
+            var sinAlpha = Math.sin(Math.PI * column / columns);
+            var cosAlpha = Math.cos(Math.PI * column / columns);
+
+            for (var seatRow = 0; seatRow < rows; seatRow++) {
+                var distanceFromCenter = (lineLength - sceneRadius) / rows * seatRow + sceneRadius;
+                var seatX = startPointX - (distanceFromCenter) * cosAlpha;
+                var seatY = startPointY - (distanceFromCenter) * sinAlpha;
+                var seat = canvas.circle(seatX, seatY, seatRadius);
+                seat.attr({
+                    fill: seatColors[column * rows + seatRow],
+                    "stroke-width": "0"
+                });
+            }
+        }
+    }());
+
     var frekwencja =
     {
         series: /*[[${frekwencja}]]*/ [50, 50]
@@ -73,11 +139,35 @@
                 donut: true
             });
 
-    new Chartist.Bar('#wykres', wykres, {
-        distributeSeries: true,
-        reverseData: false,
-        axisY: {
-            onlyInteger: true
+
+    var kolory = [];
+    var sumaMandatow = 0;
+    for(var komitet = 0; komitet < komitety.length; komitet++) {
+        kolory.push(komitety[komitet].kolor);
+        sumaMandatow += komitety[komitet].liczbaPoslow;
+    }
+    var nrKomitetu = 0;
+    new Morris.Bar({
+        element: 'wykres',
+        data: komitety,
+        xkey: 'nazwa',
+        ykeys: ['liczbaPoslow'],
+        labels: ['Liczba mandatów'],
+        resize: true,
+        stacked: true,
+        barColors: function (row, series, type) {
+            if(type == 'label') {
+                nrKomitetu = 0;
+                return '#337ab7';
+            }
+
+            return kolory[nrKomitetu++];
+        },
+        hoverCallback: function (index, options, content, row) {
+            return content
+                    + "<div class='morris-hover-point'>Procent mandatów: "
+                    + (row.liczbaPoslow / sumaMandatow * 100).toFixed(2)
+                    + "%</div>";
         }
     });
     /*]]>*/
