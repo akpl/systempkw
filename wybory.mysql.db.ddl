@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS wyniki_prezydent;
 DROP TABLE IF EXISTS wyniki_posel;
 DROP TABLE IF EXISTS wyniki_parlamentarne;
 DROP TABLE IF EXISTS logowania;
-#todo czy jest potrzebne?: drop table if exists temp_wspolczynniki;
+DROP TABLE IF EXISTS newsletter;
 SET foreign_key_checks = 1;
 
 CREATE TABLE uzytkownicy (
@@ -159,16 +159,11 @@ CREATE TABLE `logowania` (
   PRIMARY KEY (`id`),
   KEY `fk_logowania_u` (`uzytkownik_id`)
 );
-/*
-todo przepisać to do mysqla
-#tabela pomocnicza do procedury
-create global temporary table temp_wspolczynniki
-(
-  komitet_nr number not null,
-  wspolczynnik number not null
-)
-on commit delete rows;
-*/
+CREATE TABLE `newsletter` (
+  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(80) NOT NULL,
+  PRIMARY KEY (`id`)
+);
 
 #ograniczenia integralnościowe
 ALTER TABLE uzytkownicy ADD CONSTRAINT fk_uzytkownicy_poziomy_dostepu FOREIGN KEY (poziom_dostepu_id) REFERENCES poziomy_dostepu (id);
@@ -275,18 +270,6 @@ CREATE OR REPLACE VIEW suma_glosow_posel AS
   FROM wyniki_posel w
     LEFT JOIN kandydaci_posel k ON w.kandydat_posel_id = k.id
   GROUP BY w.kandydat_posel_id, k.imie, k.nazwisko;
-
-/*
-TODO Trigger do przepisania
-trigger
-CREATE OR REPLACE TRIGGER TRIGGER_WYNIKI
-AFTER INSERT OR DELETE OR UPDATE ON wyniki_posel
-BEGIN
-  FOR wybory IN (SELECT ID FROM wybory WHERE typ_wyborow_id=1) LOOP
-    OBLICZ_WYNIKI_WYBOROW(wybory.ID);
-  END LOOP;
-END;
-*/
 
 #dodajemy startowe dane do tabel
 INSERT INTO poziomy_dostepu (nazwa) VALUES ('ADMINISTRATOR');

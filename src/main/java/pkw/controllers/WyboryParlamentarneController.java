@@ -7,6 +7,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pkw.Utils;
 import pkw.models.KandydatPosel;
 import pkw.models.Komitet;
 import pkw.repositories.KandydatPoselRepository;
@@ -59,7 +62,7 @@ public class WyboryParlamentarneController {
                     model.addAttribute("exists", null);
                     model.addAttribute("wybory", null);
                     model.addAttribute("success", true);
-                    return "redirect:/wybory/szczegoly";
+                    return "redirect:/panel/wybory/szczegoly";
                 }
             }
         }
@@ -107,7 +110,7 @@ public class WyboryParlamentarneController {
                     model.addAttribute("idKomitet", null);
                     model.addAttribute("idWybory", idWybory);
                     model.addAttribute("success", true);
-                    return "redirect:/wybory/szczegoly";
+                    return "redirect:/panel/wybory/szczegoly";
                 }
             }
         }
@@ -160,7 +163,7 @@ public class WyboryParlamentarneController {
     }
 
     @RequestMapping(value = "/wybory/szczegoly/komitety/poslowie/dodaj", method = RequestMethod.POST)
-    public String szczegolyKomitetyPoslowieDodaj(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idKomitet") int idKomitet, @Valid KandydatPosel kandydatPosel, BindingResult bindingResult, Model model) {
+    public String szczegolyKomitetyPoslowieDodaj(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idKomitet") int idKomitet, @Valid KandydatPosel kandydatPosel, BindingResult bindingResult, @RequestParam("image") MultipartFile image, Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("view", "wybory/szczegoly/poslowie/dodaj");
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
@@ -174,14 +177,26 @@ public class WyboryParlamentarneController {
                     bindingResult.rejectValue("nrNaLiscie", "error.nrNaLiscie.exists", "Ten numer na liście jest już zajęty wybierz inny.");
                 } else {
                     kandydatPosel.setKomitet(komitetRepository.findOne(idKomitet));
-                    kandydatPoselRepository.save(kandydatPosel);
+                    kandydatPosel = kandydatPoselRepository.save(kandydatPosel);
+                    if (!image.isEmpty()) {
+                        redirectAttributes.addFlashAttribute("upload", false);
+                        try {
+                            Utils.saveUploadedImage(image, "posel", String.valueOf(kandydatPosel.getId()));
+                            redirectAttributes.addFlashAttribute("upload", true);
+                        }
+                        catch (Exception e) {
+                            redirectAttributes.addFlashAttribute("uploadMsg", e.getMessage());
+                        }
+                    }
                     //model.addAttribute("view", "wybory/szczegoly/index");
                     //model.addAttribute("success", true);
                     model.addAttribute("view", null);
                     model.addAttribute("exists", null);
                     model.addAttribute("wybory", null);
-                    model.addAttribute("success", true);
-                    return "redirect:/wybory/szczegoly/komitety/poslowie";
+                    redirectAttributes.addAttribute("idWybory", idWybory);
+                    redirectAttributes.addAttribute("idKomitet", idKomitet);
+                    redirectAttributes.addAttribute("success", true);
+                    return "redirect:/panel/wybory/szczegoly/komitety/poslowie";
                 }
             }
         }
@@ -206,7 +221,7 @@ public class WyboryParlamentarneController {
     }
 
     @RequestMapping(value = "/wybory/szczegoly/komitety/poslowie/edycja", method = RequestMethod.POST)
-    public String szczegolyKomitetyPoslowieEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idKomitet") int idKomitet, @RequestParam(value = "idKandydatPosel") int idKandydatPosel, @Valid KandydatPosel kandydatPosel, BindingResult bindingResult, Model model) {
+    public String szczegolyKomitetyPoslowieEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idKomitet") int idKomitet, @RequestParam(value = "idKandydatPosel") int idKandydatPosel, @Valid KandydatPosel kandydatPosel, BindingResult bindingResult, @RequestParam("image") MultipartFile image, Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("view", "wybory/szczegoly/poslowie/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
@@ -224,17 +239,27 @@ public class WyboryParlamentarneController {
                 } else {
                     kandydatPosel.setId(kandydatPoselDoEdycji.getId());
                     kandydatPosel.setKomitet(komitetRepository.findOne(idKomitet));
-                    kandydatPoselRepository.save(kandydatPosel);
+                    kandydatPosel = kandydatPoselRepository.save(kandydatPosel);
+                    if (!image.isEmpty()) {
+                        redirectAttributes.addFlashAttribute("upload", false);
+                        try {
+                            Utils.saveUploadedImage(image, "posel", String.valueOf(kandydatPosel.getId()));
+                            redirectAttributes.addFlashAttribute("upload", true);
+                        }
+                        catch (Exception e) {
+                            redirectAttributes.addFlashAttribute("uploadMsg", e.getMessage());
+                        }
+                    }
                     model.addAttribute("view", null);
                     model.addAttribute("edit", null);
                     model.addAttribute("exists", null);
                     model.addAttribute("wybory", null);
                     model.addAttribute("komitet", null);
                     model.addAttribute("idKandydatPosel", null);
-                    model.addAttribute("idWybory", idWybory);
-                    model.addAttribute("idKomitet", idKomitet);
-                    model.addAttribute("success", true);
-                    return "redirect:/wybory/szczegoly/komitety/poslowie";
+                    redirectAttributes.addAttribute("idWybory", idWybory);
+                    redirectAttributes.addAttribute("idKomitet", idKomitet);
+                    redirectAttributes.addAttribute("success", true);
+                    return "redirect:/panel/wybory/szczegoly/komitety/poslowie";
                 }
             }
         }

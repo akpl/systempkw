@@ -7,6 +7,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pkw.Utils;
 import pkw.models.KandydatPrezydent;
 import pkw.repositories.KandydatPrezydentRepository;
 import pkw.repositories.WyboryRepository;
@@ -36,7 +39,7 @@ public class WyboryPrezydenckieController {
     }
 
     @RequestMapping(value = "/wybory/szczegoly/prezydenckie/dodaj", method = RequestMethod.POST)
-    public String szczegolyPrezydenckieDodaj(@RequestParam(value = "idWybory") int idWybory, @Valid KandydatPrezydent kandydatPrezydent, BindingResult bindingResult, Model model) {
+    public String szczegolyPrezydenckieDodaj(@RequestParam(value = "idWybory") int idWybory, @Valid KandydatPrezydent kandydatPrezydent, BindingResult bindingResult, @RequestParam("image") MultipartFile image, Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("view", "wybory/szczegoly/dodaj");
         model.addAttribute("exists", false);
         model.addAttribute("idWybory", idWybory);
@@ -48,14 +51,23 @@ public class WyboryPrezydenckieController {
                     bindingResult.rejectValue("nrNaLiscie", "error.nrNaLiscie.exists", "Ten numer na liście jest już zajęty wybierz inny.");
                 } else {
                     kandydatPrezydent.setWybory(wyboryRepository.findOne(idWybory));
-                    kandydatPrezydentRepository.save(kandydatPrezydent);
-                    //model.addAttribute("view", "wybory/szczegoly/index");
-                    //model.addAttribute("success", true);
+                    kandydatPrezydent = kandydatPrezydentRepository.save(kandydatPrezydent);
+                    if (!image.isEmpty()) {
+                        redirectAttributes.addFlashAttribute("upload", false);
+                        try {
+                            Utils.saveUploadedImage(image, "prezydent", String.valueOf(kandydatPrezydent.getId()));
+                            redirectAttributes.addFlashAttribute("upload", true);
+                        }
+                        catch (Exception e) {
+                            redirectAttributes.addFlashAttribute("uploadMsg", e.getMessage());
+                        }
+                    }
                     model.addAttribute("view", null);
                     model.addAttribute("exists", null);
                     model.addAttribute("wybory", null);
-                    model.addAttribute("success", true);
-                    return "redirect:/wybory/szczegoly";
+                    redirectAttributes.addAttribute("idWybory", idWybory);
+                    redirectAttributes.addAttribute("success", true);
+                    return "redirect:/panel/wybory/szczegoly";
                 }
             }
         }
@@ -78,7 +90,7 @@ public class WyboryPrezydenckieController {
     }
 
     @RequestMapping(value = "/wybory/szczegoly/prezydenckie/edycja", method = RequestMethod.POST)
-    public String szczegolyPrezydenckieEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idKandydatPrezydent") int idKandydatPrezydent, @Valid KandydatPrezydent kandydatPrezydent, BindingResult bindingResult, Model model) {
+    public String szczegolyPrezydenckieEdycja(@RequestParam(value = "idWybory") int idWybory, @RequestParam(value = "idKandydatPrezydent") int idKandydatPrezydent, @Valid KandydatPrezydent kandydatPrezydent, BindingResult bindingResult, @RequestParam("image") MultipartFile image, Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("view", "wybory/szczegoly/edycja");
         model.addAttribute("edit", true);
         model.addAttribute("exists", false);
@@ -94,16 +106,26 @@ public class WyboryPrezydenckieController {
                 } else {
                     kandydatPrezydent.setId(kandydatPrezydentDoEdycji.getId());
                     kandydatPrezydent.setWybory(wyboryRepository.findOne(idWybory));
-                    kandydatPrezydentRepository.save(kandydatPrezydent);
+                    kandydatPrezydent = kandydatPrezydentRepository.save(kandydatPrezydent);
+                    if (!image.isEmpty()) {
+                        redirectAttributes.addFlashAttribute("upload", false);
+                        try {
+                            Utils.saveUploadedImage(image, "prezydent", String.valueOf(kandydatPrezydent.getId()));
+                            redirectAttributes.addFlashAttribute("upload", true);
+                        }
+                        catch (Exception e) {
+                            redirectAttributes.addFlashAttribute("uploadMsg", e.getMessage());
+                        }
+                    }
                     model.addAttribute("view", null);
                     model.addAttribute("edit", null);
                     model.addAttribute("exists", null);
                     model.addAttribute("wybory", null);
                     model.addAttribute("idWybory", null);
                     model.addAttribute("idKandydatPrezydent", null);
-                    model.addAttribute("idWybory", idWybory);
-                    model.addAttribute("success", true);
-                    return "redirect:/wybory/szczegoly";
+                    redirectAttributes.addAttribute("idWybory", idWybory);
+                    redirectAttributes.addAttribute("success", true);
+                    return "redirect:/panel/wybory/szczegoly";
                 }
             }
         }

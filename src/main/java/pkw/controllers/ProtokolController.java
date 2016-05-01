@@ -160,7 +160,7 @@ public class ProtokolController {
                             model.addAttribute("komisja", null);
                             model.addAttribute("pytaniaReferendalne", null);
                             model.addAttribute("success", true);
-                            return "redirect:/protokoly";
+                            return "redirect:/panel/protokoly";
                         }
                     }
                 }
@@ -220,7 +220,7 @@ public class ProtokolController {
                             model.addAttribute("komisja", null);
                             model.addAttribute("kandydaciPrezydent", null);
                             model.addAttribute("success", true);
-                            return "redirect:/protokoly";
+                            return "redirect:/panel/protokoly";
                         }
                     }
                 }
@@ -282,7 +282,7 @@ public class ProtokolController {
                             model.addAttribute("kandydaciPrezydent", null);
                             model.addAttribute("counter", null);
                             model.addAttribute("success", true);
-                            return "redirect:/protokoly";
+                            return "redirect:/panel/protokoly";
                         }
                     }
                 }

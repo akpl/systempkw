@@ -51,7 +51,7 @@ public class ReferendumController {
                 model.addAttribute("exists", null);
                 model.addAttribute("wybory", null);
                 model.addAttribute("success", true);
-                return "redirect:/wybory/szczegoly";
+                return "redirect:/panel/wybory/szczegoly";
             }
         }
         return "main";
@@ -95,7 +95,7 @@ public class ReferendumController {
                 model.addAttribute("idPytanieReferendalne", null);
                 model.addAttribute("idWybory", idWybory);
                 model.addAttribute("success", true);
-                return "redirect:/wybory/szczegoly";
+                return "redirect:/panel/wybory/szczegoly";
             }
         }
         return "main";

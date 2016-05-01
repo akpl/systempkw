@@ -24,6 +24,10 @@
                 <div th:if="${success != null and success}" class="alert alert-success">
                     Zmiany zostały zapisane.
                 </div>
+                <div th:if="${upload != null and !upload}" class="alert alert-warn">
+                    Błąd podczas przesyłania zdjęcia. Spróbuj ponownie.
+                    <div th:text="${uploadMsg}" th:remove="tag"></div>
+                </div>
                 <div th:if="${error != null}" th:text="${error}" class="alert alert-danger">
                     Błąd.
                 </div>

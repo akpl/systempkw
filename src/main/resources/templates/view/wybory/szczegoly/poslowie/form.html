@@ -50,6 +50,11 @@
                         <input type="text" class="form-control" th:field="*{partia}" />
                         <span th:if="${#fields.hasErrors('partia')}" th:errors="*{partia}" id="partia-error" class="help-block">partia Error</span>
                     </div>
+                    <div class="form-group">
+                        <label for="image">Zdjęcie</label>
+                        <input type="file" id="image" name="image" />
+                    </div>
+                    <img th:src="@{/upload/posel/{id}(id=${kandydatPosel.id})}" onerror="this.style.display='none';" style="margin: 20px 0; display: block; width: 128px;">
                     <button type="submit" class="btn btn-success">Zapisz</button>
                 </form>
             </div>

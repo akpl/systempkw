@@ -26,7 +26,7 @@
                 </form>
             </div>
             <div th:if="${exists and wybory.typWyborow.nazwa == 'PREZYDENCKIE'}" class="panel-body">
-                <form th:include="view/wybory/szczegoly/form-kandydat-prezydent :: form" th:action="@{/panel/wybory/szczegoly/prezydenckie/dodaj(idWybory=${idWybory})}" th:object="${kandydatPrezydent}" method="post">
+                <form th:include="view/wybory/szczegoly/form-kandydat-prezydent :: form" th:action="@{/panel/wybory/szczegoly/prezydenckie/dodaj(idWybory=${idWybory})}" th:object="${kandydatPrezydent}" enctype="multipart/form-data" method="post">
 
                 </form>
             </div>
