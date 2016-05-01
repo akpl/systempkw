@@ -27,11 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/panel", "/panel/").authenticated()
                 .antMatchers("/panel/uzytkownik/**").access("hasAuthority('ADMINISTRATOR')")
                 .antMatchers("/panel/wybory/**").access("hasAnyAuthority('ADMINISTRATOR', 'CZLONEK_PKW')")
                 .antMatchers("/panel/komisje/**").access("hasAnyAuthority('ADMINISTRATOR', 'CZLONEK_PKW')")
                 .antMatchers("/panel/protokoly/**").access("hasAuthority('CZLONEK_OKW')")
+                .antMatchers("/panel", "/panel/", "/panel/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
             .formLogin()

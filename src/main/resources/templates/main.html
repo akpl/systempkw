@@ -66,6 +66,7 @@
                     <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
+                    <li><a th:href="@{/panel/ustawienia}"><i class="fa fa-cog fa-fw"></i> Ustawienia</a>
                     <li><a th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Wyloguj się</a>
                     </li>
                 </ul>
@@ -137,9 +138,6 @@
                     </li>
                     <li th:class="${#strings.contains(view, 'wyniki')} ? active">
                         <a th:href="@{/panel/wyniki}" th:class="${view} == 'wyniki/index' ? active"><i class="fa fa-bar-chart fa-fw"></i> Wyniki</a>
-                    </li>
-                    <li th:class="${#strings.contains(view, 'kontakt')} ? active">
-                        <a th:href="@{/panel/kontakt}" th:class="${view} == 'kontakt/index' ? active"><i class="fa fa-envelope-o fa-fw"></i> Kontakt</a>
                     </li>
                 </ul>
             </div>

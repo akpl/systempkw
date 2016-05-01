@@ -1,6 +1,7 @@
 package pkw.models;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -48,6 +49,7 @@ public class Uzytkownik {
     }
 
     @NotBlank
+    @Length(min = 6)
     @Column(name = "HASLO")
     public String getHaslo() {
         return haslo;
