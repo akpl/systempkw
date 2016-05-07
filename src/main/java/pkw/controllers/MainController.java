@@ -7,18 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pkw.ImageNotFoundException;
 import pkw.models.Newsletter;
+import pkw.models.Wybory;
 import pkw.repositories.NewsletterRepository;
+import pkw.repositories.WyboryRepository;
 
 import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -26,6 +26,16 @@ public class MainController {
 
     @Autowired
     private NewsletterRepository newsletterRepository;
+
+    @Autowired
+    private WyboryRepository wyboryRepository;
+
+    @ModelAttribute("nextWybory")
+    public Wybory nextWybory() {
+        List<Wybory> wybory = wyboryRepository.findNextPrezydenckieOrParlamentarne();
+        if (wybory.size() > 0) return wyboryRepository.findNextPrezydenckieOrParlamentarne().get(0);
+        else return null;
+    }
 
     @RequestMapping("/")
     public String index(Newsletter newsletter) {
