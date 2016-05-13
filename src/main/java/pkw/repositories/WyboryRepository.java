@@ -20,6 +20,6 @@ public interface WyboryRepository extends CrudRepository<Wybory, Integer> {
      * Zwraca listę przyszłych wyborów posortowanych od najbliższych do najodleglejszych.
      * @return lista wyborów
      */
-    @Query("FROM Wybory w WHERE w.dataGlosowania >= current_date AND (w.typWyborow.id = 1 OR w.typWyborow.id = 2) ORDER BY w.dataGlosowania DESC")
+    @Query("FROM Wybory w WHERE w.dataGlosowania >= current_date AND (w.typWyborow.id = 1 OR w.typWyborow.id = 2) ORDER BY w.dataGlosowania ASC")
     List<Wybory> findNextPrezydenckieOrParlamentarne();
 }
