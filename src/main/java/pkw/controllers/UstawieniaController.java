@@ -36,6 +36,12 @@ public class UstawieniaController {
     public String ustawienia(@Valid UstawieniaKonta ustawienieniaKonta, BindingResult bindingResult, @AuthenticationPrincipal UserDetails loggedUser, Model model) {
         model.addAttribute("view", "ustawienia");
         if (ustawienieniaKonta.getHaslo() != null && ustawienieniaKonta.getHaslo().length() > 0 && ustawienieniaKonta.getHaslo().length() < 6) bindingResult.rejectValue("haslo", "password.length.short", "Minimalna długość hasła to 6 znaków.");
+        if (ustawienieniaKonta.getHaslo() != null && ustawienieniaKonta.getPowtorzHaslo() != null && (ustawienieniaKonta.getHaslo().length() > 0 || ustawienieniaKonta.getPowtorzHaslo().length() > 0)) {
+            if (!ustawienieniaKonta.getHaslo().equals(ustawienieniaKonta.getPowtorzHaslo())) {
+                bindingResult.rejectValue("haslo", "password.diffrent", "Hasła są różne.");
+                bindingResult.rejectValue("powtorzHaslo", "password.diffrent", "Hasła są różne.");
+            }
+        }
         if (!bindingResult.hasErrors()) {
             ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder(256);
             Uzytkownik uzytkownik = uzytkownikRepository.findOneByLogin(loggedUser.getUsername());

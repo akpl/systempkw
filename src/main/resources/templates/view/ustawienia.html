@@ -28,8 +28,13 @@
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('haslo')} ? 'has-error'">
                         <label for="haslo">Hasło</label>
-                        <input type="password" class="form-control" placeholder="Obecne hasło" th:field="*{haslo}" />
+                        <input type="password" class="form-control" placeholder="Nowe hasło" th:field="*{haslo}" />
                         <span th:if="${#fields.hasErrors('haslo')}" th:errors="*{haslo}" id="haslo-error" class="help-block">haslo Error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('powtorzHaslo')} ? 'has-error'">
+                        <label for="powtorzHaslo">Powtórz hasło</label>
+                        <input type="password" class="form-control" placeholder="Powtórz hasło" th:field="*{powtorzHaslo}" />
+                        <span th:if="${#fields.hasErrors('powtorzHaslo')}" th:errors="*{powtorzHaslo}" id="powtorzHaslo-error" class="help-block">powtorzHaslo Error</span>
                     </div>
                     <button type="submit" class="btn btn-primary">Zapisz</button>
                 </form>

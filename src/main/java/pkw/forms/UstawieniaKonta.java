@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Email;
 public class UstawieniaKonta {
     private String email;
     private String haslo;
+    private String powtorzHaslo;
 
     @Email
     public String getEmail() {
@@ -24,5 +25,13 @@ public class UstawieniaKonta {
 
     public void setHaslo(String haslo) {
         this.haslo = haslo;
+    }
+
+    public String getPowtorzHaslo() {
+        return powtorzHaslo;
+    }
+
+    public void setPowtorzHaslo(String powtorzHaslo) {
+        this.powtorzHaslo = powtorzHaslo;
     }
 }
