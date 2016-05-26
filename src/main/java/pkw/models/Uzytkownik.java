@@ -26,6 +26,7 @@ public class Uzytkownik {
     private PoziomDostepu poziomDostepu;
     private Komisja komisja;
     private Set<Logowanie> logowania;
+    private boolean aktywny = true;
 
     @Id
     @GeneratedValue
@@ -155,6 +156,15 @@ public class Uzytkownik {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Column(name = "aktywny")
+    public boolean isAktywny() {
+        return aktywny;
+    }
+
+    public void setAktywny(boolean aktywny) {
+        this.aktywny = aktywny;
     }
 
     /*@OneToMany(mappedBy = "tworca")

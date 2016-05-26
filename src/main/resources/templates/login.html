@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
@@ -36,9 +36,14 @@
             <div class="login-form">
                 <h2>Logowanie do systemu</h2>
                 <form th:action="@{/login}" method="post">
-                    <p th:if="${param.error}" class="bg-danger">
-                        Błędny login lub hasło.
-                    </p>
+                    <div th:if="${param.error}" class="alert alert-danger">
+                        <p>
+                            Nie udało się zalogować.
+                        </p>
+                        <p th:if="${param.error != null and session['SPRING_SECURITY_LAST_EXCEPTION'] != null and session['SPRING_SECURITY_LAST_EXCEPTION'].message != null}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+
+                        </p>
+                    </div>
                     <p th:if="${param.logout}" class="bg-success">
                         Użytkownik został wylogowany.
                     </p>

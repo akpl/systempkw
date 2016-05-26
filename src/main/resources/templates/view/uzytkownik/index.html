@@ -15,6 +15,22 @@
                 Przeglądaj listę użytkowników
             </div>
             <div class="panel-body">
+                <th:block th:if="${zablokuj != null}">
+                    <div th:if="${zablokuj}" class="alert alert-success">
+                        Zablokowano użytkownika.
+                    </div>
+                    <div th:if="${!zablokuj}" class="alert alert-danger">
+                        Nie można zablokować tego użytkownika.
+                    </div>
+                </th:block>
+                <th:block th:if="${odblokuj != null}">
+                    <div th:if="${odblokuj}" class="alert alert-success">
+                        Odblokowano użytkownika.
+                    </div>
+                    <div th:if="${!odblokuj}" class="alert alert-danger">
+                        Nie można odblokować tego użytkownika.
+                    </div>
+                </th:block>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
@@ -34,13 +50,15 @@
                             <td th:text="${uzytkownik.login}"></td>
                             <td th:text="${uzytkownik.imie}"></td>
                             <td th:text="${uzytkownik.nazwisko}"></td>
-                            <td th:text="${uzytkownik.email}"</td>
+                            <td th:text="${uzytkownik.email}"></td>
                             <td th:text="${uzytkownik.poziomDostepu.nazwa}"></td>
                             <td>
                                 <a th:href="@{/panel/uzytkownik/historia/{idUzytkownika}(idUzytkownika=${uzytkownik.id})}" class="btn btn-outline btn-primary" title="Historia logowań"><i class="fa fa-history"></i></a>
                                 <a th:href="@{/panel/uzytkownik/edycja(id=${uzytkownik.id})}" class="btn btn-outline btn-primary" title="Edytuj"><i class="fa fa-pencil"></i></a>
-                                <a th:href="@{/panel/uzytkownik/usun(id=${uzytkownik.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a>
                                 <a th:href="@{/panel/uzytkownik/haslo(id=${uzytkownik.id})}" class="btn btn-outline btn-danger" title="Resetuj hasło"><i class="fa fa-undo"></i></a>
+                                <a th:if="${uzytkownik.aktywny}" th:href="@{/panel/uzytkownik/zablokuj(id=${uzytkownik.id})}" class="btn btn-outline btn-warning" title="Zablokuj"><i class="fa fa-lock"></i></a>
+                                <a th:if="${!uzytkownik.aktywny}" th:href="@{/panel/uzytkownik/odblokuj(id=${uzytkownik.id})}" class="btn btn-outline btn-warning" title="Odblokuj"><i class="fa fa-unlock"></i></a>
+                                <a th:href="@{/panel/uzytkownik/usun(id=${uzytkownik.id})}" class="btn btn-outline btn-danger" title="Usuń"><i class="fa fa-minus-circle"></i></a>
                             </td>
                         </tr>
                         </tbody>

@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -225,6 +227,34 @@ public class UzytkownikController {
                     logger.error("Error during sending email", e);
                 }
             } else model.addAttribute("success", false);
+        }
+        return "main";
+    }
+
+    @RequestMapping("/uzytkownik/zablokuj")
+    public String zablokuj(@RequestParam(value = "id") int id, Model model, @AuthenticationPrincipal UserDetails loggedUser) {
+        model.addAttribute("view", "uzytkownik/index");
+        Uzytkownik uzytkownik = uzytkownikRepository.findOne(id);
+        model.addAttribute("zablokuj", false);
+        if (!loggedUser.getUsername().equals(uzytkownik.getLogin())) {
+            if (uzytkownik.isAktywny()) {
+                uzytkownik.setAktywny(false);
+                uzytkownikRepository.save(uzytkownik);
+                model.addAttribute("zablokuj", true);
+            }
+        }
+        return "main";
+    }
+
+    @RequestMapping("/uzytkownik/odblokuj")
+    public String odblokuj(@RequestParam(value = "id") int id, Model model) {
+        model.addAttribute("view", "uzytkownik/index");
+        Uzytkownik uzytkownik = uzytkownikRepository.findOne(id);
+        model.addAttribute("odblokuj", false);
+        if (!uzytkownik.isAktywny()) {
+            uzytkownik.setAktywny(true);
+            uzytkownikRepository.save(uzytkownik);
+            model.addAttribute("odblokuj", true);
         }
         return "main";
     }
