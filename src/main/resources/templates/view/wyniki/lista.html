@@ -37,8 +37,9 @@
                             <td th:text="${wybory.dataGlosowania}"></td>
                             <td>
                                 <a th:href="@{/panel/wyniki/wyswietl(idWybory=${wybory.id})}" class="btn btn-outline btn-primary" title="Wyświetl wyniki">
-                                    <i class="fa fa-folder-open"></i>
-                                </a>
+                                    <i class="fa fa-folder-open"></i></a>
+                                <a th:href="@{/drukuj(id=${wybory.id})}" class="btn btn-outline btn-primary" title="Drukuj protokół">
+                                    <i class="fa fa-file-pdf-o"></i>i</a>
                             </td>
                         </tr>
                         </tbody>
