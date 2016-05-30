@@ -9,8 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pkw.ImageNotFoundException;
-import pkw.models.Newsletter;
-import pkw.models.Wybory;
+import pkw.models.*;
 import pkw.repositories.NewsletterRepository;
 import pkw.repositories.WyboryRepository;
 
@@ -33,8 +32,45 @@ public class MainController {
     @ModelAttribute("nextWybory")
     public Wybory nextWybory() {
         List<Wybory> wybory = wyboryRepository.findNextPrezydenckieOrParlamentarne();
-        if (wybory.size() > 0) return wyboryRepository.findNextPrezydenckieOrParlamentarne().get(0);
+        if (wybory.size() > 0) return wybory.get(0);
         else return null;
+    }
+
+    @ModelAttribute("nextParlamentarne")
+    public Wybory nextParlamentarne() {
+        List<Wybory> wybory = wyboryRepository.findNextParlamentarne();
+        for (Wybory w : wybory) {
+            for (Komitet komitet : w.getKomitety()) {
+                for (KandydatPosel kp : komitet.getKandydaciPosel()) {
+                    for (WynikiPosel wynikiPosel : kp.getWyniki()) {
+                        if (wynikiPosel.getLiczbaGlosow() > 0) return w;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    @ModelAttribute("nextPrezydenckie")
+    public Wybory nextPrezydenckie() {
+        List<Wybory> wybory = wyboryRepository.findNextPrezydenckie();
+        for (Wybory w : wybory) {
+            for (KandydatPrezydent kp : w.getKandydaciPrezydent()) {
+                if (kp.getWynikLaczny().getLiczbaGlosow() > 0) return w;
+            }
+        }
+        return null;
+    }
+
+    @ModelAttribute("nextReferendum")
+    public Wybory nextReferendum() {
+        List<Wybory> wybory = wyboryRepository.findNextReferendum();
+        for (Wybory w : wybory) {
+            for (PytanieReferendalne p : w.getPytaniaReferendalne()) {
+                if (p.getWynikLaczny().getOdpowiedziNie() + p.getWynikLaczny().getOdpowiedziTak() > 0) return w;
+            }
+        }
+        return null;
     }
 
     @RequestMapping("/")
