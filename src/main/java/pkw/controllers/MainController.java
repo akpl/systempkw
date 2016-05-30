@@ -33,7 +33,28 @@ public class MainController {
     @ModelAttribute("nextWybory")
     public Wybory nextWybory() {
         List<Wybory> wybory = wyboryRepository.findNextPrezydenckieOrParlamentarne();
-        if (wybory.size() > 0) return wyboryRepository.findNextPrezydenckieOrParlamentarne().get(0);
+        if (wybory.size() > 0) return wybory.get(0);
+        else return null;
+    }
+
+    @ModelAttribute("nextParlamentarne")
+    public Wybory nextParlamentarne() {
+        List<Wybory> wybory = wyboryRepository.findNextParlamanetarne();
+        if (wybory.size() > 0) return wybory.get(0);
+        else return null;
+    }
+
+    @ModelAttribute("nextPrezydenckie")
+    public Wybory nextPrezydenckie() {
+        List<Wybory> wybory = wyboryRepository.findNextPrezydenckie();
+        if (wybory.size() > 0) return wybory.get(0);
+        else return null;
+    }
+
+    @ModelAttribute("nextReferendum")
+    public Wybory nextReferendum() {
+        List<Wybory> wybory = wyboryRepository.findNextReferendum();
+        if (wybory.size() > 0) return wybory.get(0);
         else return null;
     }
 
