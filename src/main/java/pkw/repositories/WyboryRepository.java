@@ -24,10 +24,10 @@ public interface WyboryRepository extends CrudRepository<Wybory, Integer> {
     List<Wybory> findNextPrezydenckieOrParlamentarne();
 
     @Query("FROM Wybory w WHERE w.typWyborow.id = 1 AND w.dataGlosowania < current_date ORDER BY w.dataGlosowania DESC")
-    List<Wybory> findNextPrezydenckie();
+    List<Wybory> findNextParlamentarne();
 
     @Query("FROM Wybory w WHERE w.typWyborow.id = 2 AND w.dataGlosowania < current_date ORDER BY w.dataGlosowania DESC")
-    List<Wybory> findNextParlamentarne();
+    List<Wybory> findNextPrezydenckie();
 
     @Query("FROM Wybory w WHERE w.typWyborow.id = 3 AND w.dataGlosowania < current_date ORDER BY w.dataGlosowania DESC")
     List<Wybory> findNextReferendum();

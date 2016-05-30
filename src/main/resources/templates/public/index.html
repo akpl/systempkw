@@ -120,7 +120,7 @@
           <div class="slider_caption">
             <h2>Wyniki wyborów prezydenckich</h2>
 
-            <a href="#" class="slider_btn">Przejdź</a>
+            <a th:href="@{/prezydenckie}" class="slider_btn">Przejdź</a>
           </div>
         </li>
 
@@ -134,23 +134,11 @@
           <div class="slider_caption">
             <h2>Wyniki wyborów parlamentarnych</h2>
 
-            <a href="#" class="slider_btn">Przejdź</a>
+            <a th:href="@{/parlamentarne}" class="slider_btn">Przejdź</a>
           </div>
         </li>
 
-        <!-- THE THIRD SLIDE-->
-        <li>
-          <!-- THIRD SLIDE OVERLAY -->
-          <div class="slider_overlay"></div>
-          <!-- THIRD SLIDE MAIN IMAGE -->
-          <img src="img2/full-slider/ue.png" alt="img">
-          <!-- THIRD SLIDE CAPTION-->
-          <div class="slider_caption">
-            <h2>Wyniki wyborow do Parlamentu Europejskiego</h2>
 
-            <a href="#" class="slider_btn">Przejdź</a>
-          </div>
-        </li>
 
         <li>
           <!-- FOURTH SLIDE OVERLAY -->
@@ -159,11 +147,13 @@
           <img src="img2/full-slider/polskaflaga.png" alt="img">
           <!-- THIRD SLIDE CAPTION-->
           <div class="slider_caption">
-            <h2>Wyniki wyborow samorząowych</h2>
+            <h2>Wyniki referendum</h2>
 
-            <a href="#" class="slider_btn">Przejdź</a>
+            <a th:href="@{/referendum}" class="slider_btn">Przejdź</a>
           </div>
         </li>
+
+
       </ul>
       <!-- BEGAIN SLIDER NAVIGATION -->
       <nav class="slides-navigation">
@@ -210,7 +200,7 @@
   </div>
   </div>
   </div>
-
+</section>
   <!--=========== END ABOUT SECTION ================-->
 
 
