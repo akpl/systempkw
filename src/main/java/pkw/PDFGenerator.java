@@ -1,16 +1,21 @@
 package pkw;
-
-import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.fontbox.encoding.StandardEncoding;
+import org.apache.pdfbox.cos.COSBase;
+import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDTrueTypeFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.common.PDStream;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.*;
+import org.apache.pdfbox.pdmodel.font.encoding.BuiltInEncoding;
+import org.apache.pdfbox.pdmodel.font.encoding.Encoding;
+import org.apache.tomcat.util.buf.Utf8Encoder;
+import sun.nio.cs.UnicodeEncoder;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.text.Normalizer;
 
 /**
  * Created by Elleander on 27/05/2016.
@@ -42,7 +47,7 @@ public class PDFGenerator {
                 contentStream=null;}
         contentStream = new PDPageContentStream(document, page);
         contentStream.beginText();
-        contentStream.moveTextPositionByAmount( 10, 770 );
+        contentStream.newLineAtOffset( 10, 770 );
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,12 +59,14 @@ public class PDFGenerator {
      */
     public void addLine(String line)
     {
-        PDFont font = PDType1Font.HELVETICA;
+
+        String purgedLine = Normalizer.normalize(line.replaceAll("ł", "l"), Normalizer.Form.NFD);
+        purgedLine = purgedLine.replaceAll("[^\\p{ASCII}]", "");
         try {
-//            font = PDTrueTypeFont.loadTTF(document, "Arial.ttf");
+            PDTrueTypeFont font = PDTrueTypeFont.loadTTF(document,new File("src/main/resources/fonts/ARIALUNI.TTF"));
             contentStream.setFont(font, 12);
-            contentStream.drawString(line);
-            contentStream.moveTextPositionByAmount(0, -12);
+            contentStream.showText(purgedLine);
+            contentStream.newLineAtOffset(0, -12);
         }
         catch (IOException e) {
         e.printStackTrace();
@@ -82,8 +89,6 @@ public class PDFGenerator {
             document.save(ByteStream);
             document.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (COSVisitorException e) {
             e.printStackTrace();
         }
         byte[] ByteArray = ByteStream.toByteArray();

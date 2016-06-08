@@ -4,12 +4,7 @@ package pkw.controllers;
  * Created by Elleander on 30/05/2016.
  */
 
-import org.apache.pdfbox.io.ByteArrayPushBackInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -52,7 +47,6 @@ public class DrukujController {
         protokol.addLine("Liczba głosów: "+wynik.getLiczbaGlosow());
         protokol.addLine("");
         }
-
         }
         }
         break;
@@ -100,16 +94,6 @@ public class DrukujController {
         break;
         }
         }
-//        protokol.addPage();
-//        protokol.addLine("Test");
-//        protokol.addLine("Test2");
-//        protokol.addLine(""+id);
-//        protokol.addPage();
-//        protokol.addLine("Test");
-//        protokol.addLine("Test2");
-//        protokol.addPage();
-//        protokol.addLine("Test");
-//        protokol.addLine("Test2");
         byte[] ByteArray = protokol.returnByteArray();
         return ResponseEntity.ok()
                 .contentLength(ByteArray.length)
