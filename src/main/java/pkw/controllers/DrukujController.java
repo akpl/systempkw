@@ -23,6 +23,7 @@ public class DrukujController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> Drukuj(@RequestParam(value = "id") int id) throws IOException {
+        boolean isPDFempty = true;
         PDFGenerator protokol= new PDFGenerator();
         Wybory wybory = wyboryRepository.findOne(id);
         switch(wybory.getTypWyborowId())
@@ -33,6 +34,7 @@ public class DrukujController {
         {
         for(KandydatPosel posel : komitet.getKandydaciPosel())
         {
+        isPDFempty = false;
         protokol.addPage();
         protokol.addLine("Imię: "+posel.getImie());
         protokol.addLine("Nazwisko: "+posel.getNazwisko());
@@ -55,6 +57,7 @@ public class DrukujController {
         {
         for(KandydatPrezydent kandydat : wybory.getKandydaciPrezydent())
         {
+        isPDFempty = false;
         protokol.addPage();
         protokol.addLine("Imię: "+kandydat.getImie());
         protokol.addLine("Nazwisko: "+kandydat.getNazwisko());
@@ -65,7 +68,6 @@ public class DrukujController {
         protokol.addLine("");
         for(WynikiPrezydent wynik : kandydat.getWyniki())
         {
-
         protokol.addLine("Czas wprowadzenia: "+wynik.getCzasWprowadzenia());
         protokol.addLine("Liczba głosów: "+wynik.getLiczbaGlosow());
         protokol.addLine("");
@@ -77,6 +79,7 @@ public class DrukujController {
         {
         for(PytanieReferendalne pytanie : wybory.getPytaniaReferendalne())
         {
+        isPDFempty = false;
         protokol.addPage();
         protokol.addLine("Pytanie: "+pytanie.getPytanie());
         protokol.addLine("");
@@ -94,10 +97,15 @@ public class DrukujController {
         break;
         }
         }
+        if(isPDFempty)
+        {
+            protokol.addPage();
+            protokol.addLine("Brak danych dla wyborów o id "+id);
+        }
         byte[] ByteArray = protokol.returnByteArray();
-        return ResponseEntity.ok()
-                .contentLength(ByteArray.length)
-                .contentType(MediaType.parseMediaType("application/pdf"))
-                .body(ByteArray);
+            return ResponseEntity.ok()
+                    .contentLength(ByteArray.length)
+                    .contentType(MediaType.parseMediaType("application/pdf"))
+                    .body(ByteArray);
     }
 }

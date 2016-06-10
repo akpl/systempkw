@@ -1,16 +1,8 @@
 package pkw;
-import org.apache.fontbox.encoding.StandardEncoding;
-import org.apache.pdfbox.cos.COSBase;
-import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.*;
-import org.apache.pdfbox.pdmodel.font.encoding.BuiltInEncoding;
-import org.apache.pdfbox.pdmodel.font.encoding.Encoding;
-import org.apache.tomcat.util.buf.Utf8Encoder;
-import sun.nio.cs.UnicodeEncoder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,12 +16,20 @@ public class PDFGenerator {
     PDDocument document;
     PDPageContentStream contentStream;
     PDPage page;
+    PDTrueTypeFont font;
     /**
      * Magic.
      */
     public PDFGenerator()
     {
         document= new PDDocument();
+        try {
+            font = PDTrueTypeFont.loadTTF(document, new File("src/main/resources/fonts/ARIALUNI.TTF"));
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -63,7 +63,6 @@ public class PDFGenerator {
         String purgedLine = Normalizer.normalize(line.replaceAll("ł", "l"), Normalizer.Form.NFD);
         purgedLine = purgedLine.replaceAll("[^\\p{ASCII}]", "");
         try {
-            PDTrueTypeFont font = PDTrueTypeFont.loadTTF(document,new File("src/main/resources/fonts/ARIALUNI.TTF"));
             contentStream.setFont(font, 12);
             contentStream.showText(purgedLine);
             contentStream.newLineAtOffset(0, -12);
