@@ -26,7 +26,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <div th:each="komitet,status1 : ${komitety}" th:remove="tag">
+                            <th:block th:each="komitet,status1 : ${komitety}">
                                 <tr th:each="kandydatPosel,status2 : ${komitet.kandydaciPosel}">
                                     <input type="hidden" th:name="${'kandydatPoselId[' + counter.next + ']'}" th:value="${kandydatPosel.id}" />
                                     <td th:text="${kandydatPosel.imie + ' ' + kandydatPosel.nazwisko + ' (' + komitet.nazwa + ')'}"></td>
@@ -34,7 +34,7 @@
                                         <input type="text" class="form-control" th:field="*{kandydatPoselList[__${counter.current}__].liczbaGlosow}" style="width:90%;" />
                                     </td>
                                 </tr>
-                            </div>
+                            </th:block>
                             </tbody>
                         </table>
                     </div>

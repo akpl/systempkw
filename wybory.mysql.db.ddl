@@ -29,6 +29,7 @@ CREATE TABLE uzytkownicy (
   nazwisko          VARCHAR(50)  NOT NULL,
   email             varchar(80) DEFAULT NULL,
   poziom_dostepu_id INT(10)      NOT NULL,
+  aktywny int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (id)
 );
 CREATE TABLE poziomy_dostepu (

@@ -109,7 +109,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <div th:each="komitet : ${wybory.komitety}" th:remove="tag">
+                                            <th:block th:each="komitet : ${wybory.komitety}">
                                                 <tr th:each="kandydatPosel : ${komitet.kandydaciPosel}">
                                                     <td th:text="${komitet.nazwa}">
                                                     </td>
@@ -117,7 +117,7 @@
                                                     <td th:text="${kandydatPosel.getWynikiDlaKomisji(komisja).liczbaGlosow}">
                                                     </td>
                                                 </tr>
-                                            </div>
+                                            </th:block>
                                             </tbody>
                                         </table>
                                     </div>

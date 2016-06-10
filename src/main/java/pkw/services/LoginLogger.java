@@ -23,7 +23,6 @@ import java.io.IOException;
 @Service
 public class LoginLogger extends SavedRequestAwareAuthenticationSuccessHandler {
 
-
     @Autowired
     private UzytkownikRepository uzytkownikRepository;
 
