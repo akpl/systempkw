@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pkw.PDFGenerator;
 import pkw.models.*;
-import pkw.repositories.*;
+import pkw.repositories.WyboryRepository;
 
 import java.io.IOException;
 
@@ -26,7 +29,7 @@ public class DrukujController {
         boolean isPDFempty = true;
         PDFGenerator protokol= new PDFGenerator();
         Wybory wybory = wyboryRepository.findOne(id);
-        switch(wybory.getTypWyborowId())
+        switch(wybory.getTypWyborow().getId())
         {
         case 1: //Parlamentarne?
         {
