@@ -5,7 +5,7 @@ START TRANSACTION;
 SET foreign_key_checks = 0;
 DROP TABLE IF EXISTS uzytkownicy;
 DROP TABLE IF EXISTS poziomy_dostepu;
-DROP TABLE IF EXISTS okregi;
+DROP TABLE IF EXISTS okreg;
 DROP TABLE IF EXISTS wybory;
 DROP TABLE IF EXISTS typy_wyborow;
 DROP TABLE IF EXISTS komisje;
@@ -37,7 +37,7 @@ CREATE TABLE poziomy_dostepu (
   nazwa VARCHAR(50) NOT NULL,
   PRIMARY KEY (id)
 );
-CREATE TABLE okregi (
+CREATE TABLE okreg (
   nr              INT AUTO_INCREMENT,
   nazwa           VARCHAR(100)  NOT NULL UNIQUE,
   wojewodztwo     VARCHAR(50)   NOT NULL,
@@ -170,7 +170,7 @@ CREATE TABLE `newsletter` (
 ALTER TABLE uzytkownicy ADD CONSTRAINT fk_uzytkownicy_poziomy_dostepu FOREIGN KEY (poziom_dostepu_id) REFERENCES poziomy_dostepu (id);
 ALTER TABLE wybory ADD CONSTRAINT fk_wybory_typy_wyborow FOREIGN KEY (typ_wyborow_id) REFERENCES typy_wyborow (id);
 ALTER TABLE wybory ADD CONSTRAINT fk_wybory_uzytkownicy FOREIGN KEY (id_tworcy) REFERENCES uzytkownicy (id);
-ALTER TABLE komisje ADD CONSTRAINT fk_komisje_okregi FOREIGN KEY (okreg_wyborczy_nr) REFERENCES okregi (nr);
+ALTER TABLE komisje ADD CONSTRAINT fk_komisje_okregi FOREIGN KEY (okreg_wyborczy_nr) REFERENCES okreg (nr);
 ALTER TABLE komisje ADD CONSTRAINT fk_komisje_uzytkownicy FOREIGN KEY (id_przewodniczacego) REFERENCES uzytkownicy (id);
 ALTER TABLE kandydaci_posel ADD CONSTRAINT fk_kandydaci_posel_komitety FOREIGN KEY (komitet_nr) REFERENCES komitety (nr)
   ON DELETE CASCADE;
@@ -187,7 +187,7 @@ ALTER TABLE wyniki_pytania_referendalne ADD CONSTRAINT fk_wyniki_pytania_komisje
 ALTER TABLE wyniki_prezydent ADD CONSTRAINT fk_wyniki_prezydent_komisje FOREIGN KEY (komisja_nr) REFERENCES komisje (nr);
 ALTER TABLE wyniki_posel ADD CONSTRAINT fk_wyniki_posel_komisje FOREIGN KEY (komisja_nr) REFERENCES komisje (nr);
 ALTER TABLE wyniki_parlamentarne ADD CONSTRAINT fk_wyniki_parl_komitety FOREIGN KEY (komitet_nr) REFERENCES komitety (nr);
-ALTER TABLE wyniki_parlamentarne ADD CONSTRAINT fk_wyniki_parl_okregi FOREIGN KEY (okreg_wyborczy_nr) REFERENCES okregi (nr);
+ALTER TABLE wyniki_parlamentarne ADD CONSTRAINT fk_wyniki_parl_okregi FOREIGN KEY (okreg_wyborczy_nr) REFERENCES okreg (nr);
 ALTER TABLE wyniki_parlamentarne ADD CONSTRAINT fk_wyniki_parl_wybory FOREIGN KEY (wybory_id) REFERENCES wybory (id);
 ALTER TABLE logowania ADD CONSTRAINT fk_logowania_u FOREIGN KEY (uzytkownik_id) REFERENCES uzytkownicy (id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE kandydaci_prezydent ADD CONSTRAINT uc_kprezydent_nr_na_liscie UNIQUE (wybory_id, nr_na_liscie);
@@ -241,6 +241,48 @@ CREATE OR REPLACE VIEW frekwencja_wyborcza AS
         FROM frekwencja_wyborcza_prezydent
   UNION SELECT *
         FROM frekwencja_wyborcza_referendum;
+
+CREATE OR REPLACE VIEW frekwencja_wyborcza_referendum_okreg AS
+  SELECT
+    wybory.id AS wybory_id, o.nr AS okreg_nr,
+    round(100 * ((sum(wp.odpowiedzi_tak) + sum(wp.odpowiedzi_nie)) / sum(k.liczba_wyborcow)), 2)  AS frekwencja
+  FROM wyniki_pytania_referendalne wp
+    LEFT JOIN pytania_referendalne p ON wp.pytanie_referendalne_id = p.id
+    LEFT JOIN wybory ON p.wybory_id = wybory.id
+    LEFT JOIN komisje k ON wp.komisja_nr = k.nr
+    LEFT JOIN okreg o ON k.okreg_wyborczy_nr = o.nr
+  GROUP BY concat(wybory.id, o.nr), wybory.id, o.nr;
+
+CREATE OR REPLACE VIEW frekwencja_wyborcza_prezydent_okreg AS
+  SELECT
+    wybory.id AS wybory_id, o.nr AS okreg_nr,
+    round(100 * sum(wp.liczba_glosow) / (k.liczba_wyborcow), 2)  AS frekwencja
+  FROM wyniki_prezydent wp
+    LEFT JOIN kandydaci_prezydent kp ON wp.kandydat_prezydent_id = kp.id
+    LEFT JOIN wybory ON kp.wybory_id = wybory.id
+    LEFT JOIN komisje k ON wp.komisja_nr = k.nr
+    LEFT JOIN okreg o ON k.okreg_wyborczy_nr = o.nr
+  GROUP BY concat(wybory.id, o.nr), wybory.id, o.nr, k.liczba_wyborcow;
+
+CREATE OR REPLACE VIEW frekwencja_wyborcza_posel_okreg AS
+  SELECT
+    wybory.id AS wybory_id, o.nr AS okreg_nr,
+    round(100 * sum(wp.liczba_glosow) / (k.liczba_wyborcow), 2)  AS frekwencja
+  FROM wyniki_posel wp
+    LEFT JOIN kandydaci_posel kp ON wp.kandydat_posel_id = kp.id
+    LEFT JOIN komitety ON komitety.nr = kp.komitet_nr
+    LEFT JOIN wybory ON komitety.wybory_id = wybory.id
+    LEFT JOIN komisje k ON wp.komisja_nr = k.nr
+    LEFT JOIN okreg o ON k.okreg_wyborczy_nr = o.nr
+  GROUP BY concat(wybory.id, o.nr), wybory.id, o.nr, k.liczba_wyborcow;
+
+CREATE OR REPLACE VIEW frekwencja_wyborcza_okreg AS
+  SELECT *
+  FROM frekwencja_wyborcza_posel_okreg
+  UNION SELECT *
+        FROM frekwencja_wyborcza_prezydent_okreg
+  UNION SELECT *
+        FROM frekwencja_wyborcza_referendum_okreg;
 
 CREATE OR REPLACE VIEW suma_glosow_referendum AS
   SELECT
@@ -351,9 +393,9 @@ INSERT INTO pytania_referendalne (pytanie, wybory_id) VALUES (
   'Czy jest Pani/Pan za wprowadzeniem zasady ogólnej rozstrzygania wątpliwości co do wykładni przepisów prawa podatkowego na korzyść podatnika?',
   3);
 #przykładowe okręgi
-INSERT INTO okregi (nazwa, wojewodztwo, miasto, liczba_mandatow)
+INSERT INTO okreg (nazwa, wojewodztwo, miasto, liczba_mandatow)
 VALUES ('Okręgowa Komisja Wyborcza nr 19', 'Małopolskie', 'Kraków', 4);
-INSERT INTO okregi (nazwa, wojewodztwo, miasto, liczba_mandatow)
+INSERT INTO okreg (nazwa, wojewodztwo, miasto, liczba_mandatow)
 VALUES ('Okręgowa Komisja Wyborcza nr 21', 'Małopolskie', 'Nowy Sącz', 2);
 INSERT INTO komisje (nazwa, adres, liczba_Wyborcow, okreg_wyborczy_nr, id_przewodniczacego)
 VALUES ('Komisja nr 1', 'Gimnazjum Nr 3, ul. Wąska 5, Kraków', 1297, 1, 3);
