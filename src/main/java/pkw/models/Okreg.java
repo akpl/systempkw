@@ -26,6 +26,9 @@ public class Okreg {
     @OneToMany(mappedBy = "okregWyborczy")
     private Set<Komisja> komisje;
 
+    @OneToMany(mappedBy = "okreg")
+    private Set<FrekwencjaWyborczaOkreg> frekwencjaWyborczaOkreg;
+
     public int getNr() {
         return nr;
     }
@@ -72,5 +75,13 @@ public class Okreg {
 
     public void setLiczbaMandatow(int liczbaMandatow) {
         this.liczbaMandatow = liczbaMandatow;
+    }
+
+    public Set<FrekwencjaWyborczaOkreg> getFrekwencjaWyborczaOkreg() {
+        return frekwencjaWyborczaOkreg;
+    }
+
+    public void setFrekwencjaWyborczaOkreg(Set<FrekwencjaWyborczaOkreg> frekwencjaWyborczaOkreg) {
+        this.frekwencjaWyborczaOkreg = frekwencjaWyborczaOkreg;
     }
 }

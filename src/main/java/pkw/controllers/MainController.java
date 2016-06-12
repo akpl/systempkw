@@ -89,9 +89,6 @@ public class MainController {
 
     @RequestMapping("/")
     public String index(Newsletter newsletter) {
-        Wybory w = nextParlamentarne();
-        Wybory w2 = nextPrezydenckie();
-        Wybory w3 = nextReferendum();
         return "public/index";
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
