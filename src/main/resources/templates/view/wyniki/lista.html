@@ -4,23 +4,23 @@
 </head>
 <body>
 <div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">Wyniki</h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <div th:if="${blad}" class="panel-body">
-            <div class="alert alert-danger" th:text="${blad}"></div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Wybierz zakończone wybory
-            </div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead>
+                        <div class="col-lg-12">
+                            <h1 class="page-header">Wyniki</h1>
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div th:if="${blad}" class="panel-body">
+                            <div class="alert alert-danger" th:text="${blad}"></div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Wybierz zakończone wybory
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
                         <tr>
                             <th>#</th>
                             <th>Typ</th>
@@ -37,8 +37,9 @@
                             <td th:text="${wybory.dataGlosowania}"></td>
                             <td>
                                 <a th:href="@{/panel/wyniki/wyswietl(idWybory=${wybory.id})}" class="btn btn-outline btn-primary" title="Wyświetl wyniki">
-                                    <i class="fa fa-folder-open"></i>
-                                </a>
+                                    <i class="fa fa-folder-open"></i></a>
+                                <a th:href="@{/drukuj(id=${wybory.id})}" class="btn btn-outline btn-primary" title="Drukuj protokół">
+                                    <i class="fa fa-file-pdf-o"></i>i</a>
                             </td>
                         </tr>
                         </tbody>
