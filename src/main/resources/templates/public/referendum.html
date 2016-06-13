@@ -157,6 +157,19 @@
     </div>
 </section>
 
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="heading">
+                    <h2 class="wow fadeInLeftBig">Frekwencja</h2>
+                </div>
+                <div th:include="${'public/mapa'} :: body">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 <!-- Javascript Files
@@ -305,6 +318,6 @@
     });
     /*]]>*/
 </script>
-
+<script src="js/mapa.js"></script>
 </body>
 </html>

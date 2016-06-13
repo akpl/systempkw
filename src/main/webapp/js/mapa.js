@@ -1,7 +1,7 @@
-var liczbaOkregow = Object.keys(mapData).length;
-for(var i = 1; i <= liczbaOkregow; i++) {
-    var okreg = $('#okreg' + i);
-    var dane = mapData[i];
-    okreg.tooltip({title: dane.name, container:'body'});
-    okreg.popover({title: dane.name, content: dane.details, container:'body'});
+var liczbaOkregow = mapaFrekwencji.length;
+for(var i = 0; i < liczbaOkregow; i++) {
+    var dane = mapaFrekwencji[i];
+    var okreg = $('#okreg' + dane[0]);
+    okreg.tooltip({title: dane[1], container:'body'});
+    okreg.popover({title: dane[1], content: dane[2], container:'body'});
 }

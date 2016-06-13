@@ -43,6 +43,9 @@ public class MainController {
     @Autowired
     private WyboryRepository wyboryRepository;
 
+    @Autowired
+    private FrekwencjaWyborczaOkregRepository frekwencjaRepository;
+
     @ModelAttribute("nextWybory")
     public Wybory nextWybory() {
         List<Wybory> wybory = wyboryRepository.findNextPrezydenckieOrParlamentarne();
@@ -177,6 +180,17 @@ public class MainController {
         float frekwencja = wybory.getFrekwencja().getFrekwencja();
         float[] frekwencjaDane = {frekwencja, 100 - frekwencja};
 
+        Iterable<FrekwencjaWyborczaOkreg> frekwencje = frekwencjaRepository.findByWybory(wybory);
+        ArrayList<String[]> mapaFrekwencji = new ArrayList<>();
+        for(FrekwencjaWyborczaOkreg frekwencjaWOkregu : frekwencje) {
+            String[] okregFrekwencja = new String[3];
+            okregFrekwencja[0] = Integer.toString(frekwencjaWOkregu.getOkreg().getNr());
+            okregFrekwencja[1] = frekwencjaWOkregu.getOkreg().getNazwa() + ": " + frekwencjaWOkregu.getOkreg().getMiasto();
+            okregFrekwencja[2] = frekwencjaWOkregu.getFrekwencja() + "%";
+            mapaFrekwencji.add(okregFrekwencja);
+        }
+
+        model.addAttribute("mapaFrekwencji", mapaFrekwencji);
         model.addAttribute("frekwencja", frekwencjaDane);
         switch(wybory.getTypWyborow().getNazwa())
         {

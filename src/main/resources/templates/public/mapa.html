@@ -715,12 +715,10 @@
     <g
             id="layer4" />
 </svg>
-<script>
-    var mapData = {
-        1: {name: 'Kraków', details: '1000%'},
-        2: {name: 'Lądek Zdrój', details: '13.37%'},
-        3: {name: 'Seszele', details: '4%'},
-    };
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var mapaFrekwencji = /*[[${mapaFrekwencji}]]*/ [];
+    /*]]>*/
 </script>
 </body>
 </html>
